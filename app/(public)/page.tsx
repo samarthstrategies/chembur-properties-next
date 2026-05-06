@@ -87,7 +87,9 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0b1b3d_0%,#0b1b3d_35%,#1a3a6e_55%,#e1e7f3_70%,#ffffff_85%,#ffffff_100%)] pt-28 pb-20">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-navy pt-28 pb-20">
+        {/* The Peacock Bloom (Centers White Space directly behind the iPhone) */}
+        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[75vw] h-[100vw] lg:w-[60vw] lg:h-[80vw] translate-x-[15%] rounded-[100%] bg-[radial-gradient(ellipse_at_center,#FFFFFF_0%,#FFFFFF_20%,#9BD0EB_45%,#4A8BC2_65%,#1A4A8F_85%,transparent_100%)] blur-[60px] pointer-events-none z-0" />
         {/* Protective Top Gradient for Header text visibility over white background */}
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-navy/90 via-navy/50 to-transparent z-20 pointer-events-none" />
 
@@ -145,8 +147,8 @@ export default function HomePage() {
 
             {/* Right Column: Floating iPhone Demo */}
             <div className="flex justify-center relative animate-fade-up w-full" style={{ animationDelay: '400ms' }}>
-              {/* Cinematic Spotlight (Navy/White glow) */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] lg:w-[45vw] lg:h-[45vw] bg-navy-light/10 rounded-full blur-[100px] lg:blur-[120px] pointer-events-none" />
+              {/* Cinematic Spotlight (Softens the core) */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] lg:w-[35vw] lg:h-[35vw] bg-white rounded-full blur-[80px] pointer-events-none z-0" />
 
               {/* Heroic iPhone Frame (Straight & Centered) */}
               <div className="relative z-10 mx-auto">
