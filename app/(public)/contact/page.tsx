@@ -348,27 +348,20 @@ export default function ContactPage() {
             <p className="text-sm text-slate-navy mb-6">
               Vishwakarma G-70, Central Avenue, Inbetween Hotel Geeta Bhavan & Ratnagir, Chembur, Mumbai, Maharashtra 400071.
             </p>
-            <div className="rounded-2xl overflow-hidden border border-navy-100 h-[380px] bg-surface-light flex items-center justify-center shadow-card">
-              {/* TODO (Aryesh): Embed Google Maps iframe here */}
-              <div className="text-center p-8">
-                <div className="text-5xl mb-4">📍</div>
-                <p className="font-display text-navy text-lg mb-2">
-                  Chembur Properties Office
-                </p>
-                <p className="text-sm text-slate-navy mb-5 leading-relaxed">
-                  Vishwakarma G-70, Central Avenue
-                  <br />
-                  Inbetween Hotel Geeta Bhavan & Ratnagir
-                  <br />
-                  Chembur, Mumbai, Maharashtra 400071
-                </p>
+            <div className="rounded-2xl overflow-hidden border border-navy-100 h-[380px] bg-surface-light relative shadow-card group">
+              <img 
+                src="/images/contact/map.png" 
+                alt="Chembur Properties Office Map" 
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-navy/40 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <a
-                  href="https://maps.google.com/?q=Chembur+Station+East+Mumbai"
+                  href="https://maps.google.com/?q=Vishwakarma+G-70+Central+Avenue+Chembur+Mumbai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn-navy text-sm"
+                  className="bg-gold text-navy px-8 py-4 rounded-lg font-bold shadow-xl hover:bg-gold-light hover:-translate-y-1 transition-all"
                 >
-                  Open in Google Maps
+                  📍 Open in Google Maps
                 </a>
               </div>
             </div>

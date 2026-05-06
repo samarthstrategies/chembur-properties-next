@@ -9,7 +9,7 @@ const articles = [
     category: "Infrastructure",
     date: "May 2026",
     title: "How Metro Line 2B Will Transform Chembur Real Estate in 2026",
-    imgGradient: "linear-gradient(135deg, #0B1B3D 0%, #1A3A6E 55%, #0E2452 100%)",
+    imageUrl: "/images/insights/metro.png",
     excerpt:
       "The Metro Line 2B Chembur station is weeks away from launch. MMRDA has fast-tracked the timeline after years of delays. Here's what this means for property values, demand, and the investment case for Chembur.",
     full: [
@@ -32,7 +32,7 @@ const articles = [
     category: "NRI Investment",
     date: "April 2026",
     title: "Why NRIs Are Choosing Chembur Over Bandra in 2026",
-    imgGradient: "linear-gradient(135deg, #071430 0%, #0E2452 55%, #0B1B3D 100%)",
+    imageUrl: "/images/insights/nri.png",
     excerpt:
       "NRI investment in Mumbai residential real estate surged 30% in 2025. A growing share of these buyers are choosing Chembur over traditional hotspots like Bandra and Powai. Here's the data behind this shift.",
     full: [
@@ -53,7 +53,7 @@ const articles = [
     category: "Market Guide",
     date: "March 2026",
     title: "Chembur Property Prices 2026 — The Complete Micro-Market Guide",
-    imgGradient: "linear-gradient(135deg, #0E2452 0%, #0B1B3D 55%, #1A3A6E 100%)",
+    imageUrl: "/images/insights/price.png",
     excerpt:
       "A detailed breakdown of property prices across Chembur's key micro-markets — Chembur East, Chembur West, Sion-Trombay Road, and the Railway Colony area — with data from recent transactions.",
     full: [
@@ -82,12 +82,14 @@ function ArticleCard({ article }: { article: ArticleType }) {
   return (
     <div className="bg-white border border-navy-100 rounded-2xl overflow-hidden hover:border-navy-300 transition-all duration-300 flex flex-col hover:-translate-y-1 shadow-card">
       {/* Image */}
-      <div
-        className="h-52 relative flex-shrink-0"
-        style={{ background: article.imgGradient }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-        <span className="absolute top-4 left-4 bg-gold text-navy pill-tag text-[0.65rem] font-bold">
+      <div className="h-52 relative flex-shrink-0">
+        <img 
+          src={article.imageUrl} 
+          alt={article.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent pointer-events-none" />
+        <span className="absolute top-4 left-4 bg-gold text-navy pill-tag text-[0.65rem] font-bold z-10 shadow-lg">
           {article.category}
         </span>
       </div>

@@ -182,9 +182,6 @@ export default function ServicesPage() {
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-br from-navy/50 via-transparent to-navy/80 mix-blend-multiply" />
-                    <div className="absolute bottom-7 right-7 text-6xl opacity-90 drop-shadow-lg">
-                      {svc.icon}
-                    </div>
                     <div className="absolute top-7 left-7">
                       <span className="font-display text-white/50 text-7xl font-bold leading-none drop-shadow-md">
                         {svc.num}
