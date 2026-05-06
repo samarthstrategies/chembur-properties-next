@@ -104,7 +104,12 @@ export default function Footer() {
               {[
                 {
                   icon: "📍",
-                  text: "Plot G70, Central Avenue Road, Near Ambedkar Udyan, Chembur Station East, Mumbai – 400071",
+                  text: "Vishwakarma G-70, Central Avenue, Inbetween Hotel Geeta Bhavan & Ratnagir, Chembur, Mumbai, Maharashtra 400071",
+                },
+                {
+                  icon: "📧",
+                  text: "roopamestate@gmail.com",
+                  href: "mailto:roopamestate@gmail.com",
                 },
                 {
                   icon: "📞",

@@ -62,7 +62,7 @@ export default function ContactPage() {
                     icon: "📍",
                     label: "Office Address",
                     content:
-                      "Plot G70, Central Avenue Road, Near Ambedkar Udyan, Chembur Station East, Mumbai – 400071.\n\nBetween Hotel Ratnagiri and Geeta Bhavan.",
+                      "Vishwakarma G-70, Central Avenue,\nInbetween Hotel Geeta Bhavan & Ratnagir,\nChembur, Mumbai, Maharashtra 400071",
                     isMultiline: true,
                   },
                   {
@@ -81,9 +81,8 @@ export default function ContactPage() {
                   {
                     icon: "📧",
                     label: "Email",
-                    content: "info@chemburproperties.com",
-                    href: "mailto:info@chemburproperties.com",
-                    // TODO (Aryesh): Update with real email address
+                    content: "roopamestate@gmail.com",
+                    href: "mailto:roopamestate@gmail.com",
                   },
                 ].map((item) => (
                   <div key={item.label} className="flex gap-4 mb-7">
@@ -347,9 +346,7 @@ export default function ContactPage() {
               Find Our Office
             </h2>
             <p className="text-sm text-slate-navy mb-6">
-              Plot G70, Central Avenue Road, Near Ambedkar Udyan, Chembur
-              Station East. Between Hotel Ratnagiri and Geeta Bhavan. Chembur,
-              Mumbai – 400071.
+              Vishwakarma G-70, Central Avenue, Inbetween Hotel Geeta Bhavan & Ratnagir, Chembur, Mumbai, Maharashtra 400071.
             </p>
             <div className="rounded-2xl overflow-hidden border border-navy-100 h-[380px] bg-surface-light flex items-center justify-center shadow-card">
               {/* TODO (Aryesh): Embed Google Maps iframe here */}
@@ -359,11 +356,11 @@ export default function ContactPage() {
                   Chembur Properties Office
                 </p>
                 <p className="text-sm text-slate-navy mb-5 leading-relaxed">
-                  Plot G70, Central Avenue Road
+                  Vishwakarma G-70, Central Avenue
                   <br />
-                  Near Ambedkar Udyan, Chembur East
+                  Inbetween Hotel Geeta Bhavan & Ratnagir
                   <br />
-                  Mumbai – 400071
+                  Chembur, Mumbai, Maharashtra 400071
                 </p>
                 <a
                   href="https://maps.google.com/?q=Chembur+Station+East+Mumbai"
