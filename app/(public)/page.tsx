@@ -90,9 +90,14 @@ export default function HomePage() {
       <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-gradient pt-28 pb-20">
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-navy-light/20 blur-[120px]" />
-          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-gold/5 blur-[100px]" />
-          <div className="absolute top-1/2 left-1/4 w-px h-[300px] bg-gradient-to-b from-transparent via-white/5 to-transparent" />
+          {/* Animated floating orbs */}
+          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-navy-light/30 blur-[120px] animate-pulse" />
+          <div className="absolute bottom-10 left-10 w-[400px] h-[400px] rounded-full bg-gold/10 blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-white/5 blur-[150px] animate-pulse" style={{ animationDelay: '4s' }} />
+          
+          {/* Light beams */}
+          <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/10 to-transparent opacity-50" />
+          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-gold/10 to-transparent opacity-50" />
         </div>
 
         <div className="relative z-10 max-w-8xl mx-auto px-6 md:px-8 w-full">
@@ -138,13 +143,13 @@ export default function HomePage() {
             </div>
 
             {/* Right Column: Floating iPhone Demo */}
-            <div className="flex justify-center lg:justify-end relative animate-fade-up" style={{ animationDelay: '400ms' }}>
-              {/* Cinematic Spotlight */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] lg:w-[45vw] lg:h-[45vw] bg-gold/10 rounded-full blur-[100px] lg:blur-[120px] pointer-events-none" />
+            <div className="flex justify-center relative animate-fade-up" style={{ animationDelay: '400ms' }}>
+              {/* Cinematic Spotlight (White glow) */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] lg:w-[45vw] lg:h-[45vw] bg-white/10 rounded-full blur-[100px] lg:blur-[120px] pointer-events-none" />
 
-              {/* Heroic iPhone Frame */}
-              <div className="relative z-10 lg:translate-x-4 xl:translate-x-8">
-                <div className="relative w-[300px] h-[620px] md:w-[360px] md:h-[740px] rounded-[3.5rem] md:rounded-[4rem] bg-black p-[3px] shadow-[0_30px_60px_rgba(0,0,0,0.6),_0_0_80px_rgba(255,255,255,0.05)] transform rotate-[-2deg] hover:rotate-0 transition-transform duration-700 ease-out cursor-pointer">
+              {/* Heroic iPhone Frame (Straight & Centered) */}
+              <div className="relative z-10 mx-auto">
+                <div className="relative w-[300px] h-[620px] md:w-[360px] md:h-[740px] rounded-[3.5rem] md:rounded-[4rem] bg-black p-[3px] shadow-[0_30px_60px_rgba(0,0,0,0.6),_0_0_80px_rgba(255,255,255,0.1)] transition-transform duration-700 ease-out cursor-pointer">
                   {/* Outer Titanium Border Gradient */}
                   <div className="absolute inset-0 rounded-[3.5rem] md:rounded-[4rem] bg-gradient-to-b from-[#e5e7eb] via-[#71717a] to-[#27272a]" />
                   
