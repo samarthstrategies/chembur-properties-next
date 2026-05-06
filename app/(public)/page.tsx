@@ -67,12 +67,12 @@ const featuredProperties = [
 ];
 
 const services = [
-  { icon: "🏠", title: "Buy & Sell Properties", desc: "Expert guidance for residential and commercial transactions. From search to registration.", href: "/services#buy-sell" },
-  { icon: "🔑", title: "Rent & Lease", desc: "Leave and License agreements, group bookings, and tenant matching for all budgets.", href: "/services#rent-lease" },
-  { icon: "🛡️", title: "Property Management", desc: "Full lifecycle management — tenant coordination, repairs, and NRI absentee landlord services.", href: "/services#management" },
-  { icon: "🏗️", title: "Redevelopment Advisory", desc: "Society consensus building, builder due diligence, and legal structuring for redevelopment.", href: "/services#redevelopment" },
-  { icon: "⚖️", title: "Legal & Registration", desc: "Stamp duty guidance, title clearance, registration — simplified step by step.", href: "/services#legal" },
-  { icon: "✈️", title: "NRI Concierge Services", desc: "Remote buying, PoA framework, NRE/NRO accounts, and TDS compliance for overseas clients.", href: "/nri" },
+  { img: "/images/home_services/buy.png", title: "Buy & Sell Properties", desc: "Expert guidance for residential and commercial transactions. From search to registration.", href: "/services#buy-sell" },
+  { img: "/images/home_services/rent.png", title: "Rent & Lease", desc: "Leave and License agreements, group bookings, and tenant matching for all budgets.", href: "/services#rent-lease" },
+  { img: "/images/home_services/mgmt.png", title: "Property Management", desc: "Full lifecycle management — tenant coordination, repairs, and NRI absentee landlord services.", href: "/services#management" },
+  { img: "/images/home_services/redev.png", title: "Redevelopment Advisory", desc: "Society consensus building, builder due diligence, and legal structuring for redevelopment.", href: "/services#redevelopment" },
+  { img: "/images/home_services/legal.png", title: "Legal & Registration", desc: "Stamp duty guidance, title clearance, registration — simplified step by step.", href: "/services#legal" },
+  { img: "/images/home_services/nri.png", title: "NRI Concierge Services", desc: "Remote buying, PoA framework, NRE/NRO accounts, and TDS compliance for overseas clients.", href: "/nri" },
 ];
 
 const timeline = [
@@ -292,28 +292,54 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SERVICES ── */}
-      <section className="bg-white py-20 md:py-24">
-        <div className="max-w-8xl mx-auto px-6 md:px-8">
-          <ScrollReveal className="mb-12">
-            <p className="section-label">What We Do</p>
-            <div className="flex items-end justify-between flex-wrap gap-4">
-              <h2 className="font-display text-navy text-[clamp(1.8rem,3vw,2.8rem)]">Our Services</h2>
-              <Link href="/services" className="text-navy text-sm font-semibold hover:text-navy-light flex items-center gap-2 transition-all">All Services →</Link>
-            </div>
+      {/* ── SERVICES (STICKY STACK) ── */}
+      <section className="bg-navy py-24 md:py-32 relative">
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <ScrollReveal className="text-center mb-16">
+            <p className="section-label text-gold justify-center">What We Do</p>
+            <h2 className="font-display text-white text-[clamp(2rem,4vw,3.2rem)]">Our Services</h2>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {services.map((svc, i) => (
-              <ScrollReveal key={svc.title} delay={i * 60}>
-                <div className="bg-surface-light border border-navy-100 rounded-xl p-7 md:p-8 hover:border-navy-300 hover:-translate-y-1 hover:shadow-card transition-all duration-300 group h-full">
-                  <div className="w-12 h-12 bg-navy/10 border border-navy/15 rounded-lg flex items-center justify-center text-2xl mb-5 transition-colors group-hover:bg-navy group-hover:border-navy">{svc.icon}</div>
-                  <h4 className="font-display text-navy text-[1.05rem] mb-2.5">{svc.title}</h4>
-                  <p className="text-sm text-slate-navy leading-relaxed mb-4">{svc.desc}</p>
-                  <Link href={svc.href} className="text-[0.78rem] text-navy font-semibold flex items-center gap-1.5 hover:gap-3 transition-all">Learn More →</Link>
+          <div className="flex flex-col gap-0 pb-32">
+            {services.map((svc, i) => {
+              const topOffset = `calc(15vh + ${i * 35}px)`;
+              return (
+                <div 
+                  key={svc.title} 
+                  className="sticky w-full"
+                  style={{ top: topOffset }}
+                >
+                  <div className="bg-surface-light border border-white/20 rounded-[2rem] p-5 md:p-8 shadow-[0_-10px_30px_rgba(11,27,61,0.5)] transition-all duration-500 hover:shadow-[0_-15px_40px_rgba(11,27,61,0.6)] flex flex-col md:flex-row items-center gap-6 md:gap-12 mb-8 overflow-hidden group">
+                    
+                    {/* Left: Image */}
+                    <div className="w-full md:w-[35%] h-[220px] md:h-[260px] rounded-2xl overflow-hidden relative flex-shrink-0">
+                      <img 
+                        src={svc.img} 
+                        alt={svc.title}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-navy/40 to-transparent pointer-events-none" />
+                    </div>
+
+                    {/* Middle: Content */}
+                    <div className="flex-1 text-center md:text-left py-2">
+                      <h3 className="font-display text-navy text-2xl md:text-[2.1rem] mb-4">{svc.title}</h3>
+                      <p className="text-slate-navy text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0">{svc.desc}</p>
+                    </div>
+
+                    {/* Right: Button */}
+                    <div className="flex-shrink-0 pb-4 md:pb-0">
+                      <Link 
+                        href={svc.href}
+                        className="bg-gold text-navy font-semibold px-7 py-3.5 rounded-full text-sm flex items-center gap-2 hover:bg-gold-light hover:-translate-y-1 transition-all shadow-md"
+                      >
+                        Explore <span className="text-lg leading-none">→</span>
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </ScrollReveal>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
