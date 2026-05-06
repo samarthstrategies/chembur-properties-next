@@ -135,6 +135,69 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── FOUNDER VIDEO (IPHONE DEMO) ── */}
+      <section className="bg-navy-gradient py-20 relative overflow-hidden flex items-center justify-center min-h-[90vh]">
+        {/* Floating background effects */}
+        <div className="absolute top-1/4 left-[10%] w-72 h-72 bg-gold/10 rounded-full blur-[100px] animate-pulse" />
+        <div className="absolute bottom-1/4 right-[10%] w-96 h-96 bg-white/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+
+        <div className="max-w-8xl mx-auto px-6 md:px-8 w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 relative z-10">
+          
+          {/* Left Text */}
+          <div className="flex-1 text-center lg:text-left">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/5 backdrop-blur-md mb-6">
+              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+              <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-gold">Meet The Founder</span>
+            </div>
+            <h2 className="font-display text-white text-[clamp(2.2rem,4vw,3.5rem)] leading-[1.1] mb-5">
+              Over Six Decades of <br className="hidden lg:block"/><span className="text-gold italic">Unbroken Trust.</span>
+            </h2>
+            <p className="text-white/60 text-base md:text-lg max-w-md mx-auto lg:mx-0 leading-relaxed">
+              Listen to Jeetu Chhabria share the Roopam Estate legacy. A commitment to transparency, honesty, and treating every client like family since 1965.
+            </p>
+          </div>
+
+          {/* Center iPhone */}
+          <div className="flex-shrink-0 relative group">
+            {/* Glowing aura behind phone */}
+            <div className="absolute inset-0 bg-gold/20 blur-[80px] rounded-[3rem] group-hover:bg-gold/30 transition-all duration-700" />
+            
+            {/* iPhone Frame */}
+            <div className="relative w-[280px] h-[580px] md:w-[320px] md:h-[660px] rounded-[3rem] border-[8px] border-[#3f3f46] bg-black shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex items-center justify-center">
+              {/* Dynamic Island / Notch */}
+              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-20 flex items-center justify-end px-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+              </div>
+
+              {/* Video Player */}
+              <video 
+                className="absolute inset-0 w-full h-full object-cover"
+                autoPlay 
+                loop 
+                muted 
+                playsInline
+              >
+                <source src="/videos/founder-intro.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+
+          {/* Right Floating Elements */}
+          <div className="flex-1 flex flex-row lg:flex-col justify-center lg:items-end gap-4 lg:gap-6 w-full lg:w-auto">
+             <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-5 lg:p-6 text-center lg:text-right flex-1 lg:flex-none lg:w-64 hover:-translate-x-2 transition-transform duration-300">
+               <h4 className="font-display text-gold text-2xl mb-1">100%</h4>
+               <p className="text-[0.65rem] text-white/50 uppercase tracking-widest">Transparency</p>
+             </div>
+             <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-5 lg:p-6 text-center lg:text-right flex-1 lg:flex-none lg:w-64 hover:-translate-x-2 transition-transform duration-300">
+               <h4 className="font-display text-white text-2xl mb-1">Zero</h4>
+               <p className="text-[0.65rem] text-gold/80 uppercase tracking-widest">Hidden Fees</p>
+             </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* ── SEARCH ── */}
       <section className="bg-white py-16 md:py-20">
         <div className="max-w-8xl mx-auto px-6 md:px-8">
