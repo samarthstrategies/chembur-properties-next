@@ -14,7 +14,7 @@ const services = [
     icon: "🏠",
     title: "Buy & Sell Properties",
     tag: "Residential & Commercial",
-    imgClass: "linear-gradient(135deg, #0B1B3D 0%, #1A3A6E 50%, #0E2452 100%)",
+    imageUrl: "/images/services/buy_sell.png",
     body: [
       "With 61 years of deep market knowledge in Chembur and Mumbai, Roopam Estate Agency facilitates seamless property purchases and sales for residential and commercial clients.",
       "Whether you are a first-time buyer navigating the complexities of a Mumbai property transaction, an investor seeking capital appreciation, or a seller wanting the best price in minimum time — our team provides end-to-end guidance.",
@@ -35,7 +35,7 @@ const services = [
     icon: "🔑",
     title: "Rent & Lease",
     tag: "Leave & License | Commercial Leasing",
-    imgClass: "linear-gradient(135deg, #0E2452 0%, #1A3A6E 50%, #071430 100%)",
+    imageUrl: "/images/services/rent_lease.png",
     body: [
       "Our rental and leasing services cover residential Leave & License agreements, commercial leasing, and group/bulk bookings for corporate housing. We serve landlords seeking reliable tenants and tenants seeking quality homes.",
       "For commercial clients, we specialise in office spaces, retail units, and industrial properties across Chembur's prime corridors.",
@@ -56,7 +56,7 @@ const services = [
     icon: "🛡️",
     title: "Property Management Concierge",
     tag: "NRI Absentee Landlord Services",
-    imgClass: "linear-gradient(135deg, #071430 0%, #0E2452 50%, #0B1B3D 100%)",
+    imageUrl: "/images/services/property_management.png",
     body: [
       "Our Property Management Concierge service is designed for landlords who cannot — or do not want to — be involved in the day-to-day management of their Mumbai properties. This service is particularly valuable for NRI clients who live overseas.",
       "We act as your trusted local representative, handling everything from tenant management and rent collection to maintenance coordination and refurbishment oversight.",
@@ -77,7 +77,7 @@ const services = [
     icon: "🏗️",
     title: "Redevelopment Advisory",
     tag: "Housing Society | Builder Liaison",
-    imgClass: "linear-gradient(135deg, #0B1B3D 0%, #0E2452 50%, #1A3A6E 100%)",
+    imageUrl: "/images/services/redevelopment_advisory.png",
     body: [
       "Redevelopment is one of the most complex and high-stakes decisions a housing society can make. Roopam Estate Agency has guided multiple housing societies through the redevelopment process — from the very first conversation to successful completion and handover.",
       "Our advisory service covers every stage: building internal consensus, conducting builder due diligence, structuring legal agreements, and ensuring resident interests are protected throughout the process.",
@@ -99,7 +99,7 @@ const services = [
     icon: "⚖️",
     title: "Legal & Registration",
     tag: "Stamp Duty | Title Clearance | Registration",
-    imgClass: "linear-gradient(135deg, #0E2452 0%, #0B1B3D 50%, #071430 100%)",
+    imageUrl: "/images/services/legal_registration.png",
     body: [
       "Property transactions in Maharashtra involve complex stamp duty calculations, registration procedures, and title verification requirements. Our team provides practical, step-by-step guidance to simplify this process.",
       "We work alongside qualified solicitors to provide legal advisory services — ensuring you understand every document you sign and every fee you pay.",
@@ -121,7 +121,7 @@ const services = [
     icon: "✈️",
     title: "NRI Concierge Services",
     tag: "Remote Buying | Property Management | Compliance",
-    imgClass: "linear-gradient(135deg, #071430 0%, #1A3A6E 50%, #0E2452 100%)",
+    imageUrl: "/images/services/nri_concierge.png",
     body: [
       "For over 25 years, Roopam Estate Agency has been the trusted partner of NRI clients from Dubai, USA, UK, Singapore, Canada, and Australia. We understand the unique challenges of buying, selling, and managing property in India while living abroad.",
       "Our NRI Concierge service covers the full lifecycle: from initial property identification and virtual tours, through remote purchase with Power of Attorney, to ongoing property management and eventual resale.",
@@ -174,15 +174,19 @@ export default function ServicesPage() {
                 {/* Visual */}
                 <ScrollReveal>
                   <div
-                    className="relative h-[340px] md:h-[420px] rounded-2xl overflow-hidden lg:[direction:ltr]"
-                    style={{ background: svc.imgClass }}
+                    className="relative h-[340px] md:h-[420px] rounded-2xl overflow-hidden lg:[direction:ltr] bg-navy group"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-br from-gold/12 to-transparent" />
-                    <div className="absolute bottom-7 right-7 text-6xl opacity-50">
+                    <img
+                      src={svc.imageUrl}
+                      alt={svc.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-navy/50 via-transparent to-navy/80 mix-blend-multiply" />
+                    <div className="absolute bottom-7 right-7 text-6xl opacity-90 drop-shadow-lg">
                       {svc.icon}
                     </div>
                     <div className="absolute top-7 left-7">
-                      <span className="font-display text-white/12 text-7xl font-bold leading-none">
+                      <span className="font-display text-white/50 text-7xl font-bold leading-none drop-shadow-md">
                         {svc.num}
                       </span>
                     </div>
