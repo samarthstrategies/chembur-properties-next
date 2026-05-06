@@ -24,6 +24,7 @@ const featuredProperties = [
     dataPrice: "35000000",
     dataLocation: "chembur",
     isPremium: true,
+    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/t1-3-1240x720.jpeg",
   },
   {
     code: "ORBIS-3BHK",
@@ -43,6 +44,7 @@ const featuredProperties = [
     dataPrice: "42500000",
     dataLocation: "chembur",
     isPremium: true,
+    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/t2-1240x720.jpeg",
   },
   {
     code: "PRIDY-COMM",
@@ -60,6 +62,7 @@ const featuredProperties = [
     dataPrice: "300000",
     dataLocation: "chembur",
     isPremium: false,
+    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/IMG_7427-Large-2-1240x720.jpeg",
   },
 ];
 

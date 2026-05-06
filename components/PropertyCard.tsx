@@ -13,6 +13,7 @@ export interface PropertyCardProps {
   badge: string;
   badgeVariant?: "default" | "rent" | "commercial" | "premium";
   imgGradient: string; // Tailwind gradient string or inline style
+  imageUrl?: string;
   dataType?: string;
   dataTransaction?: string;
   dataBhk?: string;
@@ -37,6 +38,7 @@ export default function PropertyCard({
   badge,
   badgeVariant = "default",
   imgGradient,
+  imageUrl,
   bhk,
   dataType,
   dataTransaction,
@@ -57,12 +59,20 @@ export default function PropertyCard({
       data-price={dataPrice}
       data-location={dataLocation}
     >
-      {/* Image placeholder with gradient */}
+      {/* Image placeholder with gradient or real image */}
       <div className="relative h-56 overflow-hidden">
-        <div
-          className="w-full h-full transition-transform duration-700 group-hover:scale-110"
-          style={{ background: imgGradient }}
-        />
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt={title}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+        ) : (
+          <div
+            className="w-full h-full transition-transform duration-700 group-hover:scale-110"
+            style={{ background: imgGradient }}
+          />
+        )}
         {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent" />
         {/* Badge */}
