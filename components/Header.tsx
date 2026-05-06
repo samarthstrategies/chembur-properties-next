@@ -100,7 +100,7 @@ export default function Header() {
             className={`hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-md text-[0.78rem] font-semibold tracking-wide transition-all duration-300 hover:-translate-y-px flex-shrink-0 ${
               scrolled
                 ? "bg-navy text-white hover:bg-navy-rich hover:shadow-navy"
-                : "bg-white text-navy hover:bg-white/90 hover:shadow-soft"
+                : "bg-navy text-white hover:bg-navy-rich shadow-soft"
             }`}
           >
             <span className="text-sm">📞</span> Call Us

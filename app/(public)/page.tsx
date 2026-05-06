@@ -86,7 +86,7 @@ const timeline = [
 export default function HomePage() {
   return (
     <>
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0B1B3D_0%,#0B1B3D_25%,#152B58_45%,#4A6DAF_65%,#DBEAFE_80%,#FFFFFF_90%,#FFFFFF_100%)] pt-28 pb-20">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0B1B3D_0%,#0B1B3D_60%,#152B58_75%,#5B7DC1_90%,#FFFFFF_100%)] pt-28 pb-20">
         {/* Protective Top Gradient for Header text visibility over white background */}
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#0B1B3D] via-[#0B1B3D]/50 to-transparent z-20 pointer-events-none" />
 
@@ -143,7 +143,7 @@ export default function HomePage() {
             </div>
 
             {/* Right Column: Floating iPhone Demo */}
-            <div className="flex justify-center relative animate-fade-up w-full" style={{ animationDelay: '400ms' }}>
+            <div className="flex lg:justify-end justify-center relative animate-fade-up w-full lg:translate-x-12" style={{ animationDelay: '400ms' }}>
               {/* Cinematic Spotlight (Pure White glow) */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] lg:w-[40vw] lg:h-[40vw] bg-white rounded-full blur-[100px] pointer-events-none z-0 opacity-60" />
 
