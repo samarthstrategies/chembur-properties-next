@@ -135,66 +135,61 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── FOUNDER VIDEO (IPHONE DEMO) ── */}
-      <section className="bg-navy-gradient py-20 relative overflow-hidden flex items-center justify-center min-h-[90vh]">
-        {/* Floating background effects */}
-        <div className="absolute top-1/4 left-[10%] w-72 h-72 bg-gold/10 rounded-full blur-[100px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-[10%] w-96 h-96 bg-white/5 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
+      {/* ── FOUNDER VIDEO (APPLE LAUNCH STYLE) ── */}
+      <section className="bg-black py-32 md:py-48 relative overflow-hidden flex flex-col items-center justify-center">
+        
+        {/* Massive Cinematic Typography */}
+        <div className="relative z-20 text-center px-6 mb-16 md:mb-24 animate-fade-up">
+          <p className="font-display text-white/50 text-xl md:text-3xl tracking-wide mb-4">Meet the Founder</p>
+          <h2 className="font-display text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 text-[clamp(3rem,8vw,6.5rem)] leading-[1.05] tracking-tight">
+            A Legacy of <br className="hidden md:block"/> Unbroken Trust.
+          </h2>
+        </div>
 
-        <div className="max-w-8xl mx-auto px-6 md:px-8 w-full flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 relative z-10">
-          
-          {/* Left Text */}
-          <div className="flex-1 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gold/30 bg-gold/5 backdrop-blur-md mb-6">
-              <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-              <span className="text-[0.65rem] font-bold tracking-[0.2em] uppercase text-gold">Meet The Founder</span>
-            </div>
-            <h2 className="font-display text-white text-[clamp(2.2rem,4vw,3.5rem)] leading-[1.1] mb-5">
-              Over Six Decades of <br className="hidden lg:block"/><span className="text-gold italic">Unbroken Trust.</span>
-            </h2>
-            <p className="text-white/60 text-base md:text-lg max-w-md mx-auto lg:mx-0 leading-relaxed">
-              Listen to Jeetu Chhabria share the Roopam Estate legacy. A commitment to transparency, honesty, and treating every client like family since 1965.
-            </p>
-          </div>
+        {/* Cinematic Spotlight */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[60vw] md:h-[60vw] bg-white/5 rounded-full blur-[100px] md:blur-[150px] pointer-events-none" />
 
-          {/* Center iPhone */}
-          <div className="flex-shrink-0 relative group">
-            {/* Glowing aura behind phone */}
-            <div className="absolute inset-0 bg-gold/20 blur-[80px] rounded-[3rem] group-hover:bg-gold/30 transition-all duration-700" />
+        {/* Heroic iPhone Frame */}
+        <div className="relative z-10 animate-fade-up" style={{ animationDelay: '200ms' }}>
+          <div className="relative w-[300px] h-[620px] md:w-[400px] md:h-[820px] rounded-[3.5rem] md:rounded-[4rem] bg-black p-[3px] md:p-[4px] shadow-[0_0_100px_rgba(255,255,255,0.1)]">
+            {/* Outer Titanium Border Gradient */}
+            <div className="absolute inset-0 rounded-[3.5rem] md:rounded-[4rem] bg-gradient-to-b from-[#e5e7eb] via-[#71717a] to-[#27272a]" />
             
-            {/* iPhone Frame */}
-            <div className="relative w-[280px] h-[580px] md:w-[320px] md:h-[660px] rounded-[3rem] border-[8px] border-[#3f3f46] bg-black shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex items-center justify-center">
-              {/* Dynamic Island / Notch */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-full z-20 flex items-center justify-end px-3">
-                <div className="w-2.5 h-2.5 rounded-full bg-white/10" />
+            {/* Inner Black Bezel */}
+            <div className="absolute inset-[3px] md:inset-[4px] bg-black rounded-[3.3rem] md:rounded-[3.8rem] overflow-hidden border-[6px] md:border-[8px] border-black">
+              
+              {/* Screen Content (Video) */}
+              <div className="relative w-full h-full bg-[#111] rounded-[2.8rem] md:rounded-[3.2rem] overflow-hidden">
+                {/* Dynamic Island */}
+                <div className="absolute top-3 md:top-4 left-1/2 -translate-x-1/2 w-[100px] md:w-[120px] h-8 md:h-9 bg-black rounded-full z-20 flex items-center justify-end px-3 shadow-[inset_0_-1px_2px_rgba(255,255,255,0.1)]">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#0a0a0a] shadow-[inset_0_1px_2px_rgba(255,255,255,0.2)] relative overflow-hidden">
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-blue-500/30 rounded-full blur-[1px]" />
+                  </div>
+                </div>
+
+                <video 
+                  className="absolute inset-0 w-full h-full object-cover opacity-95"
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                >
+                  <source src="/videos/founder-intro.mp4" type="video/mp4" />
+                </video>
               </div>
-
-              {/* Video Player */}
-              <video 
-                className="absolute inset-0 w-full h-full object-cover"
-                autoPlay 
-                loop 
-                muted 
-                playsInline
-              >
-                <source src="/videos/founder-intro.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
             </div>
-          </div>
+            
+            {/* Physical Buttons Mockup */}
+            {/* Action Button */}
+            <div className="absolute top-[100px] md:top-[120px] -left-[4px] md:-left-[5px] w-[4px] md:w-[5px] h-[25px] md:h-[30px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
+            {/* Volume Up */}
+            <div className="absolute top-[140px] md:top-[170px] -left-[4px] md:-left-[5px] w-[4px] md:w-[5px] h-[45px] md:h-[50px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
+            {/* Volume Down */}
+            <div className="absolute top-[200px] md:top-[240px] -left-[4px] md:-left-[5px] w-[4px] md:w-[5px] h-[45px] md:h-[50px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
+            {/* Power Button */}
+            <div className="absolute top-[160px] md:top-[190px] -right-[4px] md:-right-[5px] w-[4px] md:w-[5px] h-[70px] md:h-[80px] bg-gradient-to-l from-[#71717a] to-[#a1a1aa] rounded-r-md" />
 
-          {/* Right Floating Elements */}
-          <div className="flex-1 flex flex-row lg:flex-col justify-center lg:items-end gap-4 lg:gap-6 w-full lg:w-auto">
-             <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-5 lg:p-6 text-center lg:text-right flex-1 lg:flex-none lg:w-64 hover:-translate-x-2 transition-transform duration-300">
-               <h4 className="font-display text-gold text-2xl mb-1">100%</h4>
-               <p className="text-[0.65rem] text-white/50 uppercase tracking-widest">Transparency</p>
-             </div>
-             <div className="bg-white/5 border border-white/10 backdrop-blur-md rounded-2xl p-5 lg:p-6 text-center lg:text-right flex-1 lg:flex-none lg:w-64 hover:-translate-x-2 transition-transform duration-300">
-               <h4 className="font-display text-white text-2xl mb-1">Zero</h4>
-               <p className="text-[0.65rem] text-gold/80 uppercase tracking-widest">Hidden Fees</p>
-             </div>
           </div>
-
         </div>
       </section>
 
