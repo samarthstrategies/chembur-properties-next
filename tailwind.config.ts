@@ -60,6 +60,7 @@ const config: Config = {
         "line-grow": "lineGrow 0.8s ease both",
         "float": "float 6s ease-in-out infinite",
         "shimmer": "shimmer 2.5s ease-in-out infinite",
+        "typing": "typing 4s steps(25, end) infinite alternate",
       },
       keyframes: {
         waPulse: {
@@ -85,6 +86,10 @@ const config: Config = {
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
+        },
+        typing: {
+          "0%, 20%": { width: "0" },
+          "80%, 100%": { width: "25ch" },
         },
       },
       maxWidth: {

@@ -3,6 +3,7 @@ import PropertyCard from "@/components/PropertyCard";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import ScrollReveal from "@/components/ScrollReveal";
 import CountUp from "@/components/CountUp";
+import HeroMockupCarousel from "@/components/HeroMockupCarousel";
 
 // TODO (Aryesh): Replace featuredProperties with a dynamic fetch from your property database/CMS
 const featuredProperties = [
@@ -87,17 +88,15 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-gradient pt-28 pb-20">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0b1b3d_40%,rgba(11,27,61,0.8)_55%,#ffffff_70%)] pt-28 pb-20">
         {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none w-1/2">
           {/* Animated floating orbs */}
-          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-navy-light/30 blur-[120px] animate-pulse" />
+          <div className="absolute -top-40 -left-10 w-[600px] h-[600px] rounded-full bg-navy-light/30 blur-[120px] animate-pulse" />
           <div className="absolute bottom-10 left-10 w-[400px] h-[400px] rounded-full bg-gold/10 blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-white/5 blur-[150px] animate-pulse" style={{ animationDelay: '4s' }} />
           
           {/* Light beams */}
           <div className="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-white/10 to-transparent opacity-50" />
-          <div className="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-gold/10 to-transparent opacity-50" />
         </div>
 
         <div className="relative z-10 max-w-8xl mx-auto px-6 md:px-8 w-full">
@@ -142,48 +141,9 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Floating iPhone Demo */}
-            <div className="flex justify-center relative animate-fade-up" style={{ animationDelay: '400ms' }}>
-              {/* Cinematic Spotlight (White glow) */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] lg:w-[45vw] lg:h-[45vw] bg-white/10 rounded-full blur-[100px] lg:blur-[120px] pointer-events-none" />
-
-              {/* Heroic iPhone Frame (Straight & Centered) */}
-              <div className="relative z-10 mx-auto">
-                <div className="relative w-[300px] h-[620px] md:w-[360px] md:h-[740px] rounded-[3.5rem] md:rounded-[4rem] bg-black p-[3px] shadow-[0_30px_60px_rgba(0,0,0,0.6),_0_0_80px_rgba(255,255,255,0.1)] transition-transform duration-700 ease-out cursor-pointer">
-                  {/* Outer Titanium Border Gradient */}
-                  <div className="absolute inset-0 rounded-[3.5rem] md:rounded-[4rem] bg-gradient-to-b from-[#e5e7eb] via-[#71717a] to-[#27272a]" />
-                  
-                  {/* Inner Black Bezel */}
-                  <div className="absolute inset-[3px] bg-black rounded-[3.3rem] md:rounded-[3.8rem] overflow-hidden border-[6px] md:border-[8px] border-black">
-                    
-                    {/* Screen Content (Video) */}
-                    <div className="relative w-full h-full bg-[#111] rounded-[2.8rem] md:rounded-[3.2rem] overflow-hidden">
-                      {/* Dynamic Island */}
-                      <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[100px] md:w-[110px] h-7 md:h-8 bg-black rounded-full z-20 flex items-center justify-end px-3 shadow-[inset_0_-1px_2px_rgba(255,255,255,0.1)]">
-                        <div className="w-2.5 h-2.5 rounded-full bg-[#0a0a0a] shadow-[inset_0_1px_2px_rgba(255,255,255,0.2)] relative overflow-hidden">
-                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-blue-500/30 rounded-full blur-[1px]" />
-                        </div>
-                      </div>
-
-                      <video 
-                        className="absolute inset-0 w-full h-full object-cover opacity-95"
-                        autoPlay 
-                        loop 
-                        muted 
-                        playsInline
-                      >
-                        <source src="/videos/founder-intro.mp4" type="video/mp4" />
-                      </video>
-                    </div>
-                  </div>
-                  
-                  {/* Physical Buttons Mockup */}
-                  <div className="absolute top-[100px] md:top-[120px] -left-[4px] w-[4px] h-[25px] md:h-[30px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
-                  <div className="absolute top-[140px] md:top-[170px] -left-[4px] w-[4px] h-[45px] md:h-[50px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
-                  <div className="absolute top-[200px] md:top-[240px] -left-[4px] w-[4px] h-[45px] md:h-[50px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
-                  <div className="absolute top-[160px] md:top-[190px] -right-[4px] w-[4px] h-[70px] md:h-[80px] bg-gradient-to-l from-[#71717a] to-[#a1a1aa] rounded-r-md" />
-                </div>
-              </div>
+            {/* Right Column: Dynamic Mockup Carousel */}
+            <div className="relative animate-fade-up w-full flex justify-center" style={{ animationDelay: '400ms' }}>
+               <HeroMockupCarousel />
             </div>
 
           </div>
