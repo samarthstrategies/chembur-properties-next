@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-navy: #0B1B3D;
+  --color-navy-deep: #071430;
+  --color-navy-rich: #0E2452;
+  --color-navy-light: #1A3A6E;
+  --color-gold: #C9A44A;
+  --color-gold-light: #E8C96A;
+  --color-surface-light: #F4F6FA;
+  --color-surface-white: #FFFFFF;
+}
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-inter), system-ui, sans-serif;
+    background-color: #FFFFFF;
+    color: #0B1B3D;
+    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-playfair), Georgia, serif;
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  a { text-decoration: none; color: inherit; }
+  ul { list-style: none; }
+  img { max-width: 100%; height: auto; display: block; }
+  button { cursor: pointer; }
+}
+
+@layer components {
+
+  /* ─── SECTION LABEL ─── */
+  .section-label {
+    @apply font-body text-[0.68rem] font-bold tracking-[0.2em] uppercase text-gold flex items-center gap-3 mb-3;
+  }
+  .section-label::before {
+    content: "";
+    @apply block w-8 h-px bg-gold;
+  }
+
+  /* ─── DIVIDER LINE ─── */
+  .lux-divider {
+    @apply block w-12 h-px bg-navy-200;
+  }
+  .lux-divider-gold {
+    @apply block w-12 h-px bg-gold;
+  }
+
+  /* ─── BUTTONS ─── */
+  /* Solid navy — primary CTA */
+  .btn-navy {
+    @apply inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-navy text-white font-body font-semibold text-sm tracking-wide rounded-md transition-all duration-300 hover:bg-navy-rich hover:shadow-navy hover:-translate-y-px;
+  }
+
+  /* Solid gold */
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-gold text-navy font-body font-semibold text-sm tracking-wide rounded-md transition-all duration-300 hover:bg-gold-light hover:shadow-gold hover:-translate-y-px;
+  }
+
+  /* Outline navy */
+  .btn-outline-navy {
+    @apply inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-transparent text-navy border-2 border-navy font-body font-semibold text-sm tracking-wide rounded-md transition-all duration-300 hover:bg-navy hover:text-white;
+  }
+
+  /* Outline white (on dark sections) */
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-transparent text-white border-2 border-white/40 font-body font-semibold text-sm tracking-wide rounded-md transition-all duration-300 hover:bg-white hover:text-navy;
+  }
+
+  /* Outline gold */
+  .btn-outline-gold {
+    @apply inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-transparent text-gold border-2 border-gold/40 font-body font-semibold text-sm tracking-wide rounded-md transition-all duration-300 hover:bg-gold hover:text-navy hover:border-gold;
+  }
+
+  /* Text link with arrow */
+  .btn-text-navy {
+    @apply inline-flex items-center gap-2 font-body font-semibold text-sm text-navy transition-all duration-200 hover:gap-4;
+  }
+
+  .btn-text-gold {
+    @apply inline-flex items-center gap-2 font-body font-semibold text-sm text-gold transition-all duration-200 hover:gap-4;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── PROPERTY CARD ─── */
+  .prop-card {
+    @apply bg-white border border-navy-100 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1;
+  }
+
+  /* ─── SECTION PADDING ─── */
+  .section-y { @apply py-20 md:py-28 lg:py-36; }
+  .section-y-sm { @apply py-14 md:py-20; }
+
+  /* ─── HERO OVERLAY ─── */
+  .hero-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(to bottom, rgba(11,27,61,0.3) 0%, rgba(11,27,61,0.7) 50%, rgba(7,20,48,0.92) 100%);
+  }
+
+  /* ─── FORM INPUTS ─── */
+  .lux-input {
+    @apply w-full px-5 py-4 border border-navy-200 bg-white rounded-md font-body text-sm text-navy placeholder-slate-navy focus:outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 transition-colors duration-200;
+  }
+
+  .lux-select {
+    @apply w-full px-5 py-4 border border-navy-200 bg-white rounded-md font-body text-sm text-navy focus:outline-none focus:border-navy focus:ring-2 focus:ring-navy/10 transition-colors duration-200 appearance-none cursor-pointer;
+  }
+
+  /* ─── PILL TAG ─── */
+  .pill-tag {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wide;
+  }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Gold underline */
+  .gold-underline {
+    text-decoration: underline;
+    text-decoration-color: #C9A44A;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }
+
+  /* Navy underline */
+  .navy-underline {
+    text-decoration: underline;
+    text-decoration-color: #0B1B3D;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* ─── TRANSITION OVERRIDE ─── */
+.duration-400 { transition-duration: 400ms; }
