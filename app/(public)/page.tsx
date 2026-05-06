@@ -87,107 +87,99 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-gradient pt-20">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-navy-gradient pt-28 pb-20">
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-navy-light/20 blur-[120px]" />
           <div className="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full bg-gold/5 blur-[100px]" />
-          <div className="absolute top-1/2 left-1/3 w-px h-[300px] bg-gradient-to-b from-transparent via-white/5 to-transparent" />
-          <div className="absolute top-1/3 right-1/4 w-px h-[200px] bg-gradient-to-b from-transparent via-gold/10 to-transparent" />
+          <div className="absolute top-1/2 left-1/4 w-px h-[300px] bg-gradient-to-b from-transparent via-white/5 to-transparent" />
         </div>
 
-        <div className="relative z-10 max-w-8xl mx-auto px-6 md:px-8 py-20 md:py-28">
-          <div className="flex items-center gap-3 mb-6 animate-fade-up">
-            <span className="block w-10 h-px bg-gold" />
-            <span className="font-body text-[0.72rem] font-bold tracking-[0.2em] uppercase text-gold">
-              Roopam Estate Agency — Mumbai&apos;s Trusted Realtors
-            </span>
-          </div>
-
-          <h1 className="font-display text-white text-[clamp(2.8rem,6vw,5.5rem)] leading-[1.05] mb-2 animate-fade-up" style={{ animationDelay: "80ms" }}>
-            Chembur&apos;s Real Estate Legacy.
-            <span className="text-gold block">Trusted Since 1965.</span>
-          </h1>
-
-          <p className="text-lg text-white/55 max-w-[560px] mt-5 mb-9 leading-[1.8] animate-fade-up" style={{ animationDelay: "160ms" }}>
-            61 years of guiding Mumbai families, investors, and NRIs to their perfect property. Rooted in Chembur. Trusted across Mumbai.
-          </p>
-
-          <div className="flex flex-wrap gap-4 mb-16 animate-fade-up" style={{ animationDelay: "240ms" }}>
-            <Link href="/properties" className="btn-gold text-sm px-7 py-3.5">Explore Properties</Link>
-            <Link href="/nri" className="btn-outline-white text-sm px-7 py-3.5">NRI Investment Portal</Link>
-          </div>
-
-          <div className="flex gap-10 md:gap-16 pt-10 border-t border-white/15 flex-wrap animate-fade-up" style={{ animationDelay: "320ms" }}>
-            {[
-              { target: 61, suffix: "+", label: "Years in Business" },
-              { target: 4.8, suffix: "★", label: "Google Rating", decimals: 1 },
-              { target: 500, suffix: "+", label: "Families Served" },
-            ].map((s) => (
-              <div key={s.label}>
-                <div className="font-display text-4xl font-bold text-gold leading-none mb-1.5">
-                  <CountUp target={s.target} suffix={s.suffix} decimals={s.decimals || 0} />
-                </div>
-                <p className="text-[0.78rem] text-white/45 tracking-wide">{s.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── FOUNDER VIDEO (APPLE LAUNCH STYLE) ── */}
-      <section className="bg-black py-32 md:py-48 relative overflow-hidden flex flex-col items-center justify-center">
-        
-        {/* Massive Cinematic Typography */}
-        <div className="relative z-20 text-center px-6 mb-16 md:mb-24 animate-fade-up">
-          <p className="font-display text-white/50 text-xl md:text-3xl tracking-wide mb-4">Meet the Founder</p>
-          <h2 className="font-display text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40 text-[clamp(3rem,8vw,6.5rem)] leading-[1.05] tracking-tight">
-            A Legacy of <br className="hidden md:block"/> Unbroken Trust.
-          </h2>
-        </div>
-
-        {/* Cinematic Spotlight */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[60vw] md:h-[60vw] bg-white/5 rounded-full blur-[100px] md:blur-[150px] pointer-events-none" />
-
-        {/* Heroic iPhone Frame */}
-        <div className="relative z-10 animate-fade-up" style={{ animationDelay: '200ms' }}>
-          <div className="relative w-[300px] h-[620px] md:w-[400px] md:h-[820px] rounded-[3.5rem] md:rounded-[4rem] bg-black p-[3px] md:p-[4px] shadow-[0_0_100px_rgba(255,255,255,0.1)]">
-            {/* Outer Titanium Border Gradient */}
-            <div className="absolute inset-0 rounded-[3.5rem] md:rounded-[4rem] bg-gradient-to-b from-[#e5e7eb] via-[#71717a] to-[#27272a]" />
+        <div className="relative z-10 max-w-8xl mx-auto px-6 md:px-8 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center">
             
-            {/* Inner Black Bezel */}
-            <div className="absolute inset-[3px] md:inset-[4px] bg-black rounded-[3.3rem] md:rounded-[3.8rem] overflow-hidden border-[6px] md:border-[8px] border-black">
-              
-              {/* Screen Content (Video) */}
-              <div className="relative w-full h-full bg-[#111] rounded-[2.8rem] md:rounded-[3.2rem] overflow-hidden">
-                {/* Dynamic Island */}
-                <div className="absolute top-3 md:top-4 left-1/2 -translate-x-1/2 w-[100px] md:w-[120px] h-8 md:h-9 bg-black rounded-full z-20 flex items-center justify-end px-3 shadow-[inset_0_-1px_2px_rgba(255,255,255,0.1)]">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#0a0a0a] shadow-[inset_0_1px_2px_rgba(255,255,255,0.2)] relative overflow-hidden">
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-blue-500/30 rounded-full blur-[1px]" />
-                  </div>
-                </div>
+            {/* Left Column: Text & CTA */}
+            <div className="pt-10 lg:pt-0">
+              <div className="flex items-center gap-3 mb-6 animate-fade-up">
+                <span className="block w-10 h-px bg-gold" />
+                <span className="font-body text-[0.72rem] font-bold tracking-[0.2em] uppercase text-gold">
+                  Roopam Estate Agency — Mumbai&apos;s Trusted Realtors
+                </span>
+              </div>
 
-                <video 
-                  className="absolute inset-0 w-full h-full object-cover opacity-95"
-                  autoPlay 
-                  loop 
-                  muted 
-                  playsInline
-                >
-                  <source src="/videos/founder-intro.mp4" type="video/mp4" />
-                </video>
+              <h1 className="font-display text-white text-[clamp(2.8rem,5vw,5rem)] leading-[1.05] mb-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
+                Chembur&apos;s Real Estate Legacy.
+                <span className="text-gold block">Trusted Since 1965.</span>
+              </h1>
+
+              <p className="text-lg text-white/55 max-w-[500px] mt-6 mb-10 leading-[1.8] animate-fade-up" style={{ animationDelay: "160ms" }}>
+                61 years of guiding Mumbai families, investors, and NRIs to their perfect property. Rooted in Chembur. Trusted across Mumbai.
+              </p>
+
+              <div className="flex flex-wrap gap-4 mb-14 animate-fade-up" style={{ animationDelay: "240ms" }}>
+                <Link href="/properties" className="btn-gold text-sm px-8 py-4">Explore Properties</Link>
+                <Link href="/nri" className="btn-outline-white text-sm px-8 py-4">NRI Investment Portal</Link>
+              </div>
+
+              <div className="flex gap-8 md:gap-14 pt-8 border-t border-white/10 flex-wrap animate-fade-up" style={{ animationDelay: "320ms" }}>
+                {[
+                  { target: 61, suffix: "+", label: "Years in Business" },
+                  { target: 4.8, suffix: "★", label: "Google Rating", decimals: 1 },
+                  { target: 500, suffix: "+", label: "Families Served" },
+                ].map((s) => (
+                  <div key={s.label}>
+                    <div className="font-display text-3xl font-bold text-gold leading-none mb-1.5">
+                      <CountUp target={s.target} suffix={s.suffix} decimals={s.decimals || 0} />
+                    </div>
+                    <p className="text-[0.75rem] text-white/45 tracking-wide">{s.label}</p>
+                  </div>
+                ))}
               </div>
             </div>
-            
-            {/* Physical Buttons Mockup */}
-            {/* Action Button */}
-            <div className="absolute top-[100px] md:top-[120px] -left-[4px] md:-left-[5px] w-[4px] md:w-[5px] h-[25px] md:h-[30px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
-            {/* Volume Up */}
-            <div className="absolute top-[140px] md:top-[170px] -left-[4px] md:-left-[5px] w-[4px] md:w-[5px] h-[45px] md:h-[50px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
-            {/* Volume Down */}
-            <div className="absolute top-[200px] md:top-[240px] -left-[4px] md:-left-[5px] w-[4px] md:w-[5px] h-[45px] md:h-[50px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
-            {/* Power Button */}
-            <div className="absolute top-[160px] md:top-[190px] -right-[4px] md:-right-[5px] w-[4px] md:w-[5px] h-[70px] md:h-[80px] bg-gradient-to-l from-[#71717a] to-[#a1a1aa] rounded-r-md" />
+
+            {/* Right Column: Floating iPhone Demo */}
+            <div className="flex justify-center lg:justify-end relative animate-fade-up" style={{ animationDelay: '400ms' }}>
+              {/* Cinematic Spotlight */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[70vw] h-[70vw] lg:w-[45vw] lg:h-[45vw] bg-gold/10 rounded-full blur-[100px] lg:blur-[120px] pointer-events-none" />
+
+              {/* Heroic iPhone Frame */}
+              <div className="relative z-10 lg:translate-x-4 xl:translate-x-8">
+                <div className="relative w-[300px] h-[620px] md:w-[360px] md:h-[740px] rounded-[3.5rem] md:rounded-[4rem] bg-black p-[3px] shadow-[0_30px_60px_rgba(0,0,0,0.6),_0_0_80px_rgba(255,255,255,0.05)] transform rotate-[-2deg] hover:rotate-0 transition-transform duration-700 ease-out cursor-pointer">
+                  {/* Outer Titanium Border Gradient */}
+                  <div className="absolute inset-0 rounded-[3.5rem] md:rounded-[4rem] bg-gradient-to-b from-[#e5e7eb] via-[#71717a] to-[#27272a]" />
+                  
+                  {/* Inner Black Bezel */}
+                  <div className="absolute inset-[3px] bg-black rounded-[3.3rem] md:rounded-[3.8rem] overflow-hidden border-[6px] md:border-[8px] border-black">
+                    
+                    {/* Screen Content (Video) */}
+                    <div className="relative w-full h-full bg-[#111] rounded-[2.8rem] md:rounded-[3.2rem] overflow-hidden">
+                      {/* Dynamic Island */}
+                      <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[100px] md:w-[110px] h-7 md:h-8 bg-black rounded-full z-20 flex items-center justify-end px-3 shadow-[inset_0_-1px_2px_rgba(255,255,255,0.1)]">
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#0a0a0a] shadow-[inset_0_1px_2px_rgba(255,255,255,0.2)] relative overflow-hidden">
+                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-blue-500/30 rounded-full blur-[1px]" />
+                        </div>
+                      </div>
+
+                      <video 
+                        className="absolute inset-0 w-full h-full object-cover opacity-95"
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline
+                      >
+                        <source src="/videos/founder-intro.mp4" type="video/mp4" />
+                      </video>
+                    </div>
+                  </div>
+                  
+                  {/* Physical Buttons Mockup */}
+                  <div className="absolute top-[100px] md:top-[120px] -left-[4px] w-[4px] h-[25px] md:h-[30px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
+                  <div className="absolute top-[140px] md:top-[170px] -left-[4px] w-[4px] h-[45px] md:h-[50px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
+                  <div className="absolute top-[200px] md:top-[240px] -left-[4px] w-[4px] h-[45px] md:h-[50px] bg-gradient-to-r from-[#71717a] to-[#a1a1aa] rounded-l-md" />
+                  <div className="absolute top-[160px] md:top-[190px] -right-[4px] w-[4px] h-[70px] md:h-[80px] bg-gradient-to-l from-[#71717a] to-[#a1a1aa] rounded-r-md" />
+                </div>
+              </div>
+            </div>
 
           </div>
         </div>
