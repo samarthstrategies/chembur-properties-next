@@ -87,7 +87,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0b1b3d_40%,rgba(11,27,61,0.8)_55%,#ffffff_70%)] pt-28 pb-20">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0b1b3d_0%,#0b1b3d_35%,#1a3a6e_55%,#e1e7f3_70%,#ffffff_85%,#ffffff_100%)] pt-28 pb-20">
         {/* Protective Top Gradient for Header text visibility over white background */}
         <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-navy/90 via-navy/50 to-transparent z-20 pointer-events-none" />
 
