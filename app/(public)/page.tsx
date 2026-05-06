@@ -86,12 +86,9 @@ const timeline = [
 export default function HomePage() {
   return (
     <>
-      {/* ── HERO ── */}
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-navy pt-28 pb-20">
-        {/* The Peacock Bloom (Centers White Space directly behind the iPhone) */}
-        <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[75vw] h-[100vw] lg:w-[60vw] lg:h-[80vw] translate-x-[15%] rounded-[100%] bg-[radial-gradient(ellipse_at_center,#FFFFFF_0%,#FFFFFF_20%,#9BD0EB_45%,#4A8BC2_65%,#1A4A8F_85%,transparent_100%)] blur-[60px] pointer-events-none z-0" />
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0B1B3D_0%,#0B1B3D_25%,#152B58_45%,#4A6DAF_65%,#DBEAFE_80%,#FFFFFF_90%,#FFFFFF_100%)] pt-28 pb-20">
         {/* Protective Top Gradient for Header text visibility over white background */}
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-navy/90 via-navy/50 to-transparent z-20 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#0B1B3D] via-[#0B1B3D]/50 to-transparent z-20 pointer-events-none" />
 
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none w-1/2">
@@ -147,8 +144,8 @@ export default function HomePage() {
 
             {/* Right Column: Floating iPhone Demo */}
             <div className="flex justify-center relative animate-fade-up w-full" style={{ animationDelay: '400ms' }}>
-              {/* Cinematic Spotlight (Softens the core) */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] lg:w-[35vw] lg:h-[35vw] bg-white rounded-full blur-[80px] pointer-events-none z-0" />
+              {/* Cinematic Spotlight (Pure White glow) */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] lg:w-[40vw] lg:h-[40vw] bg-white rounded-full blur-[100px] pointer-events-none z-0 opacity-60" />
 
               {/* Heroic iPhone Frame (Straight & Centered) */}
               <div className="relative z-10 mx-auto">
