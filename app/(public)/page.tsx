@@ -91,12 +91,12 @@ export default function HomePage() {
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#0B1B3D] via-[#0B1B3D]/50 to-transparent z-20 pointer-events-none" />
 
         {/* Right-hand screen Full Video */}
-        <div className="absolute top-0 right-0 w-full md:w-[50%] h-full z-0 pointer-events-none">
+        <div className="absolute top-0 right-0 w-full md:w-[55%] h-full z-0 pointer-events-none">
           <div 
             className="w-full h-full"
             style={{
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 35%, black 100%)",
-              maskImage: "linear-gradient(to right, transparent 0%, black 35%, black 100%)"
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 60%, black 100%)",
+              maskImage: "linear-gradient(to right, transparent 0%, black 60%, black 100%)"
             }}
           >
             <video 
@@ -112,7 +112,7 @@ export default function HomePage() {
         </div>
 
         {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none w-1/2">
+        <div className="absolute inset-0 pointer-events-none">
           {/* Animated floating orbs */}
           <div className="absolute -top-40 -left-10 w-[600px] h-[600px] rounded-full bg-navy-light/30 blur-[120px] animate-pulse" />
           <div className="absolute bottom-10 left-10 w-[400px] h-[400px] rounded-full bg-gold/10 blur-[120px] animate-pulse" style={{ animationDelay: '2s' }} />
