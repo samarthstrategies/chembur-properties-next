@@ -90,26 +90,6 @@ export default function HomePage() {
         {/* Protective Top Gradient for Header text visibility over white background */}
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#0B1B3D] via-[#0B1B3D]/50 to-transparent z-20 pointer-events-none" />
 
-        {/* Right-hand screen Full Video */}
-        <div className="absolute top-0 right-0 w-full md:w-[55%] h-full z-0 pointer-events-none">
-          <div 
-            className="w-full h-full"
-            style={{
-              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 60%, black 100%)",
-              maskImage: "linear-gradient(to right, transparent 0%, black 60%, black 100%)"
-            }}
-          >
-            <video 
-              className="w-full h-full object-cover object-top"
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-            >
-              <source src="/videos/founder-intro.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
 
         {/* Decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
@@ -163,10 +143,45 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column (Empty to make room for absolute video) */}
-            <div className="hidden lg:block pointer-events-none"></div>
+            {/* Right Column: Cinematic Property Visual */}
+            <div className="hidden lg:flex justify-end relative animate-fade-up w-full" style={{ animationDelay: '400ms' }}>
+              <div className="relative w-full max-w-[700px] aspect-video rounded-2xl md:rounded-[2rem] overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.5)] border border-white/10 group">
+                <img 
+                  src="/images/hero-property.png" 
+                  alt="Premium Luxury Property in Chembur"
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3D]/80 via-transparent to-transparent opacity-80 pointer-events-none" />
+              </div>
+            </div>
 
           </div>
+        </div>
+      </section>
+
+      {/* ── CINEMATIC FOUNDER MESSAGE (iPHONE) ── */}
+      <section className="bg-black py-24 md:py-32 flex flex-col justify-center items-center overflow-hidden border-t border-white/5 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_60%)] pointer-events-none" />
+        
+        <div className="text-center mb-12 relative z-10 animate-fade-up">
+          <p className="font-body text-[0.72rem] font-bold tracking-[0.2em] uppercase text-gold mb-3">A Message From The Founder</p>
+          <h2 className="font-display text-white text-3xl md:text-4xl">Hear Our Story</h2>
+        </div>
+
+        <div className="relative z-10 w-[300px] h-[600px] md:w-[380px] md:h-[780px] rounded-[3rem] md:rounded-[3.5rem] border-[8px] md:border-[12px] border-[#222] shadow-[0_0_80px_rgba(255,255,255,0.06)] bg-[#111] overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
+          {/* Subtle reflection on the frame */}
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none z-20" />
+          
+          <video 
+            className="absolute inset-0 w-full h-full object-cover z-0"
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            controls
+          >
+            <source src="/videos/founder-intro.mp4" type="video/mp4" />
+          </video>
         </div>
       </section>
 
