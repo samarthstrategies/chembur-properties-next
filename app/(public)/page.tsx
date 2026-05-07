@@ -143,30 +143,21 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Cinematic Property Visual */}
-            <div className="hidden lg:flex justify-end relative animate-fade-up w-full" style={{ animationDelay: '400ms' }}>
-              <div className="relative w-full max-w-[700px] aspect-video rounded-2xl md:rounded-[2rem] overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.5)] border border-white/10 group">
-                <img 
-                  src="/images/hero-property.png" 
-                  alt="Premium Luxury Property in Chembur"
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1B3D]/80 via-transparent to-transparent opacity-80 pointer-events-none" />
-              </div>
-            </div>
+            {/* Right Column (Empty to let text breathe until video is added) */}
+            <div className="hidden lg:block pointer-events-none"></div>
 
           </div>
         </div>
       </section>
 
       {/* ── CINEMATIC FOUNDER MESSAGE (iPHONE) ── */}
-      <section className="bg-black py-24 md:py-32 flex flex-col justify-center items-center overflow-hidden border-t border-white/5 relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.03)_0%,transparent_60%)] pointer-events-none" />
+      <section className="bg-[#0B1B3D] py-24 md:py-32 flex flex-col justify-center items-center overflow-hidden border-t border-white/5 relative">
         
-        <div className="text-center mb-12 relative z-10 animate-fade-up">
-          <p className="font-body text-[0.72rem] font-bold tracking-[0.2em] uppercase text-gold mb-3">A Message From The Founder</p>
-          <h2 className="font-display text-white text-3xl md:text-4xl">Hear Our Story</h2>
-        </div>
+        {/* Subtle Check Grid Background */}
+        <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)', backgroundSize: '80px 80px', backgroundPosition: 'center' }} />
+        
+        {/* Soft center glow to focus on the iPhone */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.04)_0%,transparent_70%)] pointer-events-none" />
 
         <div className="relative z-10 w-[300px] h-[600px] md:w-[380px] md:h-[780px] rounded-[3rem] md:rounded-[3.5rem] border-[8px] md:border-[12px] border-[#222] shadow-[0_0_80px_rgba(255,255,255,0.06)] bg-[#111] overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
           {/* Subtle reflection on the frame */}
