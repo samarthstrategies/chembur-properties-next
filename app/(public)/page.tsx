@@ -86,9 +86,30 @@ const timeline = [
 export default function HomePage() {
   return (
     <>
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0B1B3D_0%,#0B1B3D_45%,#152B58_60%,#5B7DC1_70%,#FFFFFF_85%,#FFFFFF_100%)] pt-28 pb-20">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0B1B3D] pt-28 pb-20">
         {/* Protective Top Gradient for Header text visibility over white background */}
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#0B1B3D] via-[#0B1B3D]/50 to-transparent z-20 pointer-events-none" />
+
+        {/* Right-hand screen Full Video */}
+        <div className="absolute top-0 right-0 w-full md:w-[70%] lg:w-[60%] h-full z-0 pointer-events-none">
+          <div 
+            className="w-full h-full"
+            style={{
+              WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 40%, black 100%)",
+              maskImage: "linear-gradient(to right, transparent 0%, black 40%, black 100%)"
+            }}
+          >
+            <video 
+              className="w-full h-full object-cover object-[65%_center]"
+              autoPlay 
+              loop 
+              muted 
+              playsInline
+            >
+              <source src="/videos/founder-intro.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
 
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none w-1/2">
@@ -122,7 +143,7 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-wrap gap-4 mb-14 animate-fade-up" style={{ animationDelay: "240ms" }}>
-                <Link href="/properties" className="btn-gold text-sm px-8 py-4">Explore Properties</Link>
+                <Link href="/properties" className="bg-white text-[#0B1B3D] font-bold text-sm px-8 py-4 rounded-full hover:bg-gray-100 transition-colors shadow-lg">Explore Properties</Link>
                 <Link href="/nri" className="btn-outline-white text-sm px-8 py-4">NRI Investment Portal</Link>
               </div>
 
@@ -142,34 +163,8 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Pure Founder Video */}
-            <div className="flex lg:justify-end justify-center relative animate-fade-up w-full lg:translate-x-12" style={{ animationDelay: '400ms' }}>
-              <div 
-                className="relative z-10 w-[320px] md:w-[500px] h-[550px] md:h-[800px] mix-blend-multiply"
-                style={{
-                  WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
-                  maskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)"
-                }}
-              >
-                <div
-                  className="w-full h-full"
-                  style={{
-                    WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 30%, black 100%)",
-                    maskImage: "linear-gradient(to right, transparent 0%, black 30%, black 100%)"
-                  }}
-                >
-                  <video 
-                    className="w-full h-full object-cover"
-                    autoPlay 
-                    loop 
-                    muted 
-                    playsInline
-                  >
-                    <source src="/videos/founder-intro.mp4" type="video/mp4" />
-                  </video>
-                </div>
-              </div>
-            </div>
+            {/* Right Column (Empty to make room for absolute video) */}
+            <div className="hidden lg:block pointer-events-none"></div>
 
           </div>
         </div>
