@@ -3,6 +3,7 @@ import PropertyCard from "@/components/PropertyCard";
 import TestimonialCarousel from "@/components/TestimonialCarousel";
 import ScrollReveal from "@/components/ScrollReveal";
 import CountUp from "@/components/CountUp";
+import AnimatedHomeText from "@/components/AnimatedHomeText";
 
 // TODO (Aryesh): Replace featuredProperties with a dynamic fetch from your property database/CMS
 const featuredProperties = [
@@ -239,6 +240,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ── CINEMATIC TYPOGRAPHY BRIDGE ── */}
+      <AnimatedHomeText />
 
       {/* ── TWO PATHWAYS ── */}
       <section className="bg-white py-20 md:py-24">
