@@ -86,7 +86,7 @@ const timeline = [
 export default function HomePage() {
   return (
     <>
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0B1B3D_0%,#0B1B3D_60%,#152B58_75%,#5B7DC1_90%,#FFFFFF_100%)] pt-28 pb-20">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[linear-gradient(to_right,#0B1B3D_0%,#0B1B3D_45%,#152B58_60%,#5B7DC1_70%,#FFFFFF_85%,#FFFFFF_100%)] pt-28 pb-20">
         {/* Protective Top Gradient for Header text visibility over white background */}
         <div className="absolute top-0 left-0 w-full h-40 bg-gradient-to-b from-[#0B1B3D] via-[#0B1B3D]/50 to-transparent z-20 pointer-events-none" />
 
@@ -144,10 +144,22 @@ export default function HomePage() {
 
             {/* Right Column: Pure Founder Video */}
             <div className="flex lg:justify-end justify-center relative animate-fade-up w-full lg:translate-x-12" style={{ animationDelay: '400ms' }}>
-              <div className="relative z-10 mx-auto">
-                <div className="relative w-[280px] h-[500px] md:w-[380px] md:h-[680px] rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-[0_32px_64px_rgba(0,0,0,0.12)] bg-black/5">
+              <div 
+                className="relative z-10 w-[320px] md:w-[500px] h-[550px] md:h-[800px] mix-blend-multiply"
+                style={{
+                  WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)",
+                  maskImage: "linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)"
+                }}
+              >
+                <div
+                  className="w-full h-full"
+                  style={{
+                    WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 30%, black 100%)",
+                    maskImage: "linear-gradient(to right, transparent 0%, black 30%, black 100%)"
+                  }}
+                >
                   <video 
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="w-full h-full object-cover"
                     autoPlay 
                     loop 
                     muted 
