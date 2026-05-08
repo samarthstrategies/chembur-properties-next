@@ -144,38 +144,30 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column (Empty to let text breathe until video is added) */}
-            <div className="hidden lg:block pointer-events-none"></div>
+            {/* Right Column: Video */}
+            <div className="relative flex justify-center items-center mt-16 lg:mt-0 z-10 animate-fade-up" style={{ animationDelay: "400ms" }}>
+              <div className="relative w-[280px] h-[580px] md:w-[320px] md:h-[660px] lg:w-[360px] lg:h-[740px] rounded-[3rem] border-[8px] md:border-[10px] border-[#222] shadow-[0_0_80px_rgba(255,255,255,0.06)] bg-[#111] overflow-hidden group hover:scale-[1.02] transition-transform duration-500 lg:-ml-12">
+                {/* Subtle reflection on the frame */}
+                <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none z-20" />
+                
+                <video 
+                  className="absolute inset-0 w-full h-full object-cover z-0"
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline
+                  controls
+                >
+                  <source src="/videos/founder-intro.mp4" type="video/mp4" />
+                </video>
+              </div>
+            </div>
 
           </div>
         </div>
       </section>
 
-      {/* ── CINEMATIC FOUNDER MESSAGE (iPHONE) ── */}
-      <section className="bg-[#0B1B3D] py-24 md:py-32 flex flex-col justify-center items-center overflow-hidden border-t border-white/5 relative">
-        
-        {/* Subtle Check Grid Background */}
-        <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: 'linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)', backgroundSize: '80px 80px', backgroundPosition: 'center' }} />
-        
-        {/* Soft center glow to focus on the iPhone */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.04)_0%,transparent_70%)] pointer-events-none" />
 
-        <div className="relative z-10 w-[300px] h-[600px] md:w-[380px] md:h-[780px] rounded-[3rem] md:rounded-[3.5rem] border-[8px] md:border-[12px] border-[#222] shadow-[0_0_80px_rgba(255,255,255,0.06)] bg-[#111] overflow-hidden group hover:scale-[1.02] transition-transform duration-500">
-          {/* Subtle reflection on the frame */}
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none z-20" />
-          
-          <video 
-            className="absolute inset-0 w-full h-full object-cover z-0"
-            autoPlay 
-            loop 
-            muted 
-            playsInline
-            controls
-          >
-            <source src="/videos/founder-intro.mp4" type="video/mp4" />
-          </video>
-        </div>
-      </section>
 
       {/* ── SEARCH ── */}
       <section className="bg-white py-16 md:py-20">
