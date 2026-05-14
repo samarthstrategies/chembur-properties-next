@@ -55,14 +55,6 @@ const services = [
   { img: "/images/home_services/nri.png", title: "NRI Concierge Services", desc: "Remote buying, PoA framework, NRE/NRO accounts, and TDS compliance for overseas clients.", href: "/nri" },
 ];
 
-const timeline = [
-  { year: "1965", event: "Founded by Late Shri Vashu B. Chhaabria in Chembur" },
-  { year: "1990", event: "Jeetu Chhaabria continues the family legacy" },
-  { year: "2005", event: "First agency in Chembur to introduce LCD property inspections" },
-  { year: "2019", event: "Digital launch of chemburproperties.com" },
-  { year: "2026", event: "World-class digital transformation begins" },
-];
-
 export default function HomePage() {
   return (
     <>

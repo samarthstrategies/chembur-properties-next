@@ -304,7 +304,7 @@ export default function NRIPage() {
                   &ldquo;I was nervous about buying property in Mumbai while
                   living in Dubai. Jeetu sir handled absolutely everything —
                   virtual tours, the PoA process, TDS coordination, and even
-                  the society transfer paperwork. I didn't need to visit
+                  the society transfer paperwork. I didn&apos;t need to visit
                   India once. The property is now generating excellent rental
                   income. I can&apos;t recommend them enough.&rdquo;
                 </p>

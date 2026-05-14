@@ -103,7 +103,7 @@ export default function AboutPage() {
                   To continue adding real value, we proudly launched <strong className="text-gold-dark">www.chemburproperties.com</strong> — a complete user-friendly portal dedicated to the Chembur area. This platform establishes our corporate image, maintains long-lasting customer relationships, and provides the best options from small projects to high-quality developments for Buy, Resell, Group Booking, Re-Development, and Leave & License deals.
                 </p>
                 <p className="text-sm text-slate-navy leading-[1.85] italic mt-4">
-                  "We are constantly improvising existing products and coming up with newer and better solutions. I thank you for logging onto www.chemburproperties.com and look forward to building a mutually beneficial relationship."
+                  &ldquo;We are constantly improvising existing products and coming up with newer and better solutions. I thank you for logging onto www.chemburproperties.com and look forward to building a mutually beneficial relationship.&rdquo;
                 </p>
               </div>
             </ScrollReveal>
