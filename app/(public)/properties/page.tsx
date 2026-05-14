@@ -23,6 +23,7 @@ const ALL_PROPERTIES = [
     dataTransaction: "lease",
     dataPrice: "76000",
     dataLocation: "chembur",
+    dataBhk: "",
     isPremium: false,
   },
   {
@@ -41,6 +42,7 @@ const ALL_PROPERTIES = [
     dataTransaction: "lease",
     dataPrice: "300000",
     dataLocation: "chembur",
+    dataBhk: "",
     isPremium: false,
   },
 ];
