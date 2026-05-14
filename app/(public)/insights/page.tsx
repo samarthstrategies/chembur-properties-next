@@ -44,7 +44,7 @@ const articles = [
       { type: "para", content: "Chembur now offers a connectivity profile that rivals Bandra and exceeds Powai. The Eastern Freeway provides direct, signal-free access to Fort and CST in 25 minutes. The Monorail connects to Jacob Circle (and onward transfers). And Metro Line 2B — launching in 2026 — adds BKC connectivity in under 20 minutes." },
       { type: "para", content: "The social infrastructure has also matured significantly. Chembur now has quality schools, hospitals (Kokilaben Dhirubhai Ambani Hospital is minutes away), premium retail (R-City, Phoenix Marketcity accessible in 15 min), and excellent restaurant culture along Central Avenue Road." },
       { type: "heading", content: "Comparative Market Data" },
-      { type: "table", headers: ["Location", "Avg Price/Sq Ft", "Gross Yield", "Metro Access"], rows: [["Chembur", "₹20,000–₹34,000", "3.5–4.5%", "Line 2B (2026)"], ["Bandra West", "₹55,000–₹80,000", "2.5–3.2%", "Line 2 (Western)"], ["Powai", "₹28,000–₹42,000", "3.0–3.8%", "Indirect"], ["Ghatkopar", "₹22,000–₹32,000", "3.5–4.2%", "Line 1 (Direct)"], ["Wadala", "₹18,000–₹28,000", "3.8–4.8%", "Monorail + 2B"]] },
+      { type: "table", headers: ["Location", "Avg Price/Sq Ft", "Gross Yield", "Metro Access"], rows: [["Chembur", "₹20,000–₹34,000", "3.5–4.5%", "Line 2B (2026)"], ["Bandra West", "₹55,000–₹80,000", "2.5–3.2%", "Line 2 (Western)"], ["Powai", "₹28,000–₹42,000", "3.0–3.8%", "Indirect"], ["Ghatkopar", "₹22,000–₹32,000", "3.5–4.2%", "Line 1 (Direct)"], ["Wadala", "₹18,000–₹28,000", "3.8–4.9%", "Monorail + 2B"]] },
       { type: "para", content: "For NRI buyers from Dubai, the affordability angle is particularly relevant. With the AED at approximately ₹23, a ₹3 crore Chembur apartment represents AED 1.3 million — significantly less than comparable Mumbai locations and comparable to mid-tier Dubai properties, but in a high-growth market." },
     ],
   },
@@ -69,7 +69,7 @@ const articles = [
       { type: "table", headers: ["Configuration", "Area", "Price Range", "Rental Yield"], rows: [["1 BHK", "350–500 sq ft", "₹70L – ₹1.4 Cr", "4.0–5.0%"], ["2 BHK", "550–800 sq ft", "₹1.5 Cr – ₹3.2 Cr", "3.5–4.5%"], ["3 BHK", "850–1200 sq ft", "₹3 Cr – ₹6 Cr", "3.0–4.0%"], ["4 BHK+", "1200+ sq ft", "₹6 Cr – ₹15 Cr+", "2.8–3.5%"], ["Commercial", "300–2000 sq ft", "₹25K–₹80K/mo", "6.0–8.0%"]] },
       { type: "heading", content: "Investment Outlook" },
       { type: "para", content: "Chembur's overall market is expected to appreciate 12–18% over the next 24 months, driven by the Metro launch, ongoing infrastructure improvement, and the increasing migration of professionals from higher-cost western suburbs. Commercial properties — particularly office spaces and retail units near the Metro station — are expected to outperform residential." },
-      { type: "para", content: "For investors, we recommend focusing on well-maintained 2 BHK and 3 BHK units within 800m of the Metro station. These will benefit from both the metro premium and strong rental demand from professionals employed in BKC and the western business districts. First-time buyers should consider 1 BHK units in Chembur East or Chembur West for the best combination of affordability and appreciation." },
+      { type: "para", content: "For investors, we recommend focusing on well-maintained 2 BHK and 3 BHK units within 800m of the Metro station. These will benefit from both the metro premium and strong rental demand from professionals employed in BKC and the western business districts. First-time buyers should consider 1 BHK units in Chembur East or Chembur West for a strong combination of affordability and appreciation." },
     ],
   },
 ];
@@ -83,8 +83,8 @@ function ArticleCard({ article }: { article: ArticleType }) {
     <div className="bg-white border border-navy-100 rounded-2xl overflow-hidden hover:border-navy-300 transition-all duration-300 flex flex-col hover:-translate-y-1 shadow-card">
       {/* Image */}
       <div className="h-52 relative flex-shrink-0">
-        <img 
-          src={article.imageUrl} 
+        <img
+          src={article.imageUrl}
           alt={article.title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
         />
@@ -193,7 +193,7 @@ export default function InsightsPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-navy-gradient min-h-[44vh] flex items-center overflow-hidden pt-20 pb-12">
+      <section className="relative bg-navy-gradient min-h-[44vh] flex items-center overflow-hidden pt-[120px] md:pt-[150px] pb-12">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-navy-light/20 blur-[120px]" />
         </div>

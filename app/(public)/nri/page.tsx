@@ -23,13 +23,13 @@ const challenges = [
   {
     problem: "Tax & Legal Complexity",
     solution:
-      "NRI buyers attract a TDS rate of 20% on the purchase value (reduced under DTAA for certain countries). We coordinate with specialist CA firms to ensure correct TDS deduction, Form 16B issuance, and capital gains planning for eventual resale.",
+      "NRI buyers attract a TDS rate of 20% on the purchase value (reduced under DTAA for certain countries). We coordinate with specialist CA firms to assist with correct TDS deduction, Form 16B issuance, and capital gains planning for eventual resale.",
     icon: "⚖️",
   },
   {
     problem: "Managing Property from Abroad",
     solution:
-      "Our Property Management Concierge acts as your local representative — tenant sourcing, rent collection, maintenance coordination, society payments, and annual inspections. You receive regular photo/video updates. Peace of mind, guaranteed.",
+      "Our Property Management Concierge acts as your local representative — tenant sourcing, rent collection, maintenance coordination, society payments, and annual inspections. You receive regular photo/video updates. Dedicated service for your peace of mind.",
     icon: "🛡️",
   },
 ];
@@ -72,7 +72,7 @@ export default function NRIPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-navy-gradient min-h-[80vh] flex items-center overflow-hidden pt-20">
+      <section className="relative bg-navy-gradient min-h-[80vh] flex items-center overflow-hidden pt-[120px] md:pt-[150px]">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-60 -right-60 w-[800px] h-[800px] rounded-full bg-navy-light/20 blur-[120px]" />
           <div className="absolute bottom-[-100px] left-[-100px] w-[500px] h-[500px] rounded-full bg-gold/5 blur-[100px]" />
@@ -90,7 +90,7 @@ export default function NRIPage() {
               <p className="text-white/55 text-base leading-[1.82] mb-8 max-w-lg">
                 Serving NRI clients from Dubai, USA, UK, Singapore, Canada,
                 and Australia for over 25 years. We make buying, managing,
-                and selling Mumbai property completely seamless — no matter
+                and selling Mumbai property completely straightforward — no matter
                 where in the world you are.
               </p>
               <div className="flex gap-4 flex-wrap">
@@ -304,7 +304,7 @@ export default function NRIPage() {
                   &ldquo;I was nervous about buying property in Mumbai while
                   living in Dubai. Jeetu sir handled absolutely everything —
                   virtual tours, the PoA process, TDS coordination, and even
-                  the society transfer paperwork. I never needed to visit
+                  the society transfer paperwork. I didn't need to visit
                   India once. The property is now generating excellent rental
                   income. I can&apos;t recommend them enough.&rdquo;
                 </p>

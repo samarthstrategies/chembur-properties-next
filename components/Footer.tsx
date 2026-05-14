@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const WA_LINK = "https://wa.me/919820182285";
 
@@ -10,19 +11,17 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12">
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
-            <Link href="/" className="flex flex-col mb-1">
-              <span className="font-display text-2xl font-bold text-white leading-tight">
-                Chembur Properties
-              </span>
-              <span className="font-body text-[0.6rem] text-white/35 tracking-widest uppercase mt-1">
-                A Division of Roopam Estate Agency
-              </span>
+            <Link href="/" className="flex flex-col mb-6">
+              <div className="relative w-[420px] h-[100px]">
+                <Image
+                  src="/images/logo.png"
+                  alt="Chembur Properties Logo"
+                  fill
+                  className="object-contain object-left"
+                />
+              </div>
             </Link>
-            <p className="text-sm text-white/50 mt-4 mb-6 leading-relaxed">
-              Chembur&apos;s Real Estate Legacy.
-              <br />
-              Trusted Since 1965.
-            </p>
+
             <a
               href={WA_LINK}
               target="_blank"
@@ -45,43 +44,8 @@ export default function Footer() {
               {[
                 { href: "/", label: "Home" },
                 { href: "/properties", label: "Properties" },
-                { href: "/services", label: "Services" },
-                { href: "/nri", label: "NRI Portal" },
-                { href: "/insights", label: "Market Insights" },
                 { href: "/about", label: "About Us" },
                 { href: "/contact", label: "Contact" },
-              ].map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="text-sm text-white/50 hover:text-gold transition-all duration-150 hover:pl-1"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <p className="font-body text-[0.68rem] font-bold tracking-[0.18em] uppercase text-gold mb-5">
-              Services
-            </p>
-            <ul className="flex flex-col gap-3">
-              {[
-                { href: "/services#buy-sell", label: "Buy & Sell" },
-                { href: "/services#rent-lease", label: "Rent & Lease" },
-                {
-                  href: "/services#management",
-                  label: "Property Management",
-                },
-                {
-                  href: "/services#redevelopment",
-                  label: "Redevelopment Advisory",
-                },
-                { href: "/services#legal", label: "Legal & Registration" },
-                { href: "/nri", label: "NRI Concierge" },
               ].map((l) => (
                 <li key={l.href}>
                   <Link
@@ -104,7 +68,7 @@ export default function Footer() {
               {[
                 {
                   icon: "📍",
-                  text: "Vishwakarma G-70, Central Avenue, Inbetween Hotel Geeta Bhavan & Ratnagir, Chembur, Mumbai, Maharashtra 400071",
+                  text: "Vishwakarma G-70, Central Avenue, Inbetween Hotel Geeta Bhavan & Ratnagiri, Chembur, Mumbai, Maharashtra 400071",
                 },
                 {
                   icon: "📧",
@@ -123,7 +87,7 @@ export default function Footer() {
                 },
                 {
                   icon: "🕐",
-                  text: "Mon–Sat: 9:30 AM – 7:00 PM",
+                  text: "Mon–Sat: 10:30 AM – 7:30 PM",
                 },
               ].map((item, i) => (
                 <div key={i} className="flex gap-3 items-start">
@@ -157,16 +121,15 @@ export default function Footer() {
           <div className="flex items-center flex-wrap gap-0">
             {[
               "Est. 1965",
-              "4.8★ Google Rating",
-              "188 Verified Reviews",
+              "4.9★ Google Rating",
+              "160 Verified Reviews",
               "RERA Registered",
-              "MahaRERA Compliant",
+              "MahaRERA: AS1800039361",
             ].map((item, i) => (
               <span
                 key={item}
-                className={`text-[0.72rem] font-semibold text-gold/80 px-4 ${
-                  i > 0 ? "border-l border-gold/20" : ""
-                } ${i === 0 ? "pl-0" : ""}`}
+                className={`text-[0.72rem] font-semibold text-gold/80 px-4 ${i > 0 ? "border-l border-gold/20" : ""
+                  } ${i === 0 ? "pl-0" : ""}`}
               >
                 {item}
               </span>

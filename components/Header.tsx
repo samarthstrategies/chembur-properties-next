@@ -2,14 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/properties", label: "Properties" },
-  { href: "/services", label: "Services" },
-  { href: "/nri", label: "NRI Portal" },
-  { href: "/insights", label: "Market Insights" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
 ];
@@ -44,67 +42,54 @@ export default function Header() {
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "h-[66px] bg-white/95 shadow-header backdrop-blur-xl border-b border-navy-100"
-            : "h-20 bg-transparent"
+            ? "h-[96px] md:h-[116px] bg-navy/95 shadow-lg backdrop-blur-xl border-b border-white/10"
+            : "h-[110px] md:h-[130px] bg-transparent"
         }`}
       >
         <div className="max-w-8xl mx-auto px-6 md:px-8 h-full flex items-center justify-between gap-6">
           {/* Logo */}
-          <Link href="/" className="flex flex-col flex-shrink-0">
-            <span
-              className={`font-display text-[1.3rem] font-bold leading-tight tracking-tight transition-colors duration-300 ${
-                scrolled ? "text-navy" : "text-white"
-              }`}
-            >
-              Chembur Properties
-            </span>
-            <span
-              className={`font-body text-[0.58rem] tracking-widest uppercase mt-0.5 transition-colors duration-300 ${
-                scrolled ? "text-slate-navy" : "text-white/60"
-              }`}
-            >
-              A Division of Roopam Estate Agency — Est. 1965
-            </span>
+          <Link href="/" className="flex items-center flex-shrink-0 ml-2 md:ml-4 origin-left scale-[1.1] md:scale-[1.25] xl:scale-[1.35] transition-transform">
+            <div className="relative w-[250px] h-[58px] md:w-[400px] md:h-[80px] flex-shrink-0">
+              <Image 
+                src="/images/logo.png" 
+                alt="Chembur Properties Logo" 
+                fill
+                className="object-contain object-left"
+                priority
+              />
+            </div>
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center">
+          {/* Desktop Nav & CTA Group */}
+          <div className="hidden lg:flex items-center gap-3 xl:gap-6 flex-1 justify-end pr-2 xl:pr-8">
+            <nav className="flex items-center gap-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-body text-[0.82rem] font-medium px-3 py-2 rounded tracking-wide transition-colors duration-200 relative ${
+                className={`font-body text-[0.85rem] font-medium px-3 py-2 rounded tracking-wide transition-colors duration-200 relative ${
                   pathname === link.href
-                    ? scrolled
-                      ? "text-navy"
-                      : "text-white"
-                    : scrolled
-                    ? "text-slate-navy hover:text-navy"
+                    ? "text-white"
                     : "text-white/70 hover:text-white"
                 }`}
               >
                 {link.label}
                 {pathname === link.href && (
                   <span
-                    className={`absolute bottom-0 left-3 right-3 h-0.5 rounded ${
-                      scrolled ? "bg-gold" : "bg-gold"
-                    }`}
+                    className="absolute bottom-0 left-3 right-3 h-0.5 rounded bg-gold"
                   />
                 )}
               </Link>
             ))}
-          </nav>
+            </nav>
 
-          <a
-            href="tel:+919820182285"
-            className={`hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-md text-[0.78rem] font-semibold tracking-wide transition-all duration-300 hover:-translate-y-px flex-shrink-0 ${
-              scrolled
-                ? "bg-navy text-white hover:bg-navy-rich hover:shadow-navy"
-                : "bg-navy text-white hover:bg-navy-rich shadow-soft"
-            }`}
-          >
-            <span className="text-sm">📞</span> Call Us
-          </a>
+            <a
+              href="tel:+919820182285"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-md text-[0.8rem] font-semibold tracking-wide transition-all duration-300 hover:-translate-y-px flex-shrink-0 bg-gold text-navy hover:bg-gold/90 shadow-soft"
+            >
+              <span className="text-sm">📞</span> Call Us
+            </a>
+          </div>
 
           {/* Mobile Hamburger */}
           <button
@@ -116,8 +101,6 @@ export default function Header() {
               className={`block w-5 h-0.5 rounded transition-all duration-300 origin-center ${
                 menuOpen
                   ? "translate-y-2 rotate-45 bg-white"
-                  : scrolled
-                  ? "bg-navy"
                   : "bg-white"
               }`}
             />
@@ -125,8 +108,6 @@ export default function Header() {
               className={`block w-5 h-0.5 rounded transition-all duration-300 ${
                 menuOpen
                   ? "opacity-0 scale-x-0 bg-white"
-                  : scrolled
-                  ? "bg-navy"
                   : "bg-white"
               }`}
             />
@@ -134,8 +115,6 @@ export default function Header() {
               className={`block w-5 h-0.5 rounded transition-all duration-300 origin-center ${
                 menuOpen
                   ? "-translate-y-2 -rotate-45 bg-white"
-                  : scrolled
-                  ? "bg-navy"
                   : "bg-white"
               }`}
             />

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export default function ContactPage() {
@@ -31,7 +32,7 @@ export default function ContactPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-navy-gradient min-h-[38vh] flex items-center overflow-hidden pt-20 pb-10">
+      <section className="relative bg-navy-gradient min-h-[38vh] flex items-center overflow-hidden pt-[120px] md:pt-[150px] pb-10">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-navy-light/20 blur-[120px]" />
         </div>
@@ -53,16 +54,24 @@ export default function ContactPage() {
             {/* Left — Contact Info */}
             <div className="lg:col-span-2">
               <ScrollReveal>
-                <h2 className="font-display text-navy text-2xl mb-8">
-                  Contact Details
-                </h2>
+                <div className="flex items-center gap-4 mb-8">
+                  <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-gold/50 shadow-md">
+                    <Image src="/images/JeetuChhaabria_half.png" alt="Jeetu Chhaabria" fill className="object-cover" />
+                  </div>
+                  <div>
+                    <h2 className="font-display text-navy text-2xl">
+                      Contact Details
+                    </h2>
+                    <p className="text-sm font-medium text-gold-dark mt-1">Speak with Jeetu Chhaabria</p>
+                  </div>
+                </div>
 
                 {[
                   {
                     icon: "📍",
                     label: "Office Address",
                     content:
-                      "Vishwakarma G-70, Central Avenue,\nInbetween Hotel Geeta Bhavan & Ratnagir,\nChembur, Mumbai, Maharashtra 400071",
+                      "Vishwakarma G-70, Central Avenue,\nInbetween Hotel Geeta Bhavan & Ratnagiri,\nChembur, Mumbai, Maharashtra 400071",
                     isMultiline: true,
                   },
                   {
@@ -198,11 +207,10 @@ export default function ContactPage() {
                               key={t.val}
                               type="button"
                               onClick={() => setInquiryType(t.val)}
-                              className={`px-4 py-2 rounded-full text-sm border transition-all duration-150 ${
-                                inquiryType === t.val
+                              className={`px-4 py-2 rounded-full text-sm border transition-all duration-150 ${inquiryType === t.val
                                   ? "border-navy text-navy bg-navy/5 font-semibold"
                                   : "border-navy-200 text-slate-navy hover:border-navy hover:text-navy"
-                              }`}
+                                }`}
                             >
                               {t.label}
                             </button>
@@ -346,24 +354,19 @@ export default function ContactPage() {
               Find Our Office
             </h2>
             <p className="text-sm text-slate-navy mb-6">
-              Vishwakarma G-70, Central Avenue, Inbetween Hotel Geeta Bhavan & Ratnagir, Chembur, Mumbai, Maharashtra 400071.
+              Vishwakarma G-70, Central Avenue, Inbetween Hotel Geeta Bhavan & Ratnagiri, Chembur, Mumbai, Maharashtra 400071.
             </p>
-            <div className="rounded-2xl overflow-hidden border border-navy-100 h-[380px] bg-surface-light relative shadow-card group">
-              <img 
-                src="/images/contact/map.png" 
-                alt="Chembur Properties Office Map" 
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-navy/40 backdrop-blur-[2px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <a
-                  href="https://maps.google.com/?q=Vishwakarma+G-70+Central+Avenue+Chembur+Mumbai"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-gold text-navy px-8 py-4 rounded-lg font-bold shadow-xl hover:bg-gold-light hover:-translate-y-1 transition-all"
-                >
-                  📍 Open in Google Maps
-                </a>
-              </div>
+            <div className="rounded-2xl overflow-hidden border border-navy-100 h-[380px] bg-surface-light relative shadow-card">
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.065609748293!2d72.90042067116394!3d19.060852740598566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c61e4833852b%3A0x2d6fca071cb2d4b5!2sChembur%20Properties%20(Roopam%20Estate%20Agency)%20%7C%20Real%20Estate%20Agent%20in%20Chembur!5e0!3m2!1sen!2sin!4v1778693064176!5m2!1sen!2sin" 
+                width="100%" 
+                height="100%" 
+                style={{ border: 0 }} 
+                allowFullScreen={false} 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade" 
+                className="absolute inset-0"
+              ></iframe>
             </div>
           </ScrollReveal>
         </div>

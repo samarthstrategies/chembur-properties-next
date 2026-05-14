@@ -8,26 +8,6 @@ import PropertyCard from "@/components/PropertyCard";
 // Each property object should include all fields used below as data attributes for filtering
 const ALL_PROPERTIES = [
   {
-    code: "PSS-NEWPROJECT",
-    title: "PSS New Project Chembur",
-    location: "Chembur",
-    price: "Price on Request",
-    type: "residential" as const,
-    transaction: "buy" as const,
-    bhk: "Contact Us",
-    area: "Contact Us",
-    badge: "For Sale",
-    badgeVariant: "default" as const,
-    imgGradient: "linear-gradient(135deg, #0B1B3D 0%, #1A3A6E 45%, #0E2452 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/bldg-image-1-1-488x326.jpg",
-    dataType: "residential",
-    dataTransaction: "buy",
-    dataBhk: "",
-    dataPrice: "0",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
     code: "SWANKY-COMM",
     title: "Swanky Office 430 SqFt",
     location: "Chembur",
@@ -44,222 +24,6 @@ const ALL_PROPERTIES = [
     dataPrice: "76000",
     dataLocation: "chembur",
     isPremium: false,
-  },
-  {
-    code: "YELLOW-1BHK",
-    title: "Yellow 1 BHK Flat",
-    location: "Chembur",
-    price: "₹50,000/mo",
-    type: "residential" as const,
-    transaction: "lease" as const,
-    bhk: "1 BHK",
-    area: "Contact Us",
-    badge: "For Lease",
-    badgeVariant: "rent" as const,
-    imgGradient: "linear-gradient(135deg, #0B1B3D 0%, #1A3A6E 45%, #0E2452 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/t3-2-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "lease",
-    dataBhk: "1bhk",
-    dataPrice: "50000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "FIESTA-2BHK",
-    title: "Fiesta 2 BHK Flat",
-    location: "Chembur",
-    price: "₹90,000/mo",
-    type: "residential" as const,
-    transaction: "lease" as const,
-    bhk: "2 BHK",
-    area: "758 sq ft",
-    badge: "For Lease",
-    badgeVariant: "rent" as const,
-    imgGradient: "linear-gradient(135deg, #0E2452 0%, #1A3A6E 45%, #071430 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/front-image-3-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "lease",
-    dataBhk: "2bhk",
-    dataPrice: "90000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "ORBIS-3BHK",
-    title: "Orbis 3 BHK",
-    location: "Chembur",
-    price: "₹4.25 Cr",
-    type: "residential" as const,
-    transaction: "buy" as const,
-    bhk: "3 BHK",
-    area: "1100 sq ft",
-    badge: "Premium",
-    badgeVariant: "premium" as const,
-    imgGradient: "linear-gradient(135deg, #0B1B3D 0%, #1A3A6E 45%, #0E2452 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/t2-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "buy",
-    dataBhk: "3bhk",
-    dataPrice: "42500000",
-    dataLocation: "chembur",
-    isPremium: true,
-  },
-  {
-    code: "ITSFAIR-2BHK",
-    title: "Its Fair 2 BHK",
-    location: "Chembur",
-    price: "₹2.75 Cr",
-    type: "residential" as const,
-    transaction: "buy" as const,
-    bhk: "2 BHK",
-    area: "Contact Us",
-    badge: "For Sale",
-    badgeVariant: "default" as const,
-    imgGradient: "linear-gradient(135deg, #0E2452 0%, #0B1B3D 45%, #1A3A6E 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/t1-3-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "buy",
-    dataBhk: "2bhk",
-    dataPrice: "27500000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "SHANTI-1BHK",
-    title: "Shanti CT 1 BHK",
-    location: "Chembur",
-    price: "₹1.25 Cr",
-    type: "residential" as const,
-    transaction: "buy" as const,
-    bhk: "1 BHK",
-    area: "Contact Us",
-    badge: "For Sale",
-    badgeVariant: "default" as const,
-    imgGradient: "linear-gradient(135deg, #071430 0%, #0B1B3D 45%, #0E2452 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/IMG_7429-Large-2-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "buy",
-    dataBhk: "1bhk",
-    dataPrice: "12500000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "ADMAN-1BHK",
-    title: "Adman 1 BHK Flat",
-    location: "Chembur",
-    price: "₹45,000/mo",
-    type: "residential" as const,
-    transaction: "lease" as const,
-    bhk: "1 BHK",
-    area: "Contact Us",
-    badge: "For Lease",
-    badgeVariant: "rent" as const,
-    imgGradient: "linear-gradient(135deg, #0B1B3D 0%, #0E2452 45%, #1A3A6E 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/IMG_7427-Large-2-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "lease",
-    dataBhk: "1bhk",
-    dataPrice: "45000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "SABNIS-1BHK",
-    title: "Sabnis SN 1 BHK",
-    location: "Chembur",
-    price: "₹1.15 Cr",
-    type: "residential" as const,
-    transaction: "buy" as const,
-    bhk: "1 BHK",
-    area: "438 sq ft",
-    badge: "For Sale",
-    badgeVariant: "default" as const,
-    imgGradient: "linear-gradient(135deg, #0E2452 0%, #0B1B3D 45%, #1A3A6E 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/t3-2-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "buy",
-    dataBhk: "1bhk",
-    dataPrice: "11500000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "HANUMAN-COMM",
-    title: "Hanuman Office",
-    location: "Chembur",
-    price: "₹45,000/mo",
-    type: "commercial" as const,
-    transaction: "lease" as const,
-    area: "300 sq ft",
-    badge: "For Lease",
-    badgeVariant: "commercial" as const,
-    imgGradient: "linear-gradient(135deg, #071430 0%, #0E2452 45%, #0B1B3D 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/IMG_7437-Large-2-1240x720.jpeg",
-    dataType: "commercial",
-    dataTransaction: "lease",
-    dataPrice: "45000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "SRIRAM-COMM",
-    title: "Sriram Office",
-    location: "Chembur",
-    price: "₹1,40,000/mo",
-    type: "commercial" as const,
-    transaction: "lease" as const,
-    area: "1119 sq ft",
-    badge: "For Lease",
-    badgeVariant: "commercial" as const,
-    imgGradient: "linear-gradient(135deg, #0B1B3D 0%, #1A3A6E 45%, #0E2452 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/front-image-3-1240x720.jpeg",
-    dataType: "commercial",
-    dataTransaction: "lease",
-    dataPrice: "140000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "SOMM-2BHK",
-    title: "Somm 2 BHK",
-    location: "Chembur",
-    price: "₹65,000/mo",
-    type: "residential" as const,
-    transaction: "lease" as const,
-    bhk: "2 BHK",
-    area: "Contact Us",
-    badge: "For Lease",
-    badgeVariant: "rent" as const,
-    imgGradient: "linear-gradient(135deg, #0E2452 0%, #1A3A6E 45%, #071430 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/t1-3-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "lease",
-    dataBhk: "2bhk",
-    dataPrice: "65000",
-    dataLocation: "chembur",
-    isPremium: false,
-  },
-  {
-    code: "KALPAK-3BHK",
-    title: "Kalpak 3 BHK",
-    location: "Chembur",
-    price: "₹3.5 Cr",
-    type: "residential" as const,
-    transaction: "buy" as const,
-    bhk: "3 BHK",
-    area: "Contact Us",
-    badge: "Premium",
-    badgeVariant: "premium" as const,
-    imgGradient: "linear-gradient(135deg, #071430 0%, #0B1B3D 45%, #0E2452 100%)",
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/t1-3-1240x720.jpeg",
-    dataType: "residential",
-    dataTransaction: "buy",
-    dataBhk: "3bhk",
-    dataPrice: "35000000",
-    dataLocation: "chembur",
-    isPremium: true,
   },
   {
     code: "PRIDY-COMM",
@@ -320,7 +84,7 @@ export default function PropertiesPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-navy-gradient min-h-[44vh] flex items-center overflow-hidden pt-20 pb-12">
+      <section className="relative bg-navy-gradient min-h-[44vh] flex items-center overflow-hidden pt-[120px] md:pt-[150px] pb-12">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-navy-light/20 blur-[120px]" />
         </div>
@@ -503,7 +267,7 @@ export default function PropertiesPage() {
 
           {/* Standard Listings */}
           {standard.length > 0 && (
-            <div>
+            <div className="mb-20">
               <div className="flex items-center gap-5 mb-8">
                 <h2 className="font-display text-navy text-[1.6rem] md:text-[1.9rem] whitespace-nowrap">
                   All Listings
@@ -520,6 +284,36 @@ export default function PropertiesPage() {
               </div>
             </div>
           )}
+
+          {/* Our Services Summary */}
+          <div className="mb-20">
+            <div className="flex items-center gap-5 mb-8">
+              <h2 className="font-display text-navy text-[1.6rem] md:text-[1.9rem] whitespace-nowrap">
+                Our Services
+              </h2>
+              <div className="flex-1 h-px bg-navy-100" />
+              <span className="text-xs text-slate-navy whitespace-nowrap">
+                Beyond Listings
+              </span>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {[
+                { icon: "🏠", title: "Buy & Sell", desc: "Residential and commercial transactions guided by 61 years of expertise." },
+                { icon: "🔑", title: "Rent & Lease", desc: "Leave & License, commercial leasing, and verified tenant sourcing." },
+                { icon: "🛡️", title: "Property Management", desc: "End-to-end absentee landlord and NRI concierge services." },
+                { icon: "🏗️", title: "Redevelopment", desc: "Advisory for housing societies from consensus to builder selection." },
+                { icon: "⚖️", title: "Legal & Registration", desc: "Stamp duty calculation, title clearance, and registration assistance." },
+                { icon: "✈️", title: "NRI Concierge", desc: "Remote property sourcing, power of attorney, and tax advisory." },
+              ].map((svc, i) => (
+                <div key={i} className="bg-white border border-navy-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="text-3xl mb-3">{svc.icon}</div>
+                  <h3 className="font-display text-navy text-lg mb-2">{svc.title}</h3>
+                  <p className="text-slate-navy text-sm leading-relaxed">{svc.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
 
           {/* CTA */}
           <div className="mt-20 bg-navy rounded-2xl p-10 md:p-14 text-center">

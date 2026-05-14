@@ -1,57 +1,72 @@
 import Link from "next/link";
+import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export const metadata = {
   title: "About Us | Chembur Properties — Roopam Estate Agency Est. 1965",
   description:
-    "61 years of real estate legacy in Chembur. Founded by Late Shri Vashu B. Chhabria in 1965, continued by Jeetu Chhaabria. Meet our team and story.",
+    "Founded by Late Shri Vashu B. Chhaabria in 1965, continued by Jeetu Chhaabria. Meet our team and story.",
 };
 
 const timeline = [
-  { year: "1965", title: "Foundation", body: "Late Shri Vashu B. Chhabria establishes Roopam Estate Agency in Chembur, Mumbai. The agency starts with a singular focus: honest, personalised real estate service for Chembur families. Chembur at the time is a rapidly growing suburb, attracting families from across Maharashtra." },
+  { year: "1965", title: "Foundation", body: "Late Shri Vashu B. Chhaabria establishes Roopam Estate Agency in Chembur, Mumbai. The agency starts with a singular focus: honest, personalised real estate service for Chembur families. Chembur at the time is a rapidly growing suburb, attracting families from across Maharashtra." },
   { year: "1975", title: "Community Growth", body: "Roopam Estate Agency establishes itself as the go-to agency for the Chembur community. Word-of-mouth referrals drive growth. The agency begins handling commercial properties alongside residential, serving Chembur's growing business district." },
   { year: "1990", title: "Market Expansion", body: "The agency expands its geographic coverage beyond Chembur to include Ghatkopar, Wadala, and BKC — areas that are beginning to emerge as important commercial hubs. NRI clients begin approaching the agency for property management." },
-  { year: "1996", title: "Generational Legacy", body: "Jeetu Chhaabria joins the family business, continuing the generational legacy established by his father. He brings renewed energy and a modernised approach while maintaining the core values of trust and personalised service that define the agency." },
-  { year: "2005", title: "Technology Pioneer", body: "Roopam Estate Agency becomes the first agency in Chembur to introduce LCD-based property inspections — showing clients high-quality property visuals before site visits. This was a pioneering move that dramatically improved the client experience." },
-  { year: "2010", title: "NRI Services Formalised", body: "The agency formalises its NRI concierge division, responding to growing demand from Indian diaspora clients in Dubai, USA, UK, and Singapore. Remote property buying and management become dedicated service offerings." },
-  { year: "2019", title: "Digital Presence", body: "Launch of chemburproperties.com — the agency's first dedicated digital presence. Digital leads and NRI inquiries from across the world begin arriving online." },
-  { year: "2026", title: "World-Class Transformation", body: "Roopam Estate Agency launches its comprehensive digital transformation — including this world-class website, digital property management tools, and an enhanced NRI concierge platform. 61 years of trust, powered by modern technology." },
+  { year: "1990", title: "Generational Legacy", body: "Jeetu Chhaabria joins the family business, continuing the generational legacy established by his father. He brings renewed energy and a modernised approach while maintaining the core values of trust and personalised service that define the agency." },
+  { year: "2003", title: "Digital Footprints", body: "Roopam Estate Agency becomes the first agency in Chembur to introduce LCD-based property inspections — showing clients high-quality property visuals before site visits. This was a pioneering move that dramatically improved the client experience." },
+  { year: "2006", title: "The Website was Launched", body: "Roopam Estate Agency launches its first dedicated digital presence — chemburproperties.com.  " },
+  { year: "2022", title: "Youtube Channel Launch", body: "Jeetu Chhaabria launches his Youtube channel — Chembur Properties — sharing market insights and property videos." },
+  { year: "2026", title: "World-Class Transformation", body: "A New World Class transformation yet to come because of AI presence, a new technology acceptance to get a full proof service policy for buy, sell real estate" },
 ];
 
 const team = [
-  { initials: "JC", name: "Jeetu Chhaabria", role: "Principal Broker & Managing Director", bio: "Jeetu sir has been the heart of Roopam Estate Agency since 1996. With over 28 years of hands-on experience in the Chembur market, he personally oversees every significant transaction. His deep knowledge of the local market, combined with his reputation for absolute integrity, has made him Chembur's most trusted real estate advisor." },
-  { initials: "SB", name: "Shyam", role: "Senior Associate — Residential", bio: "A veteran of the Chembur residential market with over 15 years of experience. Shyam specialises in residential buy-sell and rental transactions, with deep knowledge of every building and micro-location in Chembur. His attention to detail and client-first approach have earned him a loyal client following." },
-  { initials: "RK", name: "Raman", role: "Associate — Commercial & NRI Services", bio: "Raman heads commercial property transactions and provides key support to NRI clients. He coordinates virtual tours, manages property visits, and ensures every client — whether local or overseas — receives the same high standard of service. Fluent in digital tools and remote communication." },
+  { initials: "JC", name: "Jeetu Chhaabria", role: "Principal Broker & Managing Director", bio: "Jeetu sir has been the heart of Roopam Estate Agency since 1990. With over 28 years of hands-on experience in the Chembur market, he personally oversees every significant transaction. His deep knowledge of the local market, combined with his reputation for unwavering integrity, has made him Chembur's most trusted real estate advisor. Because of this profound trust, national and international clients frequently grant him Power of Attorney to execute transactions and manage affairs on their behalf." },
+  { initials: "CM", name: "", role: "Commercial Manager", bio: "Our Commercial Manager specialises in commercial property transactions. With deep knowledge of business districts and commercial spaces in Chembur, they ensure seamless leasing and buying experiences for our corporate clients." },
+  { initials: "SM", name: "", role: "Sale Manager", bio: "Our Sale Manager brings years of expertise in the residential buy-sell market. They have an intricate understanding of every building and micro-location in Chembur, guiding families to make sound and informed property investments." },
+  { initials: "L&L", name: "", role: "Leave & Licence", bio: "Our dedicated Leave & Licence expert handles all rental transactions. They provide end-to-end support, from property viewings to police verifications and agreement registrations, ensuring a smooth process for both landlords and tenants." },
 ];
 
-const values = [
-  { icon: "🏛️", title: "Legacy", desc: "61 years of serving Chembur families. Our history is our credibility — earned transaction by transaction, client by client." },
-  { icon: "🤝", title: "Transparency", desc: "We tell you what we know, including the things you might not want to hear. Honest guidance over short-term gains, always." },
-  { icon: "🌍", title: "Community", desc: "Chembur is more than a market to us — it's our home. We have deep roots here and a genuine stake in the community's growth." },
-  { icon: "⭐", title: "Excellence", desc: "From the first conversation to the final registration, we hold ourselves to the highest standards of professional service." },
-];
+
 
 export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-navy-gradient min-h-[55vh] flex items-center overflow-hidden pt-20 pb-14">
+      <section className="relative bg-navy-gradient min-h-[55vh] flex items-center overflow-hidden pt-[120px] md:pt-[150px] pb-14">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-60 -right-60 w-[700px] h-[700px] rounded-full bg-navy-light/20 blur-[120px]" />
         </div>
         <div className="relative z-10 max-w-8xl mx-auto px-6 md:px-8 w-full">
-          <p className="section-label text-gold">Our Story</p>
-          <h1 className="font-display text-white text-[clamp(2rem,4vw,3.2rem)] mb-5">
-            Six Decades of Trust
-            <span className="text-gold block">in Chembur.</span>
-          </h1>
-          <p className="text-white/55 text-base max-w-xl leading-[1.82]">
-            What began as a one-man real estate agency on Central Avenue Road
-            in 1965 has grown into Chembur&apos;s most respected and enduring
-            real estate institution. Three generations, thousands of
-            transactions, and one unwavering commitment — to serve our
-            clients honestly.
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            {/* Left Content */}
+            <div>
+              <p className="section-label text-gold">Our Story</p>
+              <h1 className="font-display text-white text-[clamp(2rem,4vw,3.2rem)] mb-5">
+                50 Years of Excellence
+                <span className="text-gold block">in Chembur Real Estate.</span>
+              </h1>
+              <p className="text-white/55 text-base max-w-xl leading-[1.82]">
+                We are a real estate firm based in Chembur with a vision to provide comprehensive and reliable property services to the community, backed by about 50 years of experience. We deal in residential and commercial properties, both lease and outright.
+              </p>
+            </div>
+            
+            {/* Right Image */}
+            <div className="relative h-[350px] md:h-[450px] w-full max-w-lg mx-auto lg:ml-auto lg:mr-0">
+              <div className="absolute inset-0 rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/50 to-transparent z-10 pointer-events-none" />
+                <Image 
+                  src="/images/JeetuChhaabria_half.png" 
+                  alt="Jeetu Chhaabria - Chembur Properties"
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  priority
+                />
+              </div>
+              {/* Decorative Accent */}
+              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-gold/10 rounded-full blur-2xl -z-10" />
+            </div>
+          </div>
         </div>
       </section>
 
@@ -60,62 +75,35 @@ export default function AboutPage() {
         <div className="max-w-8xl mx-auto px-6 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <ScrollReveal>
-              <div
-                className="h-[400px] md:h-[500px] rounded-2xl relative overflow-hidden"
-                style={{
-                  background:
-                    "linear-gradient(135deg, #0B1B3D 0%, #1A3A6E 50%, #0E2452 100%)",
-                }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-gold/12 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-8">
-                  <div className="border-t border-gold/25 pt-6">
-                    <p className="font-display text-gold text-5xl font-bold mb-2">
-                      1965
-                    </p>
-                    <p className="text-white/55 text-sm">
-                      Year Roopam Estate Agency was founded
-                      <br />
-                      by Late Shri Vashu B. Chhabria
-                    </p>
-                  </div>
-                </div>
-                <div className="absolute top-8 right-8 text-7xl opacity-15">
-                  🏛️
+              <div className="flex items-center justify-center h-full min-h-[300px] lg:min-h-[400px]">
+                <div className="relative w-[70%] max-w-[350px] aspect-square">
+                  <Image 
+                    src="/images/logo.png" 
+                    alt="Chembur Properties Logo" 
+                    fill
+                    className="object-contain drop-shadow-xl"
+                  />
                 </div>
               </div>
             </ScrollReveal>
 
             <ScrollReveal delay={120}>
-              <p className="section-label mb-4">The Foundation</p>
+              <p className="section-label mb-4">Our Operations & Innovations</p>
               <h2 className="font-display text-navy text-[1.8rem] md:text-[2.2rem] mb-5">
-                A Legacy Built on Trust
+                Setting New Standards
               </h2>
               <div className="space-y-4">
                 <p className="text-sm text-slate-navy leading-[1.85]">
-                  In 1965, Chembur was a suburb in transformation — a mix of
-                  residential colonies, industrial workers&apos; quarters, and
-                  the homes of Mumbai&apos;s growing middle class. It was into
-                  this environment that Late Shri Vashu B. Chhabria launched
-                  Roopam Estate Agency, driven by a simple belief: that every
-                  family deserved honest guidance when making the most
-                  important financial decision of their lives.
+                  We mainly operate in Chembur — including Chunabhatti, Deonar, Govandi, Mahul, Pestom Sagar, Chheda Nagar, Tilak Nagar, and Ghatkopar Mankhurd Link Road. We also look forward to managing deals in nearby locations like Wadala, Sion, Ghatkopar, and Bhakti Park.
                 </p>
                 <p className="text-sm text-slate-navy leading-[1.85]">
-                  Over the decades that followed, Chembur transformed. The
-                  industrial belt gave way to residential high-rises. The
-                  old mill workers&apos; colonies were redeveloped. The
-                  Eastern Freeway, the Monorail, and eventually Metro Line 2B
-                  brought infrastructure that would have been unimaginable in
-                  1965. Through all of this, Roopam Estate Agency remained —
-                  a constant in an ever-changing landscape.
+                  In 2005, we became the first and only estate agent in Chembur to introduce property inspections via LCD projection at our office. This innovation was designed to save our clients <strong>TIME, FUEL, and ENERGY</strong>. This kind of presentation has been highly appreciated by our esteemed clients, further strengthening our commitment to exceptional service.
                 </p>
                 <p className="text-sm text-slate-navy leading-[1.85]">
-                  In 1996, Jeetu Chhaabria joined his father&apos;s business,
-                  bringing with him a new generation&apos;s energy and vision.
-                  The core values remained unchanged: honesty, personal
-                  involvement, and genuine care for every client. What changed
-                  was the scale and sophistication of service.
+                  To continue adding real value, we proudly launched <strong className="text-gold-dark">www.chemburproperties.com</strong> — a complete user-friendly portal dedicated to the Chembur area. This platform establishes our corporate image, maintains long-lasting customer relationships, and provides the best options from small projects to high-quality developments for Buy, Resell, Group Booking, Re-Development, and Leave & License deals.
+                </p>
+                <p className="text-sm text-slate-navy leading-[1.85] italic mt-4">
+                  "We are constantly improvising existing products and coming up with newer and better solutions. I thank you for logging onto www.chemburproperties.com and look forward to building a mutually beneficial relationship."
                 </p>
               </div>
             </ScrollReveal>
@@ -182,20 +170,70 @@ export default function AboutPage() {
             </p>
           </ScrollReveal>
 
+          {/* Leader */}
+          <div className="flex justify-center mb-2">
+            <ScrollReveal delay={0} className="max-w-sm">
+              <div className="text-center">
+                <div className="relative w-36 h-36 mx-auto mb-6 rounded-full border-3 border-gold/25 shadow-[0_0_0_6px_rgba(201,164,74,0.08)] overflow-hidden bg-navy-light">
+                  <Image
+                    src="/images/JeetuChhaabria_half.png"
+                    alt={team[0].name}
+                    fill
+                    className="object-cover"
+                    sizes="144px"
+                  />
+                </div>
+                <h3 className="font-display text-white text-xl mb-1">
+                  {team[0].name}
+                </h3>
+                <p className="text-[0.72rem] font-bold tracking-widest uppercase text-gold mb-4">
+                  {team[0].role}
+                </p>
+                <p className="text-sm text-white/50 leading-[1.78]">
+                  {team[0].bio}
+                </p>
+              </div>
+            </ScrollReveal>
+          </div>
+
+          {/* Connectors */}
+          <div className="hidden md:block relative w-full h-[60px] mb-8">
+            {/* Vertical drop from leader */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[25px] bg-gold/40"></div>
+            {/* Horizontal branch */}
+            <div className="absolute top-[25px] h-px bg-gold/40" style={{ left: '16.66%', right: '16.66%' }}></div>
+            {/* Three drops to subordinates */}
+            <div className="absolute top-[25px] w-px h-[25px] bg-gold/40" style={{ left: '16.66%' }}>
+              <div className="absolute bottom-[-6px] left-[-3.5px] w-0 h-0 border-l-[4px] border-r-[4px] border-t-[6px] border-l-transparent border-r-transparent border-t-gold/40"></div>
+            </div>
+            <div className="absolute top-[25px] left-1/2 -translate-x-1/2 w-px h-[25px] bg-gold/40">
+              <div className="absolute bottom-[-6px] left-[-3.5px] w-0 h-0 border-l-[4px] border-r-[4px] border-t-[6px] border-l-transparent border-r-transparent border-t-gold/40"></div>
+            </div>
+            <div className="absolute top-[25px] w-px h-[25px] bg-gold/40" style={{ right: '16.66%' }}>
+              <div className="absolute bottom-[-6px] left-[-3.5px] w-0 h-0 border-l-[4px] border-r-[4px] border-t-[6px] border-l-transparent border-r-transparent border-t-gold/40"></div>
+            </div>
+          </div>
+
+          {/* Mobile Connectors */}
+          <div className="md:hidden flex justify-center h-[40px] mb-6 relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-[30px] bg-gold/40">
+              <div className="absolute bottom-[-6px] left-[-3.5px] w-0 h-0 border-l-[4px] border-r-[4px] border-t-[6px] border-l-transparent border-r-transparent border-t-gold/40"></div>
+            </div>
+          </div>
+
+          {/* Subordinates */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
-            {team.map((member, i) => (
-              <ScrollReveal key={member.name} delay={i * 100}>
+            {team.slice(1).map((member, i) => (
+              <ScrollReveal key={member.role} delay={(i + 1) * 100}>
                 <div className="text-center">
-                  {/* TODO (Aryesh): Replace gradient avatar with actual team photo */}
-                  {/* Use Next.js Image component: <Image src="/images/team/jeetu.jpg" .../> */}
                   <div className="w-36 h-36 rounded-full bg-gradient-to-br from-gold-dark to-gold flex items-center justify-center font-display font-bold text-navy text-3xl mx-auto mb-6 border-3 border-gold/25 shadow-[0_0_0_6px_rgba(201,164,74,0.08)]">
                     {member.initials}
                   </div>
                   <h3 className="font-display text-white text-xl mb-1">
-                    {member.name}
+                    {member.role}
                   </h3>
                   <p className="text-[0.72rem] font-bold tracking-widest uppercase text-gold mb-4">
-                    {member.role}
+                    Department Head
                   </p>
                   <p className="text-sm text-white/50 leading-[1.78]">
                     {member.bio}
@@ -207,31 +245,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values */}
-      <section className="bg-surface-light py-20 md:py-24">
-        <div className="max-w-8xl mx-auto px-6 md:px-8">
-          <ScrollReveal className="text-center mb-12">
-            <p className="section-label justify-center">What We Stand For</p>
-            <h2 className="font-display text-navy">Our Values</h2>
-          </ScrollReveal>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {values.map((v, i) => (
-              <ScrollReveal key={v.title} delay={i * 80}>
-                <div className="bg-white border border-navy-100 rounded-2xl p-8 text-center hover:border-navy-300 hover:-translate-y-1 transition-all duration-300 h-full shadow-card">
-                  <div className="text-4xl mb-5">{v.icon}</div>
-                  <h4 className="font-display text-navy text-lg mb-3">
-                    {v.title}
-                  </h4>
-                  <p className="text-sm text-slate-navy leading-[1.75]">
-                    {v.desc}
-                  </p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Credentials */}
       <section className="bg-white py-16 md:py-20">
@@ -266,10 +280,10 @@ export default function AboutPage() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   {[
-                    { val: "4.8★", label: "Google Rating" },
-                    { val: "4.81★", label: "Justdial Rating" },
-                    { val: "188", label: "Verified Reviews" },
-                    { val: "RERA", label: "MahaRERA Registered" },
+                    { val: "4.9★", label: "Google Rating" },
+                    { val: "4.8★", label: "Justdial Rating" },
+                    { val: "160", label: "Verified Reviews" },
+                    { val: "RERA", label: "MahaRERA No: AS1800039361" },
                   ].map((c) => (
                     <div
                       key={c.label}
@@ -288,35 +302,31 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Community */}
-      <section className="bg-navy py-16 md:py-20">
-        <div className="max-w-8xl mx-auto px-6 md:px-8">
+      {/* Address */}
+      <section className="bg-navy py-16 md:py-20 text-center">
+        <div className="max-w-4xl mx-auto px-6 md:px-8">
           <ScrollReveal>
-            <div className="text-center">
-              <p className="section-label text-gold justify-center mb-3">
-                Community Roots
+            <p className="section-label text-gold justify-center mb-3">
+              Visit Us
+            </p>
+            <h2 className="font-display text-white text-[2rem] md:text-[2.5rem] mb-6">
+              Our Office
+            </h2>
+            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 md:p-12 backdrop-blur-sm shadow-xl">
+              <p className="text-white text-lg font-display tracking-wide mb-3">Chembur Properties (Roopam Estate Agency)</p>
+              <p className="text-white/60 text-sm leading-relaxed max-w-md mx-auto mb-8">
+                Vishwakarma G-70, Central Avenue,<br />
+                Inbetween Hotel Geeta Bhavan & Ratnagiri,<br />
+                Chembur, Mumbai, Maharashtra 400071
               </p>
-              <h2 className="font-display text-white mb-4">
-                More Than a Business
-              </h2>
-              <p className="text-white/50 text-sm max-w-2xl mx-auto leading-[1.85] mb-8">
-                Roopam Estate Agency has been part of the Chembur community
-                for 61 years. We have watched families grow up, seen children
-                become homeowners, and accompanied multiple generations through
-                their most important life decisions. Chembur is not just our
-                market — it is our home. We are invested in its growth,
-                its infrastructure, and the wellbeing of its residents in ways
-                that go beyond any individual transaction.
-              </p>
-              <p className="text-white/50 text-sm max-w-2xl mx-auto leading-[1.85]">
-                Our office on Central Avenue Road, near Ambedkar Udyan and
-                Chembur Station, has been a fixture in this neighbourhood
-                for decades. We know the buildings, the builders, the
-                neighbourhood politics, and the micro-market dynamics in ways
-                that no outsider — no matter how well-funded — can replicate.
-                This local knowledge is our most valuable asset, and it is
-                available to every client we serve.
-              </p>
+              <div className="flex justify-center gap-4 flex-wrap">
+                <a href="tel:+919820182285" className="btn-gold text-sm">
+                  📞 98201 82285
+                </a>
+                <a href="mailto:roopamestate@gmail.com" className="btn-outline-white text-sm">
+                  ✉️ Email Us
+                </a>
+              </div>
             </div>
           </ScrollReveal>
         </div>

@@ -36,7 +36,7 @@ const testimonials = [
     info: "Google Review — Rental Client",
     initials: "VU",
     rating: 5,
-    text: "I had a very good experience with Roopam Real Estate Agency in finding a flat on Rent in Chembur prime location. Jeetu Chhabria is very nice negotiator and very transparent and lucid in his dealings. No procrastination in taking any decisions. Very prompt in communication.",
+    text: "I had a very good experience with Roopam Real Estate Agency in finding a flat on Rent in Chembur prime location. Jeetu Chhaabria is very nice negotiator and very transparent and lucid in his dealings. No procrastination in taking any decisions. Very prompt in communication.",
   },
   {
     name: "Gautam Suhanda",
@@ -50,14 +50,14 @@ const testimonials = [
     info: "Google Review — Verified Client",
     initials: "AP",
     rating: 5,
-    text: "Jeetu is very professional, knowledgeable and goes above and beyond to ensure that your requirements as a client are met. I have had a great experience working with him and look forward to having a lasting business relationship. I highly recommend Jeetu Chhabria and his team!",
+    text: "Jeetu is very professional, knowledgeable and goes above and beyond to ensure that your requirements as a client are met. I have had a great experience working with him and look forward to having a lasting business relationship. I highly recommend Jeetu Chhaabria and his team!",
   },
   {
     name: "Minakshi Sharma",
     info: "4-Year Client — Buy & Rent",
     initials: "MS",
     rating: 5,
-    text: "Mr. Jeetu Chhabria is excellent in his work. His professional way of handling his work, personal rapport with his clients, promptness and effective management of property purchase/rent is unmatched. For anyone looking for flats in Chembur, he is the best. I recommend him highly.",
+    text: "Mr. Jeetu Chhaabria is excellent in his work. His professional way of handling his work, personal rapport with his clients, promptness and effective management of property purchase/rent is unmatched. For anyone looking for flats in Chembur, he is the best. I recommend him highly.",
   },
 ];
 
@@ -170,9 +170,8 @@ export default function TestimonialCarousel() {
           <button
             key={i}
             onClick={() => handleDotClick(i)}
-            className={`h-2 rounded-full transition-all duration-300 border-none cursor-pointer ${
-              i === current ? "bg-gold w-6" : "bg-navy-200 w-2"
-            }`}
+            className={`h-2 rounded-full transition-all duration-300 border-none cursor-pointer ${i === current ? "bg-gold w-6" : "bg-navy-200 w-2"
+              }`}
             aria-label={`Go to slide ${i + 1}`}
           />
         ))}
