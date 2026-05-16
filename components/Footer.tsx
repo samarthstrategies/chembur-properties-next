@@ -12,7 +12,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="flex flex-col mb-6">
-              <div className="relative w-[420px] h-[100px]">
+              <div className="relative w-[220px] h-[52px] sm:w-[300px] sm:h-[70px] lg:w-[420px] lg:h-[100px]">
                 <Image
                   src="/images/logo.png"
                   alt="Chembur Properties Logo"

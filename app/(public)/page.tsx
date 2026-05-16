@@ -117,7 +117,7 @@ export default function HomePage() {
 
             {/* Right Column: Video */}
             <div className="relative flex justify-center items-center mt-16 lg:mt-0 z-10 animate-fade-up" style={{ animationDelay: "400ms" }}>
-              <div className="relative w-[280px] h-[580px] md:w-[320px] md:h-[660px] lg:w-[360px] lg:h-[740px] rounded-[3rem] border-[8px] md:border-[10px] border-[#222] shadow-[0_0_80px_rgba(255,255,255,0.06)] bg-[#111] overflow-hidden group hover:scale-[1.02] transition-transform duration-500 lg:-ml-12">
+              <div className="relative w-full max-w-[280px] h-[580px] md:max-w-none md:w-[320px] md:h-[660px] lg:w-[360px] lg:h-[740px] rounded-[3rem] border-[8px] md:border-[10px] border-[#222] shadow-[0_0_80px_rgba(255,255,255,0.06)] bg-[#111] overflow-hidden group hover:scale-[1.02] transition-transform duration-500 lg:-ml-12">
                 {/* Subtle reflection on the frame */}
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent pointer-events-none z-20" />
 

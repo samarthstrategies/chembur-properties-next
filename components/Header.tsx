@@ -46,10 +46,10 @@ export default function Header() {
             : "h-[110px] md:h-[130px] bg-transparent"
         }`}
       >
-        <div className="max-w-8xl mx-auto px-6 md:px-8 h-full flex items-center justify-between gap-6">
+        <div className="max-w-8xl mx-auto px-4 md:px-8 h-full flex items-center justify-between gap-3 md:gap-6">
           {/* Logo */}
           <Link href="/" className="flex items-center flex-shrink-0 ml-2 md:ml-4 origin-left scale-[1.1] md:scale-[1.25] xl:scale-[1.35] transition-transform">
-            <div className="relative w-[250px] h-[58px] md:w-[400px] md:h-[80px] flex-shrink-0">
+            <div className="relative w-[180px] h-[42px] sm:w-[250px] sm:h-[58px] md:w-[400px] md:h-[80px] flex-shrink-0">
               <Image 
                 src="/images/logo.png" 
                 alt="Chembur Properties Logo" 
