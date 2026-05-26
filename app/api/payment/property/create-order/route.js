@@ -4,13 +4,13 @@ import { connectDB } from "@/lib/mongodb";
 import Property from "@/models/Property";
 import PropertyAccess from "@/models/PropertyAccess";
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
-
 export async function POST(request) {
   try {
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID || "",
+      key_secret: process.env.RAZORPAY_KEY_SECRET || "",
+    });
+
     await connectDB();
     const { propertyId, name, phone, email } = await request.json();
 

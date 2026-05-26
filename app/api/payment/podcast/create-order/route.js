@@ -3,13 +3,13 @@ import Razorpay from "razorpay";
 import { connectDB } from "@/lib/mongodb";
 import Podcast from "@/models/Podcast";
 
-const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID,
-  key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
-
 export async function POST(request) {
   try {
+    const razorpay = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID || "",
+      key_secret: process.env.RAZORPAY_KEY_SECRET || "",
+    });
+
     await connectDB();
     const { podcastId, name, phone } = await request.json();
 
