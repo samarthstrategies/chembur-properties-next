@@ -5,7 +5,7 @@ import ScrollReveal from "@/components/ScrollReveal";
 export const metadata = {
   title: "About Us | Chembur Properties — Roopam Estate Agency Est. 1965",
   description:
-    "Founded by Late Shri Vashu B. Chhaabria in 1965, continued by Jeetu Chhaabria. Meet our team and story.",
+    "Founded by Late Shri Vashu B. Chhaabria in 1965, continued by Jeetu Chhaabria.",
 };
 
 const timeline = [
@@ -20,10 +20,10 @@ const timeline = [
 ];
 
 const team = [
-  { initials: "JC", name: "Jeetu Chhaabria", role: "Principal Broker & Managing Director", bio: "Jeetu sir has been the heart of Roopam Estate Agency since 1990. With over 28 years of hands-on experience in the Chembur market, he personally oversees every significant transaction. His deep knowledge of the local market, combined with his reputation for unwavering integrity, has made him Chembur's most trusted real estate advisor. Because of this profound trust, national and international clients frequently grant him Power of Attorney to execute transactions and manage affairs on their behalf." },
-  { initials: "CM", name: "", role: "Commercial Manager", bio: "Our Commercial Manager specialises in commercial property transactions. With deep knowledge of business districts and commercial spaces in Chembur, they ensure seamless leasing and buying experiences for our corporate clients." },
-  { initials: "SM", name: "", role: "Sale Manager", bio: "Our Sale Manager brings years of expertise in the residential buy-sell market. They have an intricate understanding of every building and micro-location in Chembur, guiding families to make sound and informed property investments." },
-  { initials: "L&L", name: "", role: "Leave & Licence", bio: "Our dedicated Leave & Licence expert handles all rental transactions. They provide end-to-end support, from property viewings to police verifications and agreement registrations, ensuring a smooth process for both landlords and tenants." },
+  { initials: "JC", name: "Jeetu Chhaabria", role: "Principal Broker & Managing Director", bio: "Jeetu Chhaabria has been the heart of Roopam Estate Agency since 1990. With over 36 years of hands-on experience in the Chembur market, he personally oversees every significant transaction. His deep knowledge of the local market, combined with his reputation for unwavering integrity, has made him Chembur's most trusted real estate advisor. Because of this profound trust, national and international clients frequently grant him Power of Attorney to execute transactions and manage affairs on their behalf." },
+  { initials: "CM", name: "", role: "Commercial Manager", bio: "" },
+  { initials: "SM", name: "", role: "Sale Manager", bio: "" },
+  { initials: "L&L", name: "", role: "Leave & Licence", bio: "" },
 ];
 
 
@@ -42,11 +42,11 @@ export default function AboutPage() {
             <div>
               <p className="section-label text-gold">Our Story</p>
               <h1 className="font-display text-white text-[clamp(2rem,4vw,3.2rem)] mb-5">
-                50 Years of Excellence
+                50+ Years of Excellence
                 <span className="text-gold block">in Chembur Real Estate.</span>
               </h1>
               <p className="text-white/55 text-base max-w-xl leading-[1.82]">
-                We are a real estate firm based in Chembur with a vision to provide comprehensive and reliable property services to the community, backed by about 50 years of experience. We deal in residential and commercial properties, both lease and outright.
+                We are a real estate firm based in Chembur with a vision to provide comprehensive and reliable property services to the community, backed by above 50 years of experience. We deal in residential and commercial properties in buy, sell and leave and lease.
               </p>
             </div>
             
@@ -162,11 +162,10 @@ export default function AboutPage() {
       <section className="bg-navy py-20 md:py-24">
         <div className="max-w-8xl mx-auto px-6 md:px-8">
           <ScrollReveal className="text-center mb-14">
-            <p className="section-label text-gold justify-center">The People</p>
-            <h2 className="font-display text-white mb-3">Meet Our Team</h2>
+            
+            <h2 className="font-display text-white mb-3">Man Himself</h2>
             <p className="text-white/50 max-w-md mx-auto text-sm leading-relaxed">
-              The faces behind 61 years of trusted real estate service in
-              Chembur.
+              The face of man the founder of chemburproperties.com
             </p>
           </ScrollReveal>
 
@@ -306,9 +305,7 @@ export default function AboutPage() {
       <section className="bg-navy py-16 md:py-20 text-center">
         <div className="max-w-4xl mx-auto px-6 md:px-8">
           <ScrollReveal>
-            <p className="section-label text-gold justify-center mb-3">
-              Visit Us
-            </p>
+            
             <h2 className="font-display text-white text-[2rem] md:text-[2.5rem] mb-6">
               Our Office
             </h2>

@@ -3,21 +3,76 @@
 import { useState } from "react";
 import Image from "next/image";
 import ScrollReveal from "@/components/ScrollReveal";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import toast from "react-hot-toast";
+
+const formSchema = z.object({
+  inquiryType: z.string(),
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  phone: z.string().min(10, "Valid phone number required"),
+  email: z.string().email("Valid email required").optional().or(z.literal("")),
+  budget: z.string().optional(),
+  location: z.string().optional(),
+  message: z.string().optional(),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export default function ContactPage() {
   const [inquiryType, setInquiryType] = useState("buy");
   const [submitted, setSubmitted] = useState(false);
 
-  // TODO (Aryesh): Connect form submission to your backend/CRM
-  // Options: Formspree, Netlify Forms, a Next.js API route, or a CRM webhook
-  // Example API route: POST /api/contact with the form payload
-  // Add Google Ads conversion tracking here on form submit (gtag event)
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // TODO (Aryesh): Replace this with actual form submission logic
-    // const formData = new FormData(e.currentTarget)
-    // await fetch('/api/contact', { method: 'POST', body: JSON.stringify(Object.fromEntries(formData)) })
-    setSubmitted(true);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      inquiryType: "buy",
+      name: "",
+      phone: "",
+      email: "",
+      budget: "",
+      location: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (data: FormData) => {
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source: "contact_page",
+          inquiryType: data.inquiryType,
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          budget: data.budget,
+          preferredLocation: data.location,
+          message: data.message,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to submit");
+      setSubmitted(true);
+      reset();
+      toast.success("Inquiry sent successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to send inquiry. Please try again.");
+    }
+  };
+
+  const handleTypeChange = (val: string) => {
+    setInquiryType(val);
+    setValue("inquiryType", val);
   };
 
   const inquiryTypes = [
@@ -127,8 +182,8 @@ export default function ContactPage() {
                   </p>
                   <div className="flex flex-col gap-2">
                     {[
-                      { day: "Monday – Friday", time: "9:30 AM – 7:00 PM" },
-                      { day: "Saturday", time: "9:30 AM – 6:00 PM" },
+                      { day: "Monday – Friday", time: "10:30 AM – 7:30 PM" },
+                      { day: "Saturday", time: "10:30 AM – 7:30 PM" },
                       { day: "Sunday", time: "By Appointment" },
                     ].map((h) => (
                       <div key={h.day} className="flex justify-between">
@@ -206,10 +261,10 @@ export default function ContactPage() {
                             <button
                               key={t.val}
                               type="button"
-                              onClick={() => setInquiryType(t.val)}
+                              onClick={() => handleTypeChange(t.val)}
                               className={`px-4 py-2 rounded-full text-sm border transition-all duration-150 ${inquiryType === t.val
-                                  ? "border-navy text-navy bg-navy/5 font-semibold"
-                                  : "border-navy-200 text-slate-navy hover:border-navy hover:text-navy"
+                                ? "border-navy text-navy bg-navy/5 font-semibold"
+                                : "border-navy-200 text-slate-navy hover:border-navy hover:text-navy"
                                 }`}
                             >
                               {t.label}
@@ -218,11 +273,10 @@ export default function ContactPage() {
                         </div>
                       </div>
 
-                      <form onSubmit={handleSubmit} className="space-y-4">
+                      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                         <input
                           type="hidden"
-                          name="inquiryType"
-                          value={inquiryType}
+                          {...register("inquiryType")}
                         />
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -231,22 +285,22 @@ export default function ContactPage() {
                               Full Name *
                             </label>
                             <input
-                              name="name"
-                              required
+                              {...register("name")}
                               placeholder="Your full name"
-                              className="lux-input"
+                              className={`lux-input ${errors.name ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""}`}
                             />
+                            {errors.name && <span className="text-red-500 text-xs">{errors.name.message}</span>}
                           </div>
                           <div className="flex flex-col gap-1.5">
                             <label className="text-[0.65rem] font-bold tracking-widest uppercase text-slate-navy">
                               Phone / WhatsApp *
                             </label>
                             <input
-                              name="phone"
-                              required
+                              {...register("phone")}
                               placeholder="+91 or country code"
-                              className="lux-input"
+                              className={`lux-input ${errors.phone ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""}`}
                             />
+                            {errors.phone && <span className="text-red-500 text-xs">{errors.phone.message}</span>}
                           </div>
                         </div>
 
@@ -255,11 +309,12 @@ export default function ContactPage() {
                             Email Address
                           </label>
                           <input
-                            name="email"
+                            {...register("email")}
                             type="email"
                             placeholder="your@email.com"
-                            className="lux-input"
+                            className={`lux-input ${errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-500/20" : ""}`}
                           />
+                          {errors.email && <span className="text-red-500 text-xs">{errors.email.message}</span>}
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -268,7 +323,7 @@ export default function ContactPage() {
                               Budget / Rent Range
                             </label>
                             <select
-                              name="budget"
+                              {...register("budget")}
                               className="lux-select"
                               style={{
                                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230B1B3D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
@@ -290,7 +345,7 @@ export default function ContactPage() {
                               Preferred Location
                             </label>
                             <select
-                              name="location"
+                              {...register("location")}
                               className="lux-select"
                               style={{
                                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230B1B3D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
@@ -315,7 +370,7 @@ export default function ContactPage() {
                             Message / Requirements
                           </label>
                           <textarea
-                            name="message"
+                            {...register("message")}
                             rows={4}
                             placeholder="Tell us about your requirement — configuration, timeline, any specific building or area preferences..."
                             className="lux-input resize-none"
@@ -323,8 +378,8 @@ export default function ContactPage() {
                         </div>
 
                         <div className="pt-2">
-                          <button type="submit" className="btn-navy w-full py-3.5 text-sm">
-                            Send Inquiry
+                          <button type="submit" disabled={isSubmitting} className="btn-navy w-full py-3.5 text-sm disabled:opacity-50">
+                            {isSubmitting ? "Sending..." : "Send Inquiry"}
                           </button>
                           <p className="text-xs text-slate-navy text-center mt-3">
                             We respond within 24 hours. For faster response,{" "}
@@ -345,8 +400,6 @@ export default function ContactPage() {
       </section>
 
       {/* Map Section */}
-      {/* TODO (Aryesh): Replace the static map embed with Google Maps API for full interactivity */}
-      {/* Get an API key at console.cloud.google.com → Maps JavaScript API */}
       <section className="bg-white py-14 md:py-16">
         <div className="max-w-8xl mx-auto px-6 md:px-8">
           <ScrollReveal>
@@ -357,14 +410,14 @@ export default function ContactPage() {
               Vishwakarma G-70, Central Avenue, Inbetween Hotel Geeta Bhavan & Ratnagiri, Chembur, Mumbai, Maharashtra 400071.
             </p>
             <div className="rounded-2xl overflow-hidden border border-navy-100 h-[380px] bg-surface-light relative shadow-card">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.065609748293!2d72.90042067116394!3d19.060852740598566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c61e4833852b%3A0x2d6fca071cb2d4b5!2sChembur%20Properties%20(Roopam%20Estate%20Agency)%20%7C%20Real%20Estate%20Agent%20in%20Chembur!5e0!3m2!1sen!2sin!4v1778693064176!5m2!1sen!2sin" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen={false} 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade" 
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.065609748293!2d72.90042067116394!3d19.060852740598566!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c61e4833852b%3A0x2d6fca071cb2d4b5!2sChembur%20Properties%20(Roopam%20Estate%20Agency)%20%7C%20Real%20Estate%20Agent%20in%20Chembur!5e0!3m2!1sen!2sin!4v1778693064176!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen={false}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0"
               ></iframe>
             </div>

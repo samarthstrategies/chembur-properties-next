@@ -5,46 +5,8 @@ import TestimonialCarousel from "@/components/TestimonialCarousel";
 import ScrollReveal from "@/components/ScrollReveal";
 import CountUp from "@/components/CountUp";
 import AnimatedHomeText from "@/components/AnimatedHomeText";
-
-// TODO (Aryesh): Replace featuredProperties with a dynamic fetch from your property database/CMS
-const featuredProperties = [
-  {
-    code: "SWANKY-COMM",
-    title: "Swanky Office 430 SqFt",
-    location: "Chembur",
-    price: "₹76,000/mo",
-    type: "commercial" as const,
-    transaction: "lease" as const,
-    area: "430 sq ft",
-    badge: "For Lease",
-    badgeVariant: "commercial" as const,
-    imgGradient: "linear-gradient(135deg, #071430 0%, #0E2452 45%, #0B1B3D 100%)",
-    dataType: "commercial",
-    dataTransaction: "lease",
-    dataPrice: "76000",
-    dataLocation: "chembur",
-    isPremium: false,
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/IMG_7437-Large-2-1240x720.jpeg",
-  },
-  {
-    code: "PRIDY-COMM",
-    title: "Pridy Commercial",
-    location: "Chembur",
-    price: "₹3,00,000/mo",
-    type: "commercial" as const,
-    transaction: "lease" as const,
-    area: "2100 sq ft",
-    badge: "For Lease",
-    badgeVariant: "commercial" as const,
-    imgGradient: "linear-gradient(135deg, #0B1B3D 0%, #1A3A6E 45%, #0E2452 100%)",
-    dataType: "commercial",
-    dataTransaction: "lease",
-    dataPrice: "300000",
-    dataLocation: "chembur",
-    isPremium: false,
-    imageUrl: "https://chemburproperties.com/wp-content/uploads/2026/04/IMG_7427-Large-2-1240x720.jpeg",
-  },
-];
+import PropertyShowcase from "@/components/PropertyShowcase";
+import DynamicPropertySection from "@/components/DynamicPropertySection";
 
 const services = [
   { img: "/images/home_services/buy.png", title: "Buy & Sell Properties", desc: "Expert guidance for residential and commercial transactions. From search to registration.", href: "/services#buy-sell" },
@@ -74,7 +36,7 @@ export default function HomePage() {
         </div>
 
         <div className="relative z-10 max-w-8xl mx-auto px-6 md:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-[1.3fr_1fr] gap-16 lg:gap-8 items-center">
 
             {/* Left Column: Text & CTA */}
             <div className="pt-10 lg:pt-0">
@@ -85,9 +47,8 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h1 className="font-display text-white text-[clamp(2.8rem,5vw,5rem)] leading-[1.05] mb-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
-                Chembur Ka Estate Agent
-                <span className="text-gold block">Jeetu Chhaabria</span>
+              <h1 className="font-display text-white text-[clamp(1.8rem,3.2vw,3.2rem)] xl:text-[3.5rem] leading-[1.05] mb-4 animate-fade-up lg:whitespace-nowrap" style={{ animationDelay: "80ms" }}>
+                Chembur Ka Estate Agent <span className="text-gold">Jeetu Chhaabria</span>
               </h1>
 
               <p className="text-lg text-white/55 max-w-[500px] mt-6 mb-10 leading-[1.8] animate-fade-up" style={{ animationDelay: "160ms" }}>
@@ -96,7 +57,6 @@ export default function HomePage() {
 
               <div className="flex flex-wrap gap-4 mb-14 animate-fade-up" style={{ animationDelay: "240ms" }}>
                 <Link href="/properties" className="bg-white text-[#0B1B3D] font-bold text-sm px-8 py-4 rounded-full hover:bg-gray-100 transition-colors shadow-lg">Explore Properties</Link>
-                <Link href="/nri" className="btn-outline-white text-sm px-8 py-4">NRI Investment Portal</Link>
               </div>
 
               <div className="flex gap-8 md:gap-14 pt-8 border-t border-white/10 flex-wrap animate-fade-up" style={{ animationDelay: "320ms" }}>
@@ -139,6 +99,9 @@ export default function HomePage() {
       </section>
 
 
+
+      {/* ── PROPERTY SHOWCASE ── */}
+      <PropertyShowcase />
 
       {/* ── SEARCH ── */}
       <section className="bg-white py-16 md:py-20">
@@ -207,67 +170,34 @@ export default function HomePage() {
       {/* ── CINEMATIC TYPOGRAPHY BRIDGE ── */}
       <AnimatedHomeText />
 
-      {/* ── TWO PATHWAYS ── */}
-      <section className="bg-white py-20 md:py-24">
-        <div className="max-w-8xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ScrollReveal>
-              <div className="bg-navy rounded-2xl p-12 md:p-14 hover:-translate-y-1 transition-transform duration-300 hover:shadow-navy">
-                <span className="text-5xl block mb-6">🏡</span>
-                <h3 className="font-display text-white text-[1.8rem] md:text-[2rem] mb-4">Looking for a Home?</h3>
-                <p className="text-white/55 text-base leading-relaxed mb-8">Browse residential properties across Chembur and Mumbai. From compact 1 BHKs to sprawling luxury apartments — we have the right home for every family.</p>
-                <Link href="/properties" className="btn-gold text-sm">Browse Properties</Link>
-              </div>
-            </ScrollReveal>
-            <ScrollReveal delay={120}>
-              <div className="bg-gold rounded-2xl p-12 md:p-14 hover:-translate-y-1 transition-transform duration-300 hover:shadow-gold">
-                <span className="text-5xl block mb-6">✈️</span>
-                <h3 className="font-display text-navy text-[1.8rem] md:text-[2rem] mb-4">NRI Investor?</h3>
-                <p className="text-navy/65 text-base leading-relaxed mb-8">Remote buying, property management, and concierge services for overseas clients. We handle everything — from virtual tours to final registration.</p>
-                <Link href="/nri" className="btn-navy text-sm">NRI Concierge Portal</Link>
-              </div>
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
 
-      {/* ── FEATURED LISTINGS ── */}
-      <section className="bg-surface-light py-20 md:py-24">
-        <div className="max-w-8xl mx-auto px-6 md:px-8">
-          <ScrollReveal>
-            <div className="flex items-end justify-between mb-12 gap-4 flex-wrap">
-              <div>
-                <p className="section-label">Featured Listings</p>
-                <h2 className="font-display text-navy text-[clamp(1.8rem,3vw,2.8rem)]">Premium Collections</h2>
-              </div>
-              <Link href="/properties" className="text-navy text-sm font-semibold hover:text-navy-light flex items-center gap-2 transition-all">View All Properties →</Link>
-            </div>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProperties.map((prop, i) => (
-              <ScrollReveal key={prop.code} delay={i * 100}><PropertyCard {...prop} /></ScrollReveal>
-            ))}
-          </div>
-          <ScrollReveal className="mt-12 text-center">
-            <Link href="/properties" className="btn-outline-navy">View All Properties</Link>
-          </ScrollReveal>
-        </div>
-      </section>
 
-      {/* ── METRO URGENCY ── */}
-      <section className="bg-gold py-16 md:py-20">
-        <div className="max-w-8xl mx-auto px-6 md:px-8">
-          <div className="flex flex-col md:flex-row items-center md:items-start gap-8 md:gap-16">
-            <div className="text-6xl md:text-7xl flex-shrink-0">🚇</div>
-            <div>
-              <p className="font-body text-[0.72rem] font-bold tracking-[0.18em] uppercase text-navy/40 mb-3">Market Alert — May / June 2026</p>
-              <h2 className="font-display text-navy text-[1.6rem] md:text-[2.2rem] mb-4">Chembur Metro Station — Launching May/June 2026</h2>
-              <p className="text-navy/65 text-base leading-relaxed max-w-2xl mb-7">The Metro Line 2B Chembur station is weeks away from launch. MMRDA has confirmed the timeline. Properties in the catchment area are expected to see a 15–25% value surge within 12 months of launch. This is your window to invest before prices rise.</p>
-              <Link href="/insights" className="btn-navy text-sm">Read Our Market Analysis →</Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <DynamicPropertySection
+        endpoint="featured"
+        label="Featured Listings"
+        title="Premium Collections"
+        viewAllLink="/properties"
+      />
+
+      <DynamicPropertySection
+        endpoint="win-gold"
+        label="Exclusive Offers"
+        title="🥇 Win Gold Projects"
+        subtitle="Buy a property and win gold — exclusive developer offers in Chembur"
+        viewAllLink="/win-gold"
+        defaultBadge="win-gold"
+      />
+
+      <DynamicPropertySection
+        endpoint="premium"
+        label="Hand-picked"
+        title="💎 Premium Collection"
+        subtitle="Hand-picked luxury properties in Chembur"
+        viewAllLink="/premium"
+        defaultBadge="premium"
+      />
+
+
 
       {/* ── WHY CHEMBUR ── */}
       <section className="bg-navy py-20 md:py-24">
@@ -374,8 +304,11 @@ export default function HomePage() {
               <h2 className="font-display text-white text-[2rem] md:text-[2.5rem] mb-4 leading-tight">Ready to Find Your Property?</h2>
               <p className="text-white/70 text-base max-w-md mx-auto md:mx-0 mb-8 leading-relaxed">Speak with Jeetu Chhaabria, Chembur&apos;s most trusted real estate expert today. No pressure — just honest guidance.</p>
               <div className="flex gap-4 justify-center md:justify-start flex-wrap">
-                <a href="https://wa.me/919820182285" target="_blank" rel="noopener noreferrer" className="btn-gold text-sm shadow-xl">
-                  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-navy"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                <a href="https://wa.me/919820182285" target="_blank" rel="noopener noreferrer" className="btn-gold text-sm shadow-xl flex items-center gap-2">
+                  <svg viewBox="0 0 24 24" className="w-5 h-5 text-navy" fill="none" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5">
+                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2S2 6.477 2 12c0 1.379.28 2.693.784 3.888c.279.66.418.99.436 1.24c.017.25-.057.524-.204 1.073L2 22l3.799-1.016c.549-.147.823-.22 1.073-.204c.25.018.58.157 1.24.436A10 10 0 0 0 12 22Z" />
+                    <path strokeLinecap="round" d="M12.882 12C14.052 12 15 13.007 15 14.25s-.948 2.25-2.118 2.25h-2.47c-.666 0-.998 0-1.205-.203S9 15.768 9 15.115V12m3.882 0C14.052 12 15 10.993 15 9.75s-.948-2.25-2.118-2.25h-2.47c-.666 0-.998 0-1.205.203S9 8.232 9 8.885V12m3.882 0H9" />
+                  </svg>
                   WhatsApp Us Now
                 </a>
                 <a href="tel:+919820182285" className="btn-outline-white text-sm">📞 Call 98201 82285</a>

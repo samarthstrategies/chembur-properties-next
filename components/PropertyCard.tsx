@@ -60,7 +60,7 @@ export default function PropertyCard({
       data-location={dataLocation}
     >
       {/* Image placeholder with gradient or real image */}
-      <div className="relative h-56 overflow-hidden">
+      <Link href={`/properties/${code}`} className="relative h-56 overflow-hidden block">
         {imageUrl ? (
           <img
             src={imageUrl}
@@ -90,7 +90,7 @@ export default function PropertyCard({
             {priceNote}
           </span>
         )}
-      </div>
+      </Link>
 
       {/* Body */}
       <div className="p-5">
@@ -133,7 +133,7 @@ export default function PropertyCard({
             Inquire on WhatsApp
           </a>
           <Link
-            href="/contact"
+            href={`/properties/${code}`}
             className="px-3 py-2.5 border border-navy-200 rounded-md text-[0.75rem] text-slate-navy hover:border-navy hover:text-navy transition-all"
           >
             Details

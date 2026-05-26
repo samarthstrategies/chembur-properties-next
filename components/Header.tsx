@@ -18,6 +18,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  const isHomePage = pathname === "/";
+  const useLightText = isHomePage || scrolled;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -68,9 +70,9 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 className={`font-body text-[0.85rem] font-medium px-3 py-2 rounded tracking-wide transition-colors duration-200 relative ${
-                  pathname === link.href
-                    ? "text-white"
-                    : "text-white/70 hover:text-white"
+                  useLightText
+                    ? pathname === link.href ? "text-white" : "text-white/70 hover:text-white"
+                    : pathname === link.href ? "text-navy font-bold" : "text-slate-navy hover:text-navy"
                 }`}
               >
                 {link.label}
@@ -101,21 +103,21 @@ export default function Header() {
               className={`block w-5 h-0.5 rounded transition-all duration-300 origin-center ${
                 menuOpen
                   ? "translate-y-2 rotate-45 bg-white"
-                  : "bg-white"
+                  : useLightText ? "bg-white" : "bg-navy"
               }`}
             />
             <span
               className={`block w-5 h-0.5 rounded transition-all duration-300 ${
                 menuOpen
                   ? "opacity-0 scale-x-0 bg-white"
-                  : "bg-white"
+                  : useLightText ? "bg-white" : "bg-navy"
               }`}
             />
             <span
               className={`block w-5 h-0.5 rounded transition-all duration-300 origin-center ${
                 menuOpen
                   ? "-translate-y-2 -rotate-45 bg-white"
-                  : "bg-white"
+                  : useLightText ? "bg-white" : "bg-navy"
               }`}
             />
           </button>
