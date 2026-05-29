@@ -34,11 +34,10 @@ function ShowcaseCard({ listing }: { listing: Listing }) {
         />
         {/* Overlay badges */}
         <div className="absolute top-3 left-3 flex gap-2 flex-wrap">
-          <span className={`text-[0.65rem] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide ${
-            listing.transaction === "buy"
+          <span className={`text-[0.65rem] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide ${listing.transaction === "buy"
               ? "bg-navy text-white"
               : "bg-[#0B1B3D]/80 text-white backdrop-blur-sm"
-          }`}>
+            }`}>
             {listing.transaction === "buy" ? "For Buy" : "For Lease"}
           </span>
           {listing.isWinGold && (
@@ -61,7 +60,7 @@ function ShowcaseCard({ listing }: { listing: Listing }) {
         </h3>
         <p className="text-[0.75rem] text-slate-500 flex items-center gap-1 mb-3">
           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-slate-400 flex-shrink-0" aria-hidden="true">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
           </svg>
           {listing.location}
         </p>
@@ -114,13 +113,13 @@ function ListingColumn({
         } else {
           url += `&type=${transaction === "buy" ? "Buy,For Sale" : "Lease,For Rent,For Lease,Shop on Rent"}`;
         }
-        
+
         const res = await fetch(url);
         if (!res.ok) throw new Error("Failed to fetch");
         const data = await res.json();
-        
+
         const items = Array.isArray(data.data?.properties) ? data.data.properties : Array.isArray(data.data) ? data.data : Array.isArray(data.properties) ? data.properties : Array.isArray(data) ? data : [];
-        
+
         const mappedListings: Listing[] = items.map((item: any) => {
           const isLease = item.propertyStatus?.some((s: string) => ['Lease', 'For Rent', 'For Lease', 'Shop on Rent'].includes(s));
           const currentTx = isLease ? 'lease' : 'buy';
@@ -128,7 +127,7 @@ function ListingColumn({
           const fallbackPrice = item.pricing?.expectedPrice || 0;
           const finalPrice = priceVal || fallbackPrice;
           const formattedPrice = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(finalPrice);
-          
+
           return {
             id: item._id || item.slug || Math.random().toString(),
             slug: item.slug,
@@ -142,7 +141,7 @@ function ListingColumn({
             beds: item.specs?.bedrooms ? `${item.specs.bedrooms} BHK` : "",
           };
         });
-        
+
         setListings(mappedListings);
       } catch (err) {
         console.error(err);
@@ -172,11 +171,10 @@ function ListingColumn({
           <button
             key={t}
             onClick={() => handleTransactionChange(t)}
-            className={`px-5 py-2 rounded-lg text-[0.8rem] font-semibold transition-all duration-200 capitalize ${
-              transaction === t
+            className={`px-5 py-2 rounded-lg text-[0.8rem] font-semibold transition-all duration-200 capitalize ${transaction === t
                 ? "bg-white text-[#0B1B3D] shadow-md"
                 : "text-white/70 hover:text-white"
-            }`}
+              }`}
           >
             {t === "buy" ? "Buy" : "Lease"}
           </button>
@@ -187,22 +185,20 @@ function ListingColumn({
       <div className="flex gap-3 mb-5">
         <button
           onClick={() => setSubCat("projects")}
-          className={`flex items-center gap-1.5 text-[0.78rem] font-semibold pb-1.5 border-b-2 transition-all duration-200 ${
-            subCat === "projects"
+          className={`flex items-center gap-1.5 text-[0.78rem] font-semibold pb-1.5 border-b-2 transition-all duration-200 ${subCat === "projects"
               ? "border-white text-white"
               : "border-transparent text-white/40 hover:text-white/70"
-          }`}
+            }`}
         >
           Projects
         </button>
         {transaction === "buy" && (
           <button
             onClick={() => setSubCat("wingold")}
-            className={`flex items-center gap-1.5 text-[0.78rem] font-semibold pb-1.5 border-b-2 transition-all duration-200 ${
-              subCat === "wingold"
+            className={`flex items-center gap-1.5 text-[0.78rem] font-semibold pb-1.5 border-b-2 transition-all duration-200 ${subCat === "wingold"
                 ? "border-[#C9A84C] text-[#C9A84C]"
                 : "border-transparent text-white/40 hover:text-[#C9A84C]"
-            }`}
+              }`}
           >
             <span className="text-[#C9A84C]">★</span>
             <span className={subCat === "wingold" ? "text-[#C9A84C]" : ""}>Win Gold Projects</span>
@@ -214,7 +210,7 @@ function ListingColumn({
       {loading ? (
         <div className="flex gap-4 overflow-x-auto pb-4 -mx-1 px-1 scrollbar-hide">
           {[1, 2, 3].map((i) => (
-             <div key={i} className="flex-shrink-0 w-[280px] md:w-[300px] h-[320px] bg-white/5 animate-pulse rounded-2xl border border-white/10" />
+            <div key={i} className="flex-shrink-0 w-[280px] md:w-[300px] h-[320px] bg-white/5 animate-pulse rounded-2xl border border-white/10" />
           ))}
         </div>
       ) : listings.length > 0 ? (
@@ -254,13 +250,13 @@ export default function PropertyShowcase() {
 
   const handleTabSwitch = (newCat: "Residential" | "Commercial") => {
     if (newCat === activeCategory) return;
-    
+
     setActiveCategory(newCat);
-    
+
     // Fade out
     setOpacity(0);
     setTransform("translateY(12px)");
-    
+
     // Switch content half-way through the 300ms transition
     setTimeout(() => {
       setDisplayCategory(newCat);
@@ -284,7 +280,7 @@ export default function PropertyShowcase() {
           <div>
             <p className="section-label text-gold">Property Listings</p>
             <h2 className="font-display text-white text-[clamp(1.8rem,3vw,2.8rem)]">
-              Find Your Perfect Property
+              Find Your Property
             </h2>
           </div>
           <Link
@@ -299,11 +295,10 @@ export default function PropertyShowcase() {
         <div className="flex justify-center gap-4 mb-10">
           <button
             onClick={() => handleTabSwitch("Residential")}
-            className={`rounded-[50px] px-8 py-3 text-sm tracking-wide uppercase transition-all duration-200 cursor-pointer ${
-              activeCategory === "Residential"
+            className={`rounded-[50px] px-8 py-3 text-sm tracking-wide uppercase transition-all duration-200 cursor-pointer ${activeCategory === "Residential"
                 ? "bg-[#D4A017] text-[#0F172A] border-none font-bold"
                 : "bg-white/15 text-white border border-white/40 font-normal hover:bg-white/25 hover:border-white/60"
-            }`}
+              }`}
             style={{
               fontFamily: "inherit",
             }}
@@ -312,11 +307,10 @@ export default function PropertyShowcase() {
           </button>
           <button
             onClick={() => handleTabSwitch("Commercial")}
-            className={`rounded-[50px] px-8 py-3 text-sm tracking-wide uppercase transition-all duration-200 cursor-pointer ${
-              activeCategory === "Commercial"
+            className={`rounded-[50px] px-8 py-3 text-sm tracking-wide uppercase transition-all duration-200 cursor-pointer ${activeCategory === "Commercial"
                 ? "bg-[#D4A017] text-[#0F172A] border-none font-bold"
                 : "bg-white/15 text-white border border-white/40 font-normal hover:bg-white/25 hover:border-white/60"
-            }`}
+              }`}
             style={{
               fontFamily: "inherit",
             }}
@@ -326,7 +320,7 @@ export default function PropertyShowcase() {
         </div>
 
         {/* STEP 2, 3, 4: Content Container with Glassmorphism and Fade Transition */}
-        <div 
+        <div
           className="backdrop-blur-[10px] bg-white/[0.05] border border-white/10 rounded-2xl p-6 md:p-10 shadow-2xl"
           style={{
             opacity: opacity,

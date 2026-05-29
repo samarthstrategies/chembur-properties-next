@@ -52,20 +52,20 @@ export default function HomeSearchBar() {
   const executeSearch = async (quickParams?: URLSearchParams) => {
     setLoading(true);
     setSearched(true);
-    
+
     let params = new URLSearchParams();
-    
+
     if (quickParams) {
       params = quickParams;
     } else {
       if (type === "Residential") params.append("category", "Residential");
       if (type === "Commercial") params.append("category", "Commercial");
-      
+
       if (transaction !== "Buy / Lease") {
         if (transaction === "Buy") params.append("type", "Buy,For Sale");
         if (transaction === "Lease") params.append("type", "Lease,For Rent,For Lease,Shop on Rent");
       }
-      
+
       if (budget !== "Any Budget") {
         if (budget === "50L - 1Cr") { params.append("minPrice", "5000000"); params.append("maxPrice", "10000000"); }
         if (budget === "1Cr - 1.5Cr") { params.append("minPrice", "10000000"); params.append("maxPrice", "15000000"); }
@@ -74,7 +74,7 @@ export default function HomeSearchBar() {
         if (budget === "3Cr - 5Cr") { params.append("minPrice", "30000000"); params.append("maxPrice", "50000000"); }
         if (budget === "5Cr+") params.append("minPrice", "50000000");
       }
-      
+
       if (location !== "All Areas of Chembur") params.append("location", location);
     }
 
@@ -84,9 +84,9 @@ export default function HomeSearchBar() {
       const response = await fetch(`/api/properties?${params.toString()}&limit=6`);
       if (!response.ok) throw new Error("Search failed");
       const data = await response.json();
-      
+
       const items = Array.isArray(data.data?.properties) ? data.data.properties : Array.isArray(data.properties) ? data.properties : Array.isArray(data.data) ? data.data : [];
-      
+
       setResults(items);
       setTotalResults(data.data?.total || data.totalDocs || items.length);
     } catch (err) {
@@ -109,7 +109,7 @@ export default function HomeSearchBar() {
     setTransaction("Buy / Lease");
     setBudget("Any Budget");
     setLocation("All Areas of Chembur");
-    
+
     const params = new URLSearchParams();
     params.append(key, value);
     executeSearch(params);
@@ -158,10 +158,10 @@ export default function HomeSearchBar() {
   return (
     <section className="bg-white pt-16 md:pt-20 pb-16">
       <div className="max-w-8xl mx-auto px-6 md:px-8">
-        <h2 className="font-display text-navy text-center text-[2rem] md:text-[2.4rem] mb-10">Find Your Ideal Property</h2>
+        <h2 className="font-display text-navy text-center text-[2rem] md:text-[2.4rem] mb-10">Find Your Property</h2>
         <div className="bg-surface-light rounded-2xl p-6 md:p-9 shadow-soft">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-            
+
             {/* Type */}
             <div className="flex flex-col gap-1.5">
               <label className="text-[0.68rem] font-bold tracking-widest uppercase text-slate-navy">Property Type</label>
@@ -240,7 +240,7 @@ export default function HomeSearchBar() {
               </button>
             </div>
           </div>
-          
+
           {searched && (
             <div className="flex justify-end mt-4">
               <button onClick={handleClear} className="text-sm font-semibold text-slate-navy hover:text-[#EF4444] transition-colors">
@@ -282,7 +282,7 @@ export default function HomeSearchBar() {
 
                   let badge = transactionType === 'buy' ? "For Sale" : "For Lease";
                   let badgeVariant: any = "default";
-                  
+
                   if (prop.badges?.isWinGold) {
                     badge = "★ Win Gold";
                     badgeVariant = "premium";
@@ -314,7 +314,7 @@ export default function HomeSearchBar() {
                   );
                 })}
               </div>
-              
+
               {totalResults > 6 && (
                 <div className="text-center mt-12 animate-fade-up">
                   <Link href={`/properties?${lastSearchParams}`} className="btn-navy py-3 px-8 text-sm">

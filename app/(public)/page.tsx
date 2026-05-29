@@ -9,15 +9,6 @@ import PropertyShowcase from "@/components/PropertyShowcase";
 import DynamicPropertySection from "@/components/DynamicPropertySection";
 import HomeSearchBar from "@/components/HomeSearchBar";
 
-const services = [
-  { img: "/images/home_services/buy.png", title: "Buy & Sell Properties", desc: "Expert guidance for residential and commercial transactions. From search to registration.", href: "/services#buy-sell" },
-  { img: "/images/home_services/rent.png", title: "Rent & Lease", desc: "Leave and License agreements, group bookings, and tenant matching for all budgets.", href: "/services#rent-lease" },
-  { img: "/images/home_services/mgmt.png", title: "Property Management", desc: "Full lifecycle management — tenant coordination, repairs, and NRI absentee landlord services.", href: "/services#management" },
-  { img: "/images/home_services/redev.png", title: "Redevelopment Advisory", desc: "Society consensus building, builder due diligence, and legal structuring for redevelopment.", href: "/services#redevelopment" },
-  { img: "/images/home_services/legal.png", title: "Legal & Registration", desc: "Stamp duty guidance, title clearance, registration — simplified step by step.", href: "/services#legal" },
-  { img: "/images/home_services/nri.png", title: "NRI Concierge Services", desc: "Remote buying, PoA framework, NRE/NRO accounts, and TDS compliance for overseas clients.", href: "/nri" },
-];
-
 export default function HomePage() {
   return (
     <>
@@ -196,49 +187,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── SERVICES (STICKY STACK) ── */}
-      <section className="bg-navy py-24 md:py-32 relative">
-        <div className="max-w-5xl mx-auto px-6 md:px-8">
-          <ScrollReveal className="text-center mb-16">
-            <p className="section-label text-gold justify-center">What We Do</p>
-            <h2 className="font-display text-white text-[clamp(2rem,4vw,3.2rem)]">Our Services</h2>
-          </ScrollReveal>
 
-          <div className="flex flex-col gap-0 pb-32">
-            {services.map((svc, i) => {
-              const topOffset = `calc(15vh + ${i * 35}px)`;
-              return (
-                <div
-                  key={svc.title}
-                  className="sticky w-full"
-                  style={{ top: topOffset }}
-                >
-                  <div className="bg-surface-light border border-white/20 rounded-[2rem] p-5 md:p-8 shadow-[0_-10px_30px_rgba(11,27,61,0.5)] transition-all duration-500 hover:shadow-[0_-15px_40px_rgba(11,27,61,0.6)] flex flex-col md:flex-row items-center gap-6 md:gap-12 mb-8 overflow-hidden group">
-
-                    {/* Left: Image */}
-                    <div className="w-full md:w-[35%] h-[220px] md:h-[260px] rounded-2xl overflow-hidden relative flex-shrink-0">
-                      <img
-                        src={svc.img}
-                        alt={svc.title}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-navy/40 to-transparent pointer-events-none" />
-                    </div>
-
-                    {/* Middle: Content */}
-                    <div className="flex-1 text-center md:text-left py-2">
-                      <h3 className="font-display text-navy text-2xl md:text-[2.1rem] mb-4">{svc.title}</h3>
-                      <p className="text-slate-navy text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0">{svc.desc}</p>
-                    </div>
-
-                    {/* Right: Button Removed */}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
 
       {/* ── TESTIMONIALS ── */}
       <section className="bg-navy py-20 md:py-24">

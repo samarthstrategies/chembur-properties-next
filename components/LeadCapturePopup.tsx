@@ -208,7 +208,7 @@ function ResidentialBuyFields({ register, errors, watch, setValue }: FormProps) 
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextField label="Full Name" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
-        <TextField label="Cell Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
+        <TextField label="Mobile Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
       </div>
       <TextField label="Email ID" type="email" placeholder="Optional" error={errors.email?.message} {...register("email", { pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter valid email" } })} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -233,7 +233,7 @@ function CommercialBuyFields({ register, errors }: FormProps) {
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextField label="Full Name" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
-        <TextField label="Cell Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
+        <TextField label="Mobile Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
       </div>
       <TextField label="Company Name" required error={errors.companyName?.message} {...register("companyName", { required: "This field is required" })} />
       <TextField label="Business Profile" placeholder="Type of business" {...register("businessProfile")} />
@@ -255,7 +255,7 @@ function SellFields({ register, errors, watch, setValue }: FormProps) {
       <SectionHeading>Owner Details</SectionHeading>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextField label="Name of Flat Owner" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
-        <TextField label="Cell Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
+        <TextField label="Mobile Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
       </div>
       <TextField label="Email" type="email" placeholder="Optional" error={errors.email?.message} {...register("email", { pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter valid email" } })} />
 
@@ -322,7 +322,7 @@ function ResidentialLeaseFields({ register, errors, watch, setValue }: FormProps
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextField label="Full Name" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
-        <TextField label="Cell Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
+        <TextField label="Mobile Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
       </div>
       <TextField label="Work Profile" placeholder="e.g. IT Professional, Business Owner" {...register("workProfile")} />
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -346,7 +346,7 @@ function CommercialLeaseFields({ register, errors }: FormProps) {
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextField label="Full Name" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
-        <TextField label="Cell Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
+        <TextField label="Mobile Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
       </div>
       <TextField label="Company Name" required error={errors.companyName?.message} {...register("companyName", { required: "This field is required" })} />
       <TextField label="Business Profile" placeholder="Type of business" {...register("businessProfile")} />
