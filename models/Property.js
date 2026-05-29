@@ -11,6 +11,7 @@ const PropertySchema = new mongoose.Schema(
   {
     propertyId: { type: String, unique: true },
     title: { type: String, required: true },
+    codename: { type: String },
     slug: { type: String, unique: true },
     excerpt: String,
     description: String,

@@ -139,6 +139,46 @@ export default function LeadDrawer({ lead, isOpen, onClose, onStatusChange }) {
 
             <div style={{ borderTop: '1px solid #F1F5F9', paddingTop: '16px' }} />
 
+            {/* Form Details */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide mb-3" style={{ color: '#64748B' }}>
+                Form Details
+              </p>
+              {lead.formData && Object.keys(lead.formData).length > 0 ? (
+                <div className="rounded-lg overflow-hidden border" style={{ borderColor: '#E2E8F0' }}>
+                  {Object.entries(lead.formData).map(([key, value], idx) => (
+                    <div
+                      key={key}
+                      className="flex items-start gap-3 px-3 py-2.5"
+                      style={{
+                        backgroundColor: idx % 2 === 0 ? '#F8FAFC' : '#FFFFFF',
+                        borderBottom: idx < Object.keys(lead.formData).length - 1 ? '1px solid #F1F5F9' : 'none',
+                      }}
+                    >
+                      <span
+                        className="text-xs font-medium min-w-[120px] flex-shrink-0 capitalize"
+                        style={{ color: '#64748B' }}
+                      >
+                        {String(key).replace(/_/g, ' ')}
+                      </span>
+                      <span
+                        className="text-xs break-words"
+                        style={{ color: '#0F172A' }}
+                      >
+                        {Array.isArray(value) ? value.join(', ') : String(value || '—')}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs italic" style={{ color: '#94A3B8' }}>
+                  No additional details provided
+                </p>
+              )}
+            </div>
+
+            <div style={{ borderTop: '1px solid #F1F5F9', paddingTop: '16px' }} />
+
             {/* Status Change */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide mb-2" style={{ color: '#64748B' }}>

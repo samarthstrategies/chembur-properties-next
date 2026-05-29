@@ -97,6 +97,13 @@ function ListingColumn({
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const handleTransactionChange = (t: Transaction) => {
+    setTransaction(t);
+    if (t === "lease" && subCat === "wingold") {
+      setSubCat("projects");
+    }
+  };
+
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
@@ -154,21 +161,21 @@ function ListingColumn({
         <span className={`text-[0.68rem] font-bold tracking-[0.2em] uppercase ${accentColor} mb-1 block`}>
           {title === "Residential" ? "Homes & Flats" : "Offices & Shops"}
         </span>
-        <h3 className="font-display text-navy text-[1.4rem] md:text-[1.7rem]">
+        <h3 className="font-display text-white text-[1.4rem] md:text-[1.7rem]">
           {title}
         </h3>
       </div>
 
       {/* Transaction Filter (sticky within column) */}
-      <div className="flex gap-1 p-1 bg-navy/5 rounded-xl w-fit mb-4">
+      <div className="flex gap-1 p-1 bg-white/10 rounded-xl w-fit mb-4">
         {(["buy", "lease"] as Transaction[]).map((t) => (
           <button
             key={t}
-            onClick={() => setTransaction(t)}
+            onClick={() => handleTransactionChange(t)}
             className={`px-5 py-2 rounded-lg text-[0.8rem] font-semibold transition-all duration-200 capitalize ${
               transaction === t
-                ? "bg-navy text-white shadow-md"
-                : "text-slate-600 hover:text-navy"
+                ? "bg-white text-[#0B1B3D] shadow-md"
+                : "text-white/70 hover:text-white"
             }`}
           >
             {t === "buy" ? "Buy" : "Lease"}
@@ -182,30 +189,32 @@ function ListingColumn({
           onClick={() => setSubCat("projects")}
           className={`flex items-center gap-1.5 text-[0.78rem] font-semibold pb-1.5 border-b-2 transition-all duration-200 ${
             subCat === "projects"
-              ? "border-navy text-navy"
-              : "border-transparent text-slate-400 hover:text-slate-600"
+              ? "border-white text-white"
+              : "border-transparent text-white/40 hover:text-white/70"
           }`}
         >
           Projects
         </button>
-        <button
-          onClick={() => setSubCat("wingold")}
-          className={`flex items-center gap-1.5 text-[0.78rem] font-semibold pb-1.5 border-b-2 transition-all duration-200 ${
-            subCat === "wingold"
-              ? "border-[#C9A84C] text-[#C9A84C]"
-              : "border-transparent text-slate-400 hover:text-[#C9A84C]"
-          }`}
-        >
-          <span className="text-[#C9A84C]">★</span>
-          <span className={subCat === "wingold" ? "text-[#C9A84C]" : ""}>Win Gold Projects</span>
-        </button>
+        {transaction === "buy" && (
+          <button
+            onClick={() => setSubCat("wingold")}
+            className={`flex items-center gap-1.5 text-[0.78rem] font-semibold pb-1.5 border-b-2 transition-all duration-200 ${
+              subCat === "wingold"
+                ? "border-[#C9A84C] text-[#C9A84C]"
+                : "border-transparent text-white/40 hover:text-[#C9A84C]"
+            }`}
+          >
+            <span className="text-[#C9A84C]">★</span>
+            <span className={subCat === "wingold" ? "text-[#C9A84C]" : ""}>Win Gold Projects</span>
+          </button>
+        )}
       </div>
 
       {/* Horizontally Scrollable Cards */}
       {loading ? (
         <div className="flex gap-4 overflow-x-auto pb-4 -mx-1 px-1 scrollbar-hide">
           {[1, 2, 3].map((i) => (
-             <div key={i} className="flex-shrink-0 w-[280px] md:w-[300px] h-[320px] bg-navy/5 animate-pulse rounded-2xl border border-navy/10" />
+             <div key={i} className="flex-shrink-0 w-[280px] md:w-[300px] h-[320px] bg-white/5 animate-pulse rounded-2xl border border-white/10" />
           ))}
         </div>
       ) : listings.length > 0 ? (
@@ -215,10 +224,10 @@ function ListingColumn({
           ))}
         </div>
       ) : (
-        <div className="flex items-center justify-center h-[220px] bg-navy/3 rounded-2xl border-2 border-dashed border-navy/10">
+        <div className="flex items-center justify-center h-[220px] bg-white/5 rounded-2xl border-2 border-dashed border-white/10">
           <div className="text-center">
             <p className="text-3xl mb-2">🏗️</p>
-            <p className="text-sm text-slate-400 font-medium">No listings in this category yet</p>
+            <p className="text-sm text-white/50 font-medium">No listings in this category yet</p>
           </div>
         </div>
       )}
@@ -227,7 +236,7 @@ function ListingColumn({
       <div className="mt-5">
         <Link
           href="/properties"
-          className="text-[0.8rem] text-navy font-semibold hover:underline flex items-center gap-1.5 transition-all"
+          className="text-[0.8rem] text-white/80 font-semibold hover:text-gold flex items-center gap-1.5 transition-all"
         >
           View all {title.toLowerCase()} properties →
         </Link>
@@ -238,39 +247,106 @@ function ListingColumn({
 
 // ── Main Export ─────────────────────────────────────────────────────────────────
 export default function PropertyShowcase() {
+  const [activeCategory, setActiveCategory] = useState<"Residential" | "Commercial">("Residential");
+  const [displayCategory, setDisplayCategory] = useState<"Residential" | "Commercial">("Residential");
+  const [opacity, setOpacity] = useState(1);
+  const [transform, setTransform] = useState("translateY(0)");
+
+  const handleTabSwitch = (newCat: "Residential" | "Commercial") => {
+    if (newCat === activeCategory) return;
+    
+    setActiveCategory(newCat);
+    
+    // Fade out
+    setOpacity(0);
+    setTransform("translateY(12px)");
+    
+    // Switch content half-way through the 300ms transition
+    setTimeout(() => {
+      setDisplayCategory(newCat);
+      // Fade in
+      setOpacity(1);
+      setTransform("translateY(0)");
+    }, 150);
+  };
+
   return (
-    <section className="bg-white py-16 md:py-24">
-      <div className="max-w-8xl mx-auto px-6 md:px-8">
+    <section className="bg-gradient-to-b from-[#0B1B3D] to-[#08132B] py-16 md:py-24 relative overflow-hidden">
+      {/* Decorative background glow elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-navy-light/10 blur-[80px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] rounded-full bg-gold/5 blur-[80px]" />
+      </div>
+
+      <div className="max-w-8xl mx-auto px-6 md:px-8 relative z-10">
         {/* Section Header */}
         <div className="flex items-end justify-between mb-10 md:mb-14 gap-4 flex-wrap">
           <div>
-            <p className="section-label">Property Listings</p>
-            <h2 className="font-display text-navy text-[clamp(1.8rem,3vw,2.8rem)]">
+            <p className="section-label text-gold">Property Listings</p>
+            <h2 className="font-display text-white text-[clamp(1.8rem,3vw,2.8rem)]">
               Find Your Perfect Property
             </h2>
           </div>
           <Link
             href="/properties"
-            className="text-navy text-sm font-semibold hover:text-navy-light flex items-center gap-2 transition-all"
+            className="text-white hover:text-gold text-sm font-semibold flex items-center gap-2 transition-all"
           >
             View All Properties →
           </Link>
         </div>
 
-        {/* Two-Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-          <div className="lg:border-r lg:border-navy/10 lg:pr-14">
+        {/* STEP 1: Centered Toggle Pill Buttons */}
+        <div className="flex justify-center gap-4 mb-10">
+          <button
+            onClick={() => handleTabSwitch("Residential")}
+            className={`rounded-[50px] px-8 py-3 text-sm tracking-wide uppercase transition-all duration-200 cursor-pointer ${
+              activeCategory === "Residential"
+                ? "bg-[#D4A017] text-[#0F172A] border-none font-bold"
+                : "bg-white/15 text-white border border-white/40 font-normal hover:bg-white/25 hover:border-white/60"
+            }`}
+            style={{
+              fontFamily: "inherit",
+            }}
+          >
+            Residential
+          </button>
+          <button
+            onClick={() => handleTabSwitch("Commercial")}
+            className={`rounded-[50px] px-8 py-3 text-sm tracking-wide uppercase transition-all duration-200 cursor-pointer ${
+              activeCategory === "Commercial"
+                ? "bg-[#D4A017] text-[#0F172A] border-none font-bold"
+                : "bg-white/15 text-white border border-white/40 font-normal hover:bg-white/25 hover:border-white/60"
+            }`}
+            style={{
+              fontFamily: "inherit",
+            }}
+          >
+            Commercial
+          </button>
+        </div>
+
+        {/* STEP 2, 3, 4: Content Container with Glassmorphism and Fade Transition */}
+        <div 
+          className="backdrop-blur-[10px] bg-white/[0.05] border border-white/10 rounded-2xl p-6 md:p-10 shadow-2xl"
+          style={{
+            opacity: opacity,
+            transform: transform,
+            transition: "opacity 150ms ease-in-out, transform 150ms ease-in-out",
+          }}
+        >
+          {displayCategory === "Residential" ? (
             <ListingColumn
               title="Residential"
               category="Residential"
-              accentColor="text-navy"
+              accentColor="text-white/60"
             />
-          </div>
-          <ListingColumn
-            title="Commercial"
-            category="Commercial"
-            accentColor="text-gold"
-          />
+          ) : (
+            <ListingColumn
+              title="Commercial"
+              category="Commercial"
+              accentColor="text-gold"
+            />
+          )}
         </div>
       </div>
     </section>

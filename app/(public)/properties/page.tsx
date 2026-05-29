@@ -1,15 +1,68 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import PropertyCard from "@/components/PropertyCard";
 
-export default function PropertiesPage() {
+function PropertiesPageContent() {
+  const searchParams = useSearchParams();
   const [search, setSearch] = useState("");
-  const [filterType, setFilterType] = useState("");
-  const [filterTransaction, setFilterTransaction] = useState("");
-  const [filterBudget, setFilterBudget] = useState("");
-  const [filterLocation, setFilterLocation] = useState("");
-  const [filterBhk, setFilterBhk] = useState("");
+
+  const [locations, setLocations] = useState<string[]>([]);
+  const [loadingLocations, setLoadingLocations] = useState(true);
+
+  useEffect(() => {
+    async function fetchLocations() {
+      try {
+        const res = await fetch('/api/admin/locations');
+        if (!res.ok) throw new Error('Failed to fetch locations');
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          const locNames = data.map(d => typeof d === 'string' ? d : (d.name || d.title || ''));
+          setLocations(locNames.filter(Boolean));
+        } else if (data.data && Array.isArray(data.data)) {
+          const locNames = data.data.map((d: any) => typeof d === 'string' ? d : (d.name || d.title || ''));
+          setLocations(locNames.filter(Boolean));
+        } else {
+          throw new Error('Invalid format');
+        }
+      } catch (err) {
+        console.error(err);
+        setLocations(["Chembur"]);
+      } finally {
+        setLoadingLocations(false);
+      }
+    }
+    fetchLocations();
+  }, []);
+  
+  const initialCategory = searchParams.get("category") || searchParams.get("type") || "";
+  const initialTransaction = searchParams.get("transaction") || "";
+  const initialBudget = searchParams.get("budget") || "";
+  const initialLocation = searchParams.get("location") || "";
+  const initialBhk = searchParams.get("bedrooms") ? searchParams.get("bedrooms") + "bhk" : "";
+
+  // filterType maps to 'category' on this page
+  let initFilterType = "";
+  if (initialCategory.toLowerCase() === "residential") initFilterType = "Residential";
+  if (initialCategory.toLowerCase() === "commercial") initFilterType = "Commercial";
+
+  const [filterType, setFilterType] = useState(initFilterType);
+  const [filterTransaction, setFilterTransaction] = useState(
+    initialTransaction === "Buy" ? "buy" : 
+    initialTransaction === "Lease" ? "lease" : ""
+  );
+  
+  const initBudget = initialBudget === "50L - 1Cr" ? "50l-1cr" :
+                     initialBudget === "1Cr - 1.5Cr" ? "1cr-1.5cr" :
+                     initialBudget === "1.5Cr - 2Cr" ? "1.5cr-2cr" :
+                     initialBudget === "2Cr - 3Cr" ? "2cr-3cr" :
+                     initialBudget === "3Cr - 5Cr" ? "3cr-5cr" :
+                     initialBudget === "5Cr+" ? "5cr+" : "";
+  const [filterBudget, setFilterBudget] = useState(initBudget);
+  const [filterLocation, setFilterLocation] = useState(initialLocation === "All Areas of Chembur" ? "" : initialLocation);
+  const [filterBhk, setFilterBhk] = useState(initialBhk);
+  
   const [isWinGold, setIsWinGold] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
 
@@ -19,6 +72,49 @@ export default function PropertiesPage() {
 
   const [properties, setProperties] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [showFilters, setShowFilters] = useState(true);
+  const [showFloatingBtn, setShowFloatingBtn] = useState(false);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      
+      if (currentY < 350) {
+        setShowFilters(true);
+        setShowFloatingBtn(false);
+      } else if (currentY > lastY + 10) {
+        // Scrolling down past 350px with a 10px delta
+        if (showFilters) {
+          setTimeout(() => {
+            setShowFilters(false);
+          }, 50);
+        }
+        if (currentY > 400) {
+          setShowFloatingBtn(true);
+        }
+      } else if (lastY - currentY > 10) {
+        // Scrolling up with a 10px delta
+        if (!showFilters) {
+          setTimeout(() => {
+            setShowFilters(true);
+          }, 50);
+        }
+        setShowFloatingBtn(false);
+      }
+      
+      lastY = currentY;
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [showFilters]);
+
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   // Reset page when filters change
   useEffect(() => {
@@ -33,33 +129,38 @@ export default function PropertiesPage() {
         params.append("page", page.toString());
         params.append("limit", "12");
         if (search) params.append("search", search);
-        if (filterType === "residential") params.append("category", "Residential");
-        if (filterType === "commercial") params.append("category", "Commercial");
-        if (filterTransaction === "buy") params.append("type", "Buy,For Sale");
-        if (filterTransaction === "rent") params.append("type", "Lease,For Rent,For Lease,Shop on Rent");
-        if (filterTransaction === "lease") params.append("type", "Lease,For Rent,For Lease,Shop on Rent");
-        if (filterLocation) params.append("location", filterLocation);
         
+        if (filterType === "Residential") params.append("category", "Residential");
+        if (filterType === "Commercial") params.append("category", "Commercial");
+        
+        if (filterTransaction === "buy") params.append("propertyStatus", "For Sale");
+        if (filterTransaction === "lease") params.append("propertyStatus", "For Rent");
+        
+        if (filterLocation) params.append("location", filterLocation);
+
         if (filterBhk === "1bhk") params.append("bedrooms", "1");
         if (filterBhk === "2bhk") params.append("bedrooms", "2");
         if (filterBhk === "3bhk") params.append("bedrooms", "3");
+        if (filterBhk === "3.5bhk") params.append("bedrooms", "3.5");
         if (filterBhk === "4bhk") params.append("bedrooms", "4");
+        if (filterBhk === "4.5bhk") params.append("bedrooms", "4.5");
 
         if (isWinGold) params.append("isWinGold", "true");
         if (isPremium) params.append("isPremium", "true");
-        
+
         if (filterBudget) {
-          if (filterBudget === "under50l") params.append("maxPrice", "5000000");
           if (filterBudget === "50l-1cr") { params.append("minPrice", "5000000"); params.append("maxPrice", "10000000"); }
-          if (filterBudget === "1cr-2cr") { params.append("minPrice", "10000000"); params.append("maxPrice", "20000000"); }
-          if (filterBudget === "2cr-5cr") { params.append("minPrice", "20000000"); params.append("maxPrice", "50000000"); }
-          if (filterBudget === "above5cr") params.append("minPrice", "50000000");
+          if (filterBudget === "1cr-1.5cr") { params.append("minPrice", "10000000"); params.append("maxPrice", "15000000"); }
+          if (filterBudget === "1.5cr-2cr") { params.append("minPrice", "15000000"); params.append("maxPrice", "20000000"); }
+          if (filterBudget === "2cr-3cr") { params.append("minPrice", "20000000"); params.append("maxPrice", "30000000"); }
+          if (filterBudget === "3cr-5cr") { params.append("minPrice", "30000000"); params.append("maxPrice", "50000000"); }
+          if (filterBudget === "5cr+") params.append("minPrice", "50000000");
         }
 
         const res = await fetch(`/api/properties?${params.toString()}`);
         if (!res.ok) throw new Error("Failed");
         const data = await res.json();
-        
+
         const items = Array.isArray(data.data?.properties) ? data.data.properties : Array.isArray(data.properties) ? data.properties : Array.isArray(data) ? data : [];
         setProperties(items);
         setTotalPages(data.totalPages || 1);
@@ -70,7 +171,7 @@ export default function PropertiesPage() {
         setLoading(false);
       }
     }
-    
+
     fetchProps();
   }, [search, filterType, filterTransaction, filterBudget, filterLocation, filterBhk, isWinGold, isPremium, page]);
 
@@ -94,7 +195,7 @@ export default function PropertiesPage() {
 
     let badge = transaction === 'buy' ? "For Sale" : "For Lease";
     let badgeVariant: any = "default";
-    
+
     if (prop.badges?.isWinGold) {
       badge = "★ Win Gold";
       badgeVariant = "premium";
@@ -145,7 +246,12 @@ export default function PropertiesPage() {
       </section>
 
       {/* Filter Bar */}
-      <section className="bg-white py-8 border-b border-navy-100 sticky top-[66px] z-30 shadow-soft">
+      <section 
+        className={`bg-white py-8 border-b border-navy-100 sticky z-30 shadow-soft transition-all duration-300 ease-in-out transform ${
+          showFilters ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0 pointer-events-none"
+        }`}
+        style={{ top: "var(--header-height, 66px)" }}
+      >
         <div className="max-w-8xl mx-auto px-6 md:px-8">
           <div className="flex flex-col gap-4">
             <div className="flex items-center gap-2">
@@ -162,7 +268,7 @@ export default function PropertiesPage() {
                 />
               </div>
             </div>
-            
+
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 items-end">
               {[
                 {
@@ -172,8 +278,8 @@ export default function PropertiesPage() {
                   onChange: setFilterType,
                   options: [
                     { val: "", label: "All Types" },
-                    { val: "residential", label: "Residential" },
-                    { val: "commercial", label: "Commercial" },
+                    { val: "Residential", label: "Residential" },
+                    { val: "Commercial", label: "Commercial" },
                   ],
                 },
                 {
@@ -182,9 +288,8 @@ export default function PropertiesPage() {
                   value: filterTransaction,
                   onChange: setFilterTransaction,
                   options: [
-                    { val: "", label: "Buy / Rent" },
+                    { val: "", label: "Buy / Lease" },
                     { val: "buy", label: "Buy" },
-                    { val: "rent", label: "Rent" },
                     { val: "lease", label: "Lease" },
                   ],
                 },
@@ -195,11 +300,12 @@ export default function PropertiesPage() {
                   onChange: setFilterBudget,
                   options: [
                     { val: "", label: "Any Budget" },
-                    { val: "under50l", label: "Under ₹50 Lakh" },
-                    { val: "50l-1cr", label: "₹50L – ₹1 Cr" },
-                    { val: "1cr-2cr", label: "₹1 Cr – ₹2 Cr" },
-                    { val: "2cr-5cr", label: "₹2 Cr – ₹5 Cr" },
-                    { val: "above5cr", label: "Above ₹5 Cr" },
+                    { val: "50l-1cr", label: "50L - 1Cr" },
+                    { val: "1cr-1.5cr", label: "1Cr - 1.5Cr" },
+                    { val: "1.5cr-2cr", label: "1.5Cr - 2Cr" },
+                    { val: "2cr-3cr", label: "2Cr - 3Cr" },
+                    { val: "3cr-5cr", label: "3Cr - 5Cr" },
+                    { val: "5cr+", label: "5Cr+" },
                   ],
                 },
                 {
@@ -209,10 +315,7 @@ export default function PropertiesPage() {
                   onChange: setFilterLocation,
                   options: [
                     { val: "", label: "All Areas" },
-                    { val: "Chembur", label: "Chembur" },
-                    { val: "Ghatkopar", label: "Ghatkopar" },
-                    { val: "Wadala", label: "Wadala" },
-                    { val: "BKC", label: "BKC" },
+                    ...(loadingLocations ? [{ val: "", label: "Loading..." }] : locations.map(l => ({ val: l, label: l })))
                   ],
                 },
                 {
@@ -225,7 +328,9 @@ export default function PropertiesPage() {
                     { val: "1bhk", label: "1 BHK" },
                     { val: "2bhk", label: "2 BHK" },
                     { val: "3bhk", label: "3 BHK" },
-                    { val: "4bhk", label: "4 BHK+" },
+                    { val: "3.5bhk", label: "3.5 BHK" },
+                    { val: "4bhk", label: "4 BHK" },
+                    { val: "4.5bhk", label: "4.5 BHK" },
                   ],
                 },
               ].map((f) => (
@@ -268,7 +373,7 @@ export default function PropertiesPage() {
               </label>
               <label className="flex items-center gap-2 text-sm text-slate-navy cursor-pointer hover:text-navy font-semibold">
                 <input type="checkbox" checked={isPremium} onChange={(e) => setIsPremium(e.target.checked)} className="rounded border-navy-200 w-4 h-4 text-purple-600 focus:ring-purple-600" />
-                💎 Premium Collection
+                💎 Premium Projects
               </label>
             </div>
           </div>
@@ -361,7 +466,7 @@ export default function PropertiesPage() {
                 Beyond Listings
               </span>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {[
                 { icon: "🏠", title: "Buy & Sell", desc: "Residential and commercial transactions guided by 61 years of expertise." },
@@ -404,6 +509,24 @@ export default function PropertiesPage() {
           </div>
         </div>
       </section>
+
+      {/* Floating Filter Button */}
+      {showFloatingBtn && (
+        <button
+          onClick={handleScrollToTop}
+          className="fixed top-4 right-4 z-50 flex items-center gap-1.5 px-4 py-2 bg-[#D4A017] text-navy font-body text-xs font-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
+        >
+          <span>⚙️</span> Filters
+        </button>
+      )}
     </>
+  );
+}
+
+export default function PropertiesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center font-display text-2xl text-navy">Loading properties...</div>}>
+      <PropertiesPageContent />
+    </Suspense>
   );
 }

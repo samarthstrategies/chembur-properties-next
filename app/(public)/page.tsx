@@ -7,6 +7,7 @@ import CountUp from "@/components/CountUp";
 import AnimatedHomeText from "@/components/AnimatedHomeText";
 import PropertyShowcase from "@/components/PropertyShowcase";
 import DynamicPropertySection from "@/components/DynamicPropertySection";
+import HomeSearchBar from "@/components/HomeSearchBar";
 
 const services = [
   { img: "/images/home_services/buy.png", title: "Buy & Sell Properties", desc: "Expert guidance for residential and commercial transactions. From search to registration.", href: "/services#buy-sell" },
@@ -47,9 +48,13 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h1 className="font-display text-white text-[clamp(1.8rem,3.2vw,3.2rem)] xl:text-[3.5rem] leading-[1.05] mb-4 animate-fade-up lg:whitespace-nowrap" style={{ animationDelay: "80ms" }}>
-                Chembur Ka Estate Agent <span className="text-gold">Jeetu Chhaabria</span>
+              <h1 className="font-display text-white text-[clamp(1.8rem,3.2vw,3.2rem)] xl:text-[5rem] leading-[1.05] mb-4 animate-fade-up lg:whitespace-nowrap" style={{ animationDelay: "80ms" }}>
+                Your Chembur Property <br />
+                <span className="text-gold">Is My Responsibility.</span>
               </h1>
+              <p className="text-gold italic text-xl md:text-2xl mt-2 mb-4 animate-fade-up" style={{ animationDelay: "120ms" }}>
+                — Jeetu Chhaabria
+              </p>
 
               <p className="text-lg text-white/55 max-w-[500px] mt-6 mb-10 leading-[1.8] animate-fade-up" style={{ animationDelay: "160ms" }}>
 
@@ -104,46 +109,7 @@ export default function HomePage() {
       <PropertyShowcase />
 
       {/* ── SEARCH ── */}
-      <section className="bg-white py-16 md:py-20">
-        <div className="max-w-8xl mx-auto px-6 md:px-8">
-          <h2 className="font-display text-navy text-center text-[2rem] md:text-[2.4rem] mb-10">Find Your Ideal Property</h2>
-          <div className="bg-surface-light rounded-2xl p-6 md:p-9 shadow-soft">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-              {[
-                { label: "Property Type", id: "type", options: ["All Types", "Residential", "Commercial", "Industrial"] },
-                { label: "Transaction", id: "transaction", options: ["Buy / Rent / Lease", "Buy", "Rent", "Lease"] },
-                { label: "Budget", id: "budget", options: ["Any Budget", "Under ₹50 Lakh", "₹50L – ₹1 Crore", "₹1 Cr – ₹2 Cr", "₹2 Cr – ₹5 Cr", "Above ₹5 Crore"] },
-                { label: "Location", id: "location", options: ["All Areas of Chembur"] },
-              ].map((field) => (
-                <div key={field.id} className="flex flex-col gap-1.5">
-                  <label className="text-[0.68rem] font-bold tracking-widest uppercase text-slate-navy">{field.label}</label>
-                  <select
-                    id={field.id}
-                    className="lux-select"
-                    style={{
-                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%230B1B3D' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")`,
-                      backgroundRepeat: "no-repeat",
-                      backgroundPosition: "right 14px center",
-                      paddingRight: "38px",
-                    }}
-                  >
-                    {field.options.map((opt) => (<option key={opt}>{opt}</option>))}
-                  </select>
-                </div>
-              ))}
-              <div className="flex items-end">
-                <Link href="/properties" className="w-full btn-navy py-3 text-sm">Search Properties</Link>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-[0.72rem] text-slate-navy font-semibold tracking-wide uppercase">Quick:</span>
-              {["1 BHK", "2 BHK", "3 BHK", "Commercial", "NRI Special"].map((label) => (
-                <Link key={label} href="/properties" className="px-4 py-1.5 rounded-full border-[1.5px] border-navy-200 text-[0.78rem] font-medium text-slate-dark hover:border-navy hover:text-navy bg-white transition-all duration-150">{label}</Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeSearchBar />
 
       {/* ── TRUST BAR ── */}
       <section className="bg-surface-light py-7 border-y border-navy-100">
@@ -175,7 +141,7 @@ export default function HomePage() {
       <DynamicPropertySection
         endpoint="featured"
         label="Featured Listings"
-        title="Premium Collections"
+        title="Premium Projects"
         viewAllLink="/properties"
       />
 
@@ -191,7 +157,7 @@ export default function HomePage() {
       <DynamicPropertySection
         endpoint="premium"
         label="Hand-picked"
-        title="💎 Premium Collection"
+        title="💎 Premium Projects"
         subtitle="Hand-picked luxury properties in Chembur"
         viewAllLink="/premium"
         defaultBadge="premium"
@@ -265,15 +231,7 @@ export default function HomePage() {
                       <p className="text-slate-navy text-sm md:text-base leading-relaxed max-w-lg mx-auto md:mx-0">{svc.desc}</p>
                     </div>
 
-                    {/* Right: Button */}
-                    <div className="flex-shrink-0 pb-4 md:pb-0">
-                      <Link
-                        href={svc.href}
-                        className="bg-gold text-navy font-semibold px-7 py-3.5 rounded-full text-sm flex items-center gap-2 hover:bg-gold-light hover:-translate-y-1 transition-all shadow-md"
-                      >
-                        Explore <span className="text-lg leading-none">→</span>
-                      </Link>
-                    </div>
+                    {/* Right: Button Removed */}
                   </div>
                 </div>
               );
@@ -314,16 +272,16 @@ export default function HomePage() {
                 <a href="tel:+919820182285" className="btn-outline-white text-sm">📞 Call 98201 82285</a>
               </div>
             </div>
-            
+
             <div className="relative w-full md:w-[350px] lg:w-[450px] h-[300px] md:h-[400px] lg:h-[450px] self-end mt-8 md:mt-0 z-10 md:-mr-10">
-              <Image 
-                src="/images/JeetuChhaabria_full.png" 
+              <Image
+                src="/images/JeetuChhaabria_full.png"
                 alt="Jeetu Chhaabria"
                 fill
                 className="object-contain object-bottom drop-shadow-2xl"
               />
             </div>
-            
+
             {/* Background elements */}
             <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-gold/20 rounded-full blur-3xl z-0 pointer-events-none" />
           </div>

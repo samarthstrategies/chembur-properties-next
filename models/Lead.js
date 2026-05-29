@@ -17,6 +17,10 @@ const LeadSchema = new mongoose.Schema(
       default: "New",
     },
     source: String,
+    formData: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
   },
   { timestamps: true }
 );

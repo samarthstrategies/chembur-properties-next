@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import toast from "react-hot-toast";
 import PropertyCard from "@/components/PropertyCard";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 
 const leadSchema = z.object({
   name: z.string().min(2, "Name required"),
@@ -51,7 +52,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
   const priceVal = transaction === 'buy' ? property.pricing?.salePrice : property.pricing?.rentPrice;
   const fallbackPrice = property.pricing?.expectedPrice || 0;
   const formattedPrice = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(priceVal || fallbackPrice);
-  
+
   const images = property.media?.galleryImages || [];
   if (property.media?.featuredImage && !images.includes(property.media.featuredImage)) {
     images.unshift(property.media.featuredImage);
@@ -96,17 +97,17 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
   const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
   const shareText = `Check out this property: ${property.title} in ${Array.isArray(property.location) ? property.location[0] : property.location} — ${shareUrl}`;
-  
+
   const handleShareWhatsApp = () => {
     window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank');
   };
-  
+
   const handleCopyLink = async () => {
     if (navigator.share) {
       try {
         await navigator.share({ title: property.title, url: shareUrl });
         return;
-      } catch (err) {}
+      } catch (err) { }
     }
     await navigator.clipboard.writeText(shareUrl);
     setCopied(true);
@@ -116,7 +117,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
   return (
     <div className="bg-surface-light min-h-screen pb-20 pt-[140px] md:pt-[160px]">
       <div className="max-w-8xl mx-auto px-6 md:px-8">
-        
+
         {/* Breadcrumbs */}
         <nav className="text-xs text-slate-navy font-medium mb-6 flex items-center gap-2 uppercase tracking-widest">
           <Link href="/" className="hover:text-navy">Home</Link>
@@ -129,7 +130,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           {/* Main Content (Left) */}
           <div className="lg:col-span-8 space-y-10">
-            
+
             {/* 1. Header & Badges */}
             <div>
               <div className="flex gap-2 mb-3">
@@ -144,6 +145,11 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                 </span>
               </div>
               <h1 className="font-display text-navy text-3xl md:text-4xl mb-2">{property.title}</h1>
+              {property.codename && (
+                <p className="text-sm font-semibold text-gold uppercase tracking-widest mb-3">
+                  {property.codename}
+                </p>
+              )}
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-slate-navy">
                 <p className="flex items-center gap-1.5">
                   <span>📍</span> {Array.isArray(property.location) ? property.location.join(", ") : property.location}
@@ -151,11 +157,11 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                 <div className="hidden sm:block w-px h-4 bg-navy-200" />
                 <div className="flex items-center gap-3">
                   <button onClick={handleShareWhatsApp} className="flex items-center gap-1.5 text-xs font-semibold hover:text-[#25D366] transition-colors">
-                    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    <WhatsAppIcon className="w-4 h-4 text-current" strokeWidth="1.5" />
                     WhatsApp
                   </button>
                   <button onClick={handleCopyLink} className="flex items-center gap-1.5 text-xs font-semibold hover:text-navy transition-colors">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
                     {copied ? <span className="text-green-600">Copied!</span> : "Copy Link"}
                   </button>
                 </div>
@@ -179,22 +185,44 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
               )}
             </div>
 
-            {/* 3. Image Gallery */}
-            {images.length > 0 && (
-              <div className="grid grid-cols-4 grid-rows-2 gap-3 h-[400px] md:h-[500px]">
-                <div onClick={() => setLightboxIndex(0)} className={`col-span-4 ${images.length > 1 ? 'md:col-span-3' : 'md:col-span-4'} row-span-2 relative rounded-2xl overflow-hidden cursor-pointer group`}>
-                  <img src={images[0]} alt="Featured" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            {/* 3. Media Gallery (Video & Images) */}
+            {(images.length > 0 || property.media?.propertyVideoUrl) && (
+              <div className="grid grid-cols-4 grid-rows-2 gap-3 h-[280px] md:h-[360px]">
+                <div className={`col-span-4 ${((images.length > 1 && !property.media?.propertyVideoUrl) || (images.length > 0 && property.media?.propertyVideoUrl)) ? 'md:col-span-3' : 'md:col-span-4'} row-span-2 relative rounded-2xl overflow-hidden group bg-black`}>
+                  {property.media?.propertyVideoUrl ? (
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={property.media.propertyVideoUrl.replace("watch?v=", "embed/")}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen>
+                    </iframe>
+                  ) : (
+                    <img 
+                      src={images[0]} 
+                      onClick={() => setLightboxIndex(0)} 
+                      alt="Featured" 
+                      className="w-full h-full object-cover cursor-pointer group-hover:scale-105 transition-transform duration-700" 
+                    />
+                  )}
                 </div>
-                {images.slice(1, 3).map((img: string, idx: number) => (
-                  <div key={idx} onClick={() => setLightboxIndex(idx + 1)} className="hidden md:block col-span-1 row-span-1 relative rounded-2xl overflow-hidden cursor-pointer group">
-                    <img src={img} alt={`Gallery ${idx+1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                    {idx === 1 && images.length > 3 && (
-                      <div className="absolute inset-0 bg-navy/60 flex items-center justify-center">
-                        <span className="text-white font-display text-xl font-bold">+{images.length - 3}</span>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                
+                {(property.media?.propertyVideoUrl ? images.slice(0, 2) : images.slice(1, 3)).map((img: string, idx: number) => {
+                  const originalIndex = property.media?.propertyVideoUrl ? idx : idx + 1;
+                  const remainingCount = property.media?.propertyVideoUrl ? images.length - 2 : images.length - 3;
+                  
+                  return (
+                    <div key={idx} onClick={() => setLightboxIndex(originalIndex)} className="hidden md:block col-span-1 row-span-1 relative rounded-2xl overflow-hidden cursor-pointer group">
+                      <img src={img} alt={`Gallery ${originalIndex + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      {idx === 1 && remainingCount > 0 && (
+                        <div className="absolute inset-0 bg-navy/60 flex items-center justify-center">
+                          <span className="text-white font-display text-xl font-bold">+{remainingCount}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
 
@@ -239,9 +267,8 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`py-4 px-6 text-sm font-bold uppercase tracking-widest transition-all whitespace-nowrap ${
-                      activeTab === tab ? "text-navy border-b-2 border-navy" : "text-slate-navy hover:text-navy"
-                    }`}
+                    className={`py-4 px-6 text-sm font-bold uppercase tracking-widest transition-all whitespace-nowrap ${activeTab === tab ? "text-navy border-b-2 border-navy" : "text-slate-navy hover:text-navy"
+                      }`}
                   >
                     {tab === 'floorplan' ? 'Floor Plan' : tab === 'availability' ? 'Availability' : tab}
                   </button>
@@ -316,22 +343,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
               </div>
             </div>
 
-            {/* 6. Video */}
-            {property.media?.propertyVideoUrl && (
-              <div>
-                <h3 className="font-display text-navy text-2xl mb-6">Property Tour</h3>
-                <div className="aspect-video w-full rounded-2xl overflow-hidden border border-navy-100 shadow-sm">
-                  <iframe 
-                    width="100%" 
-                    height="100%" 
-                    src={property.media.propertyVideoUrl.replace("watch?v=", "embed/")} 
-                    frameBorder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowFullScreen>
-                  </iframe>
-                </div>
-              </div>
-            )}
+            {/* Removed separate Video section since it's now in the collage */}
 
             {/* 7. Podcast Gate */}
             {property.podcastId && (
@@ -366,8 +378,11 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
           {/* Sidebar (Right) */}
           <div className="lg:col-span-4">
-            <div className="sticky top-[100px] space-y-6">
-              
+            <div 
+              className="sticky space-y-6 transition-[top] duration-300 ease-in-out"
+              style={{ top: "calc(var(--header-height, 100px) + 20px)" }}
+            >
+
               {/* 9. Contact Form */}
               <div id="contact-form" className="bg-white border border-navy-100 rounded-2xl p-6 shadow-card">
                 <div className="flex items-center gap-4 mb-6">
@@ -375,7 +390,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                     <img src="/images/JeetuChhaabria_half.png" alt="Jeetu" className="w-full h-full object-cover" />
                   </div>
                   <div>
-                    <p className="text-[0.65rem] uppercase tracking-widest font-bold text-slate-navy">Listed By</p>
+                    <p className="text-[0.65rem] uppercase tracking-widest font-bold text-slate-navy"></p>
                     <p className="text-navy font-semibold text-sm">Jeetu Chhaabria</p>
                     <a href="tel:+919820182285" className="text-gold text-xs font-bold hover:underline">+91 98201 82285</a>
                   </div>
@@ -401,7 +416,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                     {isSubmitting ? "Sending..." : "Request Details"}
                   </button>
                   <a href={`https://wa.me/919820182285?text=${encodeURIComponent(`Hi, I'm interested in ${property.title} (${property.slug}).`)}`} target="_blank" rel="noreferrer" className="btn-outline-navy w-full text-sm py-3 block text-center mt-2 flex items-center justify-center gap-2">
-                    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-navy"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" /></svg>
+                    <WhatsAppIcon className="w-4 h-4 text-navy" strokeWidth="1.5" />
                     WhatsApp
                   </a>
                 </form>
@@ -424,7 +439,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
                 let pBadge = pTrans === 'buy' ? "For Sale" : "For Lease";
                 let pBadgeVariant: any = "default";
-                
+
                 if (prop.badges?.isWinGold) {
                   pBadge = "★ Win Gold";
                   pBadgeVariant = "premium";
@@ -462,7 +477,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
       {/* Mobile Enquire Now */}
       <div className="md:hidden fixed bottom-6 left-6 right-6 z-40">
-        <button 
+        <button
           onClick={() => document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" })}
           className="w-full text-white text-sm font-semibold py-4 rounded-xl shadow-lg transition-transform hover:scale-[1.02] flex items-center justify-center gap-2"
           style={{ backgroundColor: "#D4A017", border: "1px solid rgba(255,255,255,0.2)" }}
@@ -473,8 +488,8 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
       {/* Lightbox */}
       {lightboxIndex !== null && (
-        <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10" 
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-10"
           style={{ backgroundColor: "rgba(0,0,0,0.95)" }}
           onClick={closeLightbox}
           onTouchStart={handleTouchStart}
@@ -485,22 +500,22 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
             {lightboxIndex + 1} / {images.length}
           </div>
           <button onClick={closeLightbox} className="absolute top-6 right-6 text-white/70 hover:text-white p-2">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
           </button>
-          
+
           <button onClick={(e) => { e.stopPropagation(); prevImage(); }} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 hidden md:block">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6"/></svg>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 18l-6-6 6-6" /></svg>
           </button>
-          
-          <img 
-            src={images[lightboxIndex]} 
-            alt="Gallery fullscreen" 
-            className="max-w-full max-h-[90vh] object-contain select-none" 
-            onClick={(e) => e.stopPropagation()} 
+
+          <img
+            src={images[lightboxIndex]}
+            alt="Gallery fullscreen"
+            className="max-w-full max-h-[90vh] object-contain select-none"
+            onClick={(e) => e.stopPropagation()}
           />
-          
+
           <button onClick={(e) => { e.stopPropagation(); nextImage(); }} className="absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white p-4 hidden md:block">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6"/></svg>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 18l6-6-6-6" /></svg>
           </button>
         </div>
       )}

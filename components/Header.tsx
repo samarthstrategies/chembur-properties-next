@@ -17,15 +17,61 @@ const navLinks = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showHeader, setShowHeader] = useState(true);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const useLightText = isHomePage || scrolled;
+  const useLightText = scrolled || isHomePage;
+
+  // Reset showHeader when route changes
+  useEffect(() => {
+    setShowHeader(true);
+  }, [pathname]);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
+    let lastY = window.scrollY;
+    
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 50);
+      
+      const isPropertiesPage = pathname === "/properties" || pathname?.startsWith("/properties/");
+      if (isPropertiesPage && !menuOpen) {
+        if (currentY < 350) {
+          setShowHeader(true);
+        } else if (currentY > lastY + 10) {
+          // Scrolling down & scrolled past 350px from top with clear intent (10px delta)
+          setShowHeader(false);
+        } else if (lastY - currentY > 10) {
+          // Scrolling up with clear intent (10px delta)
+          setShowHeader(true);
+        }
+      } else {
+        setShowHeader(true);
+      }
+      
+      lastY = currentY;
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [pathname, menuOpen]);
+
+  // Dynamically update document layout properties based on header height state
+  useEffect(() => {
+    const root = document.documentElement;
+    if (showHeader) {
+      if (scrolled) {
+        root.style.setProperty("--header-height-mobile", "96px");
+        root.style.setProperty("--header-height-desktop", "116px");
+      } else {
+        root.style.setProperty("--header-height-mobile", "110px");
+        root.style.setProperty("--header-height-desktop", "130px");
+      }
+    } else {
+      root.style.setProperty("--header-height-mobile", "0px");
+      root.style.setProperty("--header-height-desktop", "0px");
+    }
+  }, [showHeader, scrolled]);
 
   // Close menu on route change
   useEffect(() => {
@@ -42,7 +88,9 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out transform ${
+          showHeader ? "translate-y-0" : "-translate-y-full"
+        } ${
           scrolled
             ? "h-[96px] md:h-[116px] bg-navy/95 shadow-lg backdrop-blur-xl border-b border-white/10"
             : "h-[110px] md:h-[130px] bg-transparent"

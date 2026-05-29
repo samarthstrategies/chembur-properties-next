@@ -5,7 +5,7 @@ import Lead from "@/models/Lead";
 export async function POST(request) {
   try {
     await connectDB();
-    const { name, phone, email, propertyId, source } = await request.json();
+    const { name, phone, email, propertyId, source, formData } = await request.json();
 
     if (!name || !phone) {
       return NextResponse.json(
@@ -21,6 +21,7 @@ export async function POST(request) {
       propertyId: propertyId || undefined,
       source: source || "contact_form",
       status: "New",
+      formData: formData || {},
     });
 
     return NextResponse.json({

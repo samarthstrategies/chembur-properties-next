@@ -11,6 +11,9 @@ import dynamic from 'next/dynamic';
 import TagInput from './TagInput';
 import ImageUploader from './ImageUploader';
 import { autoSlugify, apiFetch, getYouTubeId } from '@/lib/admin-utils';
+import { useLoadScript, GoogleMap, Marker, Autocomplete } from '@react-google-maps/api';
+
+const MAP_LIBRARIES = ['places'];
 
 const RichTextEditor = dynamic(() => import('./RichTextEditor'), { ssr: false });
 
@@ -157,6 +160,70 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
   const [videoUrl, setVideoUrl] = useState(initialData?.media?.propertyVideoUrl || '');
   const [mapEmbedUrl, setMapEmbedUrl] = useState(initialData?.mapEmbedUrl || '');
 
+  // Google Maps State
+  const [locationAddress, setLocationAddress] = useState('');
+  const [mapCenter, setMapCenter] = useState({ lat: 19.0522, lng: 72.9005 });
+  const [markerPosition, setMarkerPosition] = useState(null);
+  const [autocompleteRef, setAutocompleteRef] = useState(null);
+
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY || '',
+    libraries: MAP_LIBRARIES,
+  });
+
+  // Edit Mode: Extract lat/lng from existing mapEmbedUrl
+  useEffect(() => {
+    if (initialData?.mapEmbedUrl) {
+      const match = initialData.mapEmbedUrl.match(/[?&]q=([\d.-]+),([\d.-]+)/);
+      if (match) {
+        const lat = parseFloat(match[1]);
+        const lng = parseFloat(match[2]);
+        setMarkerPosition({ lat, lng });
+        setMapCenter({ lat, lng });
+      }
+    }
+  }, [initialData]);
+
+  const onLoadAutocomplete = (autocomplete) => setAutocompleteRef(autocomplete);
+
+  const onPlaceChanged = () => {
+    if (autocompleteRef !== null) {
+      const place = autocompleteRef.getPlace();
+      if (place.geometry && place.geometry.location) {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        
+        setMapCenter({ lat, lng });
+        setMarkerPosition({ lat, lng });
+        setLocationAddress(place.formatted_address || place.name || '');
+        
+        const newEmbedUrl = `https://maps.google.com/maps?q=${lat},${lng}&hl=en&z=16&output=embed`;
+        setMapEmbedUrl(newEmbedUrl);
+      }
+    }
+  };
+
+  const geocodePosition = (lat, lng) => {
+    if (window.google && window.google.maps && window.google.maps.Geocoder) {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ location: { lat, lng } }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          setLocationAddress(results[0].formatted_address);
+        }
+      });
+    }
+  };
+
+  const handleMapClick = (e) => {
+    if (!e.latLng) return;
+    const lat = e.latLng.lat();
+    const lng = e.latLng.lng();
+    setMarkerPosition({ lat, lng });
+    const newEmbedUrl = `https://maps.google.com/maps?q=${lat},${lng}&hl=en&z=16&output=embed`;
+    setMapEmbedUrl(newEmbedUrl);
+    geocodePosition(lat, lng);
+  };
+
   // API reference data
   const [availableFeatures, setAvailableFeatures] = useState([]);
   const [availableLocations, setAvailableLocations] = useState([]);
@@ -168,6 +235,7 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
   const { register, watch, setValue, getValues } = useForm({
     defaultValues: {
       title: initialData?.title || '',
+      codename: initialData?.codename || '',
       slug: initialData?.slug || '',
       excerpt: initialData?.excerpt || '',
       author: initialData?.author || 'Jeetu Chhaabria',
@@ -176,15 +244,10 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
         : new Date().toISOString().split('T')[0],
       category: initialData?.category || '',
       salePrice: initialData?.pricing?.salePrice || '',
-      oldPrice: initialData?.pricing?.oldPrice || '',
-      pricePrefix: initialData?.pricing?.pricePrefix || '',
-      pricePostfix: initialData?.pricing?.pricePostfix || '',
       licenceFee: initialData?.pricing?.licenceFee || '',
       securityDeposit: initialData?.pricing?.securityDeposit || '',
       carpetArea: initialData?.specs?.carpetArea || '',
       areaPostfix: initialData?.specs?.areaPostfix || 'sq ft',
-      lotSize: initialData?.specs?.lotSize || '',
-      lotSizePostfix: initialData?.specs?.lotSizePostfix || '',
       bedrooms: initialData?.specs?.bedrooms || '',
       bathrooms: initialData?.specs?.bathrooms || '',
       parking: initialData?.specs?.parking || '',
@@ -237,15 +300,16 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
       setLastSaved(new Date());
     }, 30000);
     return () => clearInterval(timer);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [description, tags, connectivity, floorDetails, selectedFeatures, selectedLocations,
-      selectedPropTypes, selectedStatuses, featuredImage, galleryImages, floorPlanImages, videoUrl]);
+    selectedPropTypes, selectedStatuses, featuredImage, galleryImages, floorPlanImages, videoUrl]);
 
   const toggleArr = (arr, setArr, val) =>
     setArr((prev) => prev.includes(val) ? prev.filter((v) => v !== val) : [...prev, val]);
 
   const assemblePayload = (asDraft) => ({
     title: getValues('title'),
+    codename: getValues('codename'),
     slug: getValues('slug'),
     excerpt: getValues('excerpt'),
     description,
@@ -258,17 +322,12 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
     mapEmbedUrl,
     pricing: {
       salePrice: +getValues('salePrice') || undefined,
-      oldPrice: +getValues('oldPrice') || undefined,
-      pricePrefix: getValues('pricePrefix'),
-      pricePostfix: getValues('pricePostfix'),
       licenceFee: +getValues('licenceFee') || undefined,
       securityDeposit: getValues('securityDeposit'),
     },
     specs: {
       carpetArea: +getValues('carpetArea') || undefined,
       areaPostfix: getValues('areaPostfix'),
-      lotSize: +getValues('lotSize') || undefined,
-      lotSizePostfix: getValues('lotSizePostfix'),
       bedrooms: +getValues('bedrooms') || undefined,
       bathrooms: +getValues('bathrooms') || undefined,
       parking: +getValues('parking') || undefined,
@@ -361,9 +420,14 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
       {/* ─────────────────────── SECTION A — BASIC INFO ─────────────────────── */}
       <SectionCard title="A · Basic Information" id="A" open={open.A} onToggle={toggleSection}>
         <div className="space-y-4">
-          <Field label="Property Title" required>
-            <Input {...register('title')} placeholder="e.g. Luxurious 3BHK in Chembur" />
-          </Field>
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Property Title" required>
+              <Input {...register('title')} placeholder="e.g. Luxurious 3BHK in Chembur" />
+            </Field>
+            <Field label="Codename (Optional)">
+              <Input {...register('codename')} placeholder="e.g. Codename VENKY" />
+            </Field>
+          </div>
           <div className="grid grid-cols-2 gap-4">
             <Field label="Slug (URL)" hint={`Preview: /properties/${watch('slug') || 'your-slug'}`}>
               <Input {...register('slug')} placeholder="auto-generated-slug" />
@@ -448,7 +512,7 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
           <div className="p-4 rounded-lg border-2 transition-colors" style={{ borderColor: isPremium ? '#7C3AED' : '#E2E8F0' }}>
             <div className="flex items-center gap-2 mb-3">
               <Gem className="w-5 h-5" style={{ color: '#7C3AED' }} />
-              <span className="font-semibold text-sm" style={{ color: '#0F172A' }}>Premium Collection</span>
+              <span className="font-semibold text-sm" style={{ color: '#0F172A' }}>Premium Projects</span>
             </div>
             <Toggle checked={isPremium} onChange={setIsPremium} label="Enable Premium badge" />
             {isPremium && (
@@ -483,46 +547,85 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
               </div>
             )}
           </Field>
-          <Field label="Google Maps Embed URL" hint="Click 'Share' → 'Embed a map' on Google Maps and paste the HTML code here">
-            <Input 
-              value={mapEmbedUrl} 
-              onChange={(e) => {
-                let val = e.target.value;
-                const iframeMatch = val.match(/src="([^"]+)"/);
-                if (iframeMatch) val = iframeMatch[1];
-                setMapEmbedUrl(val);
-              }} 
-              placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." width="600" height="450" ...' 
-            />
-            {mapEmbedUrl && !mapEmbedUrl.includes('/maps/embed') && (
-              <p className="text-red-500 text-xs mt-1.5 font-medium">⚠️ Error: Short links (maps.app.goo.gl) cannot be embedded. Please use "Embed a map" on Google Maps.</p>
-            )}
-          </Field>
-          {mapEmbedUrl && mapEmbedUrl.includes('/maps/embed') && (
-            <div className="rounded-lg overflow-hidden" style={{ border: '1px solid #E2E8F0' }}>
-              <iframe src={mapEmbedUrl.includes('<iframe') ? (mapEmbedUrl.match(/src="([^"]+)"/)?.[1] || mapEmbedUrl) : mapEmbedUrl} width="100%" height="300" loading="lazy" title="Property Map" />
-            </div>
-          )}
+          <div className="pt-2" style={{ borderTop: '1px solid #F1F5F9' }}>
+            <h4 className="text-sm font-semibold mb-3" style={{ color: '#0F172A' }}>Map Location</h4>
+            
+            {!process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY ? (
+              <div className="p-4 rounded-md text-sm mb-4" style={{ backgroundColor: '#FEF2F2', color: '#991B1B', border: '1px solid #FCA5A5' }}>
+                Google Maps API key not configured.
+                Please add NEXT_PUBLIC_GOOGLE_MAPS_KEY to .env.local
+              </div>
+            ) : !isLoaded ? (
+              <div className="flex items-center gap-2 text-sm text-slate-500"><Loader2 className="w-4 h-4 animate-spin" /> Loading Maps...</div>
+            ) : loadError ? (
+              <div className="text-sm text-red-500">Error loading maps.</div>
+            ) : open.D ? (
+              <div className="space-y-3">
+                <Autocomplete
+                  onLoad={onLoadAutocomplete}
+                  onPlaceChanged={onPlaceChanged}
+                  options={{
+                    bounds: {
+                      north: 19.2,
+                      south: 18.8,
+                      east: 73.1,
+                      west: 72.7
+                    },
+                    componentRestrictions: { country: "in" }
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="🔍 Search location on Google Maps"
+                    className="w-full px-3 py-2.5 text-sm rounded-md border outline-none transition-colors"
+                    style={{ borderColor: '#E2E8F0', color: '#0F172A', backgroundColor: '#fff' }}
+                    onFocus={(e) => (e.target.style.borderColor = '#0F172A')}
+                    onBlur={(e) => (e.target.style.borderColor = '#E2E8F0')}
+                    onKeyDown={(e) => { e.key === 'Enter' && e.preventDefault() }}
+                  />
+                </Autocomplete>
+
+                {locationAddress && (
+                  <p className="text-xs" style={{ color: '#64748B' }}>
+                    📍 {locationAddress}
+                  </p>
+                )}
+
+                <div className="rounded-lg overflow-hidden relative" style={{ border: '1px solid #E2E8F0' }}>
+                  <GoogleMap
+                    mapContainerStyle={{ width: '100%', height: '350px' }}
+                    center={mapCenter}
+                    zoom={markerPosition ? 16 : 13}
+                    onClick={handleMapClick}
+                    options={{
+                      streetViewControl: false,
+                      mapTypeControl: false,
+                    }}
+                  >
+                    {markerPosition && (
+                      <Marker
+                        position={markerPosition}
+                        draggable={true}
+                        onDragEnd={handleMapClick}
+                      />
+                    )}
+                  </GoogleMap>
+                </div>
+                <p className="text-[11px] text-center" style={{ color: '#94A3B8' }}>
+                  Click on map or drag marker to adjust location
+                </p>
+              </div>
+            ) : null}
+          </div>
         </div>
       </SectionCard>
 
       {/* ─────────────────────── SECTION E — PRICING ─────────────────────── */}
       <SectionCard title="E · Pricing" id="E" open={open.E} onToggle={toggleSection}>
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Field label="Sale / Rent Price (₹)">
               <Input type="number" {...register('salePrice')} placeholder="e.g. 3750000" />
-            </Field>
-            <Field label="Old / Crossed Price (₹)">
-              <Input type="number" {...register('oldPrice')} placeholder="e.g. 4000000" />
-            </Field>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Field label="Price Prefix">
-              <Input {...register('pricePrefix')} placeholder="e.g. From, Starting at" />
-            </Field>
-            <Field label="Price Postfix">
-              <Input {...register('pricePostfix')} placeholder="e.g. Per Month, Onwards" />
             </Field>
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -539,21 +642,15 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
       {/* ─────────────────────── SECTION F — SPECS ─────────────────────── */}
       <SectionCard title="F · Property Specifications" id="F" open={open.F} onToggle={toggleSection}>
         <div className="space-y-4">
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             <Field label="Carpet Area">
               <Input type="number" {...register('carpetArea')} placeholder="e.g. 950" />
             </Field>
             <Field label="Area Unit">
               <Input {...register('areaPostfix')} placeholder="sq ft" />
             </Field>
-            <Field label="Lot Size">
-              <Input type="number" {...register('lotSize')} />
-            </Field>
           </div>
-          <div className="grid grid-cols-3 gap-4">
-            <Field label="Lot Size Unit">
-              <Input {...register('lotSizePostfix')} placeholder="sq ft" />
-            </Field>
+          <div className="grid grid-cols-2 gap-4">
             <Field label="Bedrooms">
               <Input type="number" {...register('bedrooms')} />
             </Field>

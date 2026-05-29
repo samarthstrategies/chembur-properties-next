@@ -11,6 +11,13 @@
   --color-gold-light: #E8C96A;
   --color-surface-light: #F4F6FA;
   --color-surface-white: #FFFFFF;
+  --header-height: var(--header-height-mobile, 110px);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-height: var(--header-height-desktop, 130px);
+  }
 }
 
 @layer base {
