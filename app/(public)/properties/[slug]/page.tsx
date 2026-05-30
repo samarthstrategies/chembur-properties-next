@@ -1,13 +1,15 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import PropertyDetailClient from './PropertyDetailClient';
+import { connectDB } from '@/lib/mongodb';
+import Property from '@/models/Property';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/properties/${params.slug}`);
-    if (!res.ok) return { title: 'Property Not Found - Chembur Properties' };
-    const data = await res.json();
-    const property = data.data || data.property || data;
+    await connectDB();
+    const property = await Property.findOne({ slug: params.slug, isDraft: false }).lean();
+    if (!property) return { title: 'Property Not Found - Chembur Properties' };
+    
     return {
       title: `${property.title} | Chembur Properties`,
       description: property.description?.substring(0, 160) || `View details for ${property.title}.`,
@@ -19,22 +21,63 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
 export default async function SinglePropertyPage({ params }: { params: { slug: string } }) {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/properties/${params.slug}`, { next: { revalidate: 60 } });
+    await connectDB();
+    const property = await Property.findOne({ slug: params.slug, isDraft: false }).lean();
     
-    if (!res.ok) {
+    if (!property) {
       notFound();
     }
     
-    const data = await res.json();
-    const property = data.data || data.property || data;
-    
-    // Also fetch related properties (simplified for now, just fetch recent)
-    const relatedRes = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/properties?limit=3`, { next: { revalidate: 60 } });
-    const relatedData = await relatedRes.json();
-    const relatedProperties = Array.isArray(relatedData.data?.properties) ? relatedData.data.properties : Array.isArray(relatedData.properties) ? relatedData.properties : Array.isArray(relatedData.data) ? relatedData.data : [];
+    // Increment view count (fire and forget)
+    Property.findByIdAndUpdate(property._id, { $inc: { viewCount: 1 } }).exec();
 
-    return <PropertyDetailClient property={property} relatedProperties={relatedProperties.filter((p: any) => p._id !== property._id).slice(0, 3)} />;
+    // Check if property is locked
+    let propertyData = { ...property, isLocked: false };
+    
+    if (property.propertyAccess?.isLocked) {
+      propertyData = {
+        _id: property._id.toString(),
+        title: property.title,
+        slug: property.slug,
+        excerpt: property.excerpt,
+        category: property.category,
+        propertyType: property.propertyType,
+        propertyStatus: property.propertyStatus,
+        location: property.location,
+        pricing: property.pricing,
+        specs: {
+          carpetArea: property.specs?.carpetArea,
+          areaPostfix: property.specs?.areaPostfix,
+          bedrooms: property.specs?.bedrooms,
+          bathrooms: property.specs?.bathrooms,
+        },
+        media: {
+          featuredImage: property.media?.featuredImage,
+          galleryImages: property.media?.galleryImages?.slice(0, 3),
+        },
+        badges: property.badges,
+        propertyId: property.propertyId,
+        viewCount: property.viewCount,
+        isLocked: true,
+        accessPrice: property.propertyAccess?.price,
+        accessType: property.propertyAccess?.accessType,
+      };
+    }
+
+    // Force strict JSON serialization so client components don't complain about MongoDB ObjectIDs
+    const serializableProperty = JSON.parse(JSON.stringify(propertyData));
+    
+    // Fetch related properties directly from DB
+    const relatedPropertiesRaw = await Property.find({ 
+      isDraft: false, 
+      _id: { $ne: property._id } 
+    }).sort({ createdAt: -1 }).limit(3).lean();
+    
+    const relatedProperties = JSON.parse(JSON.stringify(relatedPropertiesRaw));
+
+    return <PropertyDetailClient property={serializableProperty} relatedProperties={relatedProperties} />;
   } catch (error) {
+    console.error("Error in SinglePropertyPage:", error);
     notFound();
   }
 }
