@@ -19,8 +19,80 @@ const leadSchema = z.object({
 
 type LeadData = z.infer<typeof leadSchema>;
 
+const ENABLE_OTP = false;
+
 export default function PropertyDetailClient({ property, relatedProperties }: { property: any, relatedProperties: any[] }) {
   const [activeTab, setActiveTab] = useState("overview");
+
+  const [isVerified, setIsVerified] = useState(true);
+  const [otpStep, setOtpStep] = useState<"phone" | "otp">("phone");
+  const [otpForm, setOtpForm] = useState({ name: "", phone: "", otp: "" });
+  const [otpLoading, setOtpLoading] = useState(false);
+
+  useEffect(() => {
+    if (ENABLE_OTP) {
+      const verified = localStorage.getItem("public_user_verified");
+      if (verified !== "true") {
+        setIsVerified(false);
+      }
+    }
+  }, []);
+
+  const handleSendOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!otpForm.name || otpForm.phone.length < 10) {
+      toast.error("Please enter a valid name and phone number");
+      return;
+    }
+    setOtpLoading(true);
+    try {
+      const res = await fetch("/api/otp/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: otpForm.name, phone: otpForm.phone }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("OTP sent successfully!");
+        setOtpStep("otp");
+      } else {
+        toast.error(data.message || "Failed to send OTP");
+      }
+    } catch (e) {
+      toast.error("Network error");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!otpForm.otp) return;
+    setOtpLoading(true);
+    try {
+      const res = await fetch("/api/otp/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(otpForm),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success("Verified successfully!");
+        localStorage.setItem("public_user_verified", "true");
+        localStorage.setItem("public_user_name", otpForm.name);
+        localStorage.setItem("public_user_phone", otpForm.phone);
+        localStorage.setItem("public_user_verified_at", Date.now().toString());
+        window.dispatchEvent(new Event("userLoggedIn"));
+        setIsVerified(true);
+      } else {
+        toast.error(data.message || "Invalid OTP");
+      }
+    } catch (e) {
+      toast.error("Network error");
+    } finally {
+      setOtpLoading(false);
+    }
+  };
 
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<LeadData>({
     resolver: zodResolver(leadSchema),
@@ -114,6 +186,47 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
     setTimeout(() => setCopied(false), 2000);
   };
 
+  if (!isVerified) {
+    return (
+      <div className="min-h-screen pt-[140px] flex items-center justify-center bg-surface-light px-4">
+        <div className="max-w-md w-full bg-white rounded-2xl p-8 shadow-card border border-navy-100 text-center">
+          <div className="w-16 h-16 mx-auto bg-navy text-gold rounded-2xl flex items-center justify-center mb-6">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          </div>
+          <h2 className="font-display text-2xl text-navy mb-2">Unlock Property Details</h2>
+          <p className="text-slate-navy text-sm mb-8">Please verify your details to view full property information, floor plans, and pricing.</p>
+          
+          {otpStep === "phone" ? (
+            <form onSubmit={handleSendOtp} className="space-y-4 text-left">
+              <div>
+                <label className="block text-xs font-bold text-slate-navy uppercase tracking-widest mb-1.5">Full Name</label>
+                <input required type="text" value={otpForm.name} onChange={e => setOtpForm({...otpForm, name: e.target.value})} className="lux-input" placeholder="Jeetu Chhaabria" />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-navy uppercase tracking-widest mb-1.5">Mobile Number</label>
+                <input required type="tel" value={otpForm.phone} onChange={e => setOtpForm({...otpForm, phone: e.target.value})} className="lux-input" placeholder="9820182285" />
+              </div>
+              <button disabled={otpLoading} type="submit" className="btn-navy w-full py-3.5 mt-2">
+                {otpLoading ? "Sending..." : "Send OTP"}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleVerifyOtp} className="space-y-4 text-left">
+              <div>
+                <label className="block text-xs font-bold text-slate-navy uppercase tracking-widest mb-1.5">Enter OTP</label>
+                <input required type="text" value={otpForm.otp} onChange={e => setOtpForm({...otpForm, otp: e.target.value})} className="lux-input text-center text-xl tracking-[0.5em]" placeholder="------" maxLength={6} />
+                <p className="text-xs text-center mt-3 text-slate-navy">Sent to +91 {otpForm.phone} <button type="button" onClick={() => setOtpStep("phone")} className="text-gold hover:underline ml-1">Edit</button></p>
+              </div>
+              <button disabled={otpLoading} type="submit" className="btn-navy w-full py-3.5 mt-2">
+                {otpLoading ? "Verifying..." : "Verify & View Property"}
+              </button>
+            </form>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-surface-light min-h-screen pb-20 pt-[140px] md:pt-[160px]">
       <div className="max-w-8xl mx-auto px-6 md:px-8">
@@ -133,23 +246,37 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
             {/* 1. Header & Badges */}
             <div>
-              <div className="flex gap-2 mb-3">
+              <div className="flex flex-wrap gap-2 mb-3">
                 {property.badges?.isWinGold && (
                   <span className="bg-[#C9A84C] text-white text-[0.65rem] font-bold px-3 py-1 rounded-full uppercase tracking-wide">★ Win Gold</span>
                 )}
                 {property.badges?.isPremium && (
                   <span className="bg-purple-600 text-white text-[0.65rem] font-bold px-3 py-1 rounded-full uppercase tracking-wide">💎 Premium</span>
                 )}
+                {property.badges?.isUnderconstruction && (
+                  <span className="bg-blue-600 text-white text-[0.65rem] font-bold px-3 py-1 rounded-full uppercase tracking-wide">🚧 Under Construction</span>
+                )}
+                {property.badges?.isResale && (
+                  <span className="bg-emerald-600 text-white text-[0.65rem] font-bold px-3 py-1 rounded-full uppercase tracking-wide">🔄 Resale</span>
+                )}
+                {property.badges?.isPremiumUnderconstruction && (
+                  <span className="bg-orange-600 text-white text-[0.65rem] font-bold px-3 py-1 rounded-full uppercase tracking-wide">⭐ Premium Underconstruction</span>
+                )}
+                {property.badges?.isPremiumResale && (
+                  <span className="bg-pink-600 text-white text-[0.65rem] font-bold px-3 py-1 rounded-full uppercase tracking-wide">✨ Premium Resale</span>
+                )}
                 <span className="bg-navy text-white text-[0.65rem] font-bold px-3 py-1 rounded-full uppercase tracking-wide">
                   {transaction === 'buy' ? 'For Sale' : 'For Lease'}
                 </span>
               </div>
               <h1 className="font-display text-navy text-3xl md:text-4xl mb-2">{property.title}</h1>
-              {property.codename && (
-                <p className="text-sm font-semibold text-gold uppercase tracking-widest mb-3">
-                  {property.codename}
-                </p>
-              )}
+              <div className="flex flex-wrap items-center gap-3 text-xs text-slate-navy uppercase tracking-widest font-bold mb-4">
+                {property.propertyId && <span>ID: {property.propertyId}</span>}
+                {property.propertyId && <span className="text-navy/30">•</span>}
+                {property.author && <span>By {property.author}</span>}
+                {property.author && property.dateOfPost && <span className="text-navy/30">•</span>}
+                {property.dateOfPost && <span>{new Date(property.dateOfPost).toLocaleDateString('en-IN', { month: 'long', day: 'numeric', year: 'numeric' })}</span>}
+              </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 text-slate-navy">
                 <p className="flex items-center gap-1.5">
                   <span>📍</span> {Array.isArray(property.location) ? property.location.join(", ") : property.location}
@@ -161,29 +288,59 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                     WhatsApp
                   </button>
                   <button onClick={handleCopyLink} className="flex items-center gap-1.5 text-xs font-semibold hover:text-navy transition-colors">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
-                    {copied ? <span className="text-green-600">Copied!</span> : "Copy Link"}
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    {copied ? <span className="text-green-600">Copied!</span> : "Share"}
                   </button>
                 </div>
               </div>
             </div>
 
             {/* 2. Price Bar */}
-            <div className="bg-white border border-navy-100 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+            <div className="bg-white border border-navy-100 rounded-2xl p-6 flex flex-wrap items-center justify-between shadow-sm gap-6">
               <div>
-                <p className="text-xs text-slate-navy uppercase tracking-widest font-bold mb-1">Asking Price</p>
+                <p className="text-xs text-slate-navy uppercase tracking-widest font-bold mb-1">{transaction === 'buy' ? 'For Sale' : 'For Lease'}</p>
                 <h2 className="font-display text-navy text-3xl">{formattedPrice}</h2>
                 {property.badges?.isWinGold && property.winGoldDetails && (
                   <p className="text-[#C9A84C] text-sm font-semibold mt-1">{property.winGoldDetails}</p>
                 )}
               </div>
+              
+              {property.pricing?.licenceFee && (
+                <div>
+                  <p className="text-xs text-slate-navy uppercase tracking-widest font-bold mb-1">Licence Fee</p>
+                  <h2 className="font-display text-navy text-3xl">₹{property.pricing.licenceFee.toLocaleString('en-IN')} /mo</h2>
+                </div>
+              )}
+
+              {property.pricing?.securityDeposit && (
+                <div>
+                  <p className="text-xs text-slate-navy uppercase tracking-widest font-bold mb-1">Security Deposit</p>
+                  <p className="text-navy font-semibold text-xl">{property.pricing.securityDeposit}</p>
+                </div>
+              )}
+
               {property.pricing?.maintenanceCharges && (
                 <div className="text-right">
                   <p className="text-xs text-slate-navy uppercase tracking-widest font-bold mb-1">Maintenance</p>
-                  <p className="text-navy font-semibold">₹{property.pricing.maintenanceCharges} /mo</p>
+                  <p className="text-navy font-semibold text-xl">₹{property.pricing.maintenanceCharges} /mo</p>
                 </div>
               )}
             </div>
+
+            {/* Premium Note & Excerpt */}
+            {property.badges?.isPremium && property.badges?.premiumNote && (
+              <div className="bg-purple-50 border border-purple-200 rounded-2xl p-5 shadow-sm">
+                <p className="text-sm text-purple-900 font-medium leading-relaxed">
+                  <span className="font-bold text-purple-800 uppercase tracking-widest text-[0.65rem] block mb-1">💎 Premium Listing Note</span> 
+                  {property.badges.premiumNote}
+                </p>
+              </div>
+            )}
+            {property.excerpt && (
+              <div className="px-2">
+                <p className="text-slate-navy text-lg leading-relaxed italic">"{property.excerpt}"</p>
+              </div>
+            )}
 
             {/* 3. Media Gallery (Video & Images) */}
             {(images.length > 0 || property.media?.propertyVideoUrl) && (
@@ -216,8 +373,9 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                     <div key={idx} onClick={() => setLightboxIndex(originalIndex)} className="hidden md:block col-span-1 row-span-1 relative rounded-2xl overflow-hidden cursor-pointer group">
                       <img src={img} alt={`Gallery ${originalIndex + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                       {idx === 1 && remainingCount > 0 && (
-                        <div className="absolute inset-0 bg-navy/60 flex items-center justify-center">
-                          <span className="text-white font-display text-xl font-bold">+{remainingCount}</span>
+                        <div className="absolute inset-0 bg-navy/60 flex flex-col items-center justify-center text-center p-2">
+                          <span className="text-white font-display text-2xl font-bold mb-1">+{remainingCount}</span>
+                          <span className="text-white text-[0.65rem] uppercase tracking-widest font-semibold">Click for more images</span>
                         </div>
                       )}
                     </div>
@@ -228,6 +386,12 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
             {/* 4. Specs Bar */}
             <div className="bg-white border border-navy-100 rounded-2xl p-6 shadow-sm flex flex-wrap gap-x-10 gap-y-6">
+              {property.propertyType && property.propertyType.length > 0 && (
+                <div>
+                  <p className="text-[0.65rem] text-slate-navy uppercase tracking-widest font-bold mb-1">Property Type</p>
+                  <p className="text-navy font-semibold text-lg">{property.propertyType.join(', ')}</p>
+                </div>
+              )}
               {property.specs?.bedrooms && (
                 <div>
                   <p className="text-[0.65rem] text-slate-navy uppercase tracking-widest font-bold mb-1">Configuration</p>
@@ -237,7 +401,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
               {property.specs?.carpetArea && (
                 <div>
                   <p className="text-[0.65rem] text-slate-navy uppercase tracking-widest font-bold mb-1">Carpet Area</p>
-                  <p className="text-navy font-semibold text-lg">{property.specs.carpetArea} sq ft</p>
+                  <p className="text-navy font-semibold text-lg">{property.specs.carpetArea} {property.specs.areaPostfix || 'sq ft'}</p>
                 </div>
               )}
               {property.specs?.bathrooms && (
@@ -252,6 +416,18 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                   <p className="text-navy font-semibold text-lg">{property.specs.parking}</p>
                 </div>
               )}
+              {property.specs?.yearBuilt && (
+                <div>
+                  <p className="text-[0.65rem] text-slate-navy uppercase tracking-widest font-bold mb-1">Year Built</p>
+                  <p className="text-navy font-semibold text-lg">{property.specs.yearBuilt}</p>
+                </div>
+              )}
+              {property.specs?.totalFloors && (
+                <div>
+                  <p className="text-[0.65rem] text-slate-navy uppercase tracking-widest font-bold mb-1">Total Floors</p>
+                  <p className="text-navy font-semibold text-lg">{property.specs.totalFloors}</p>
+                </div>
+              )}
               {property.specs?.facing && (
                 <div>
                   <p className="text-[0.65rem] text-slate-navy uppercase tracking-widest font-bold mb-1">Facing</p>
@@ -260,10 +436,33 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
               )}
             </div>
 
+            {/* RERA Details */}
+            {(property.reraNumber || property.reraPossessionDate) && (
+              <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 shadow-sm mt-6">
+                <div className="flex flex-wrap gap-x-10 gap-y-6 mb-4">
+                  {property.reraNumber && (
+                    <div>
+                      <p className="text-[0.65rem] text-amber-800 uppercase tracking-widest font-bold mb-1">RERA Number</p>
+                      <p className="text-amber-950 font-semibold text-lg">{property.reraNumber}</p>
+                    </div>
+                  )}
+                  {property.reraPossessionDate && (
+                    <div>
+                      <p className="text-[0.65rem] text-amber-800 uppercase tracking-widest font-bold mb-1">Possession Date</p>
+                      <p className="text-amber-950 font-semibold text-lg">{new Date(property.reraPossessionDate).toLocaleDateString('en-IN', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    </div>
+                  )}
+                </div>
+                <p className="text-xs text-amber-800/80 font-medium">
+                  <span className="font-bold text-amber-900">Disclaimer:</span> We do not mention full RERA no as we can loose our business directly to developers.
+                </p>
+              </div>
+            )}
+
             {/* 5. Tabs (Overview, Features) */}
             <div className="bg-white border border-navy-100 rounded-2xl overflow-hidden shadow-sm">
               <div className="flex border-b border-navy-100 bg-surface-light px-4 overflow-x-auto">
-                {['overview', 'features', 'floorplan', ...(property.floorDetails?.length > 0 ? ['availability'] : [])].map((tab) => (
+                {['overview', 'features', ...(property.connectivity?.length > 0 ? ['connectivity'] : []), 'floorplan', ...(property.floorDetails?.length > 0 ? ['availability'] : [])].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
@@ -295,6 +494,16 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                     {(!property.features || property.features.length === 0) && (
                       <p className="text-sm text-slate-navy">Features not listed.</p>
                     )}
+                  </ul>
+                )}
+                {activeTab === 'connectivity' && (
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {(property.connectivity || []).map((c: string, i: number) => (
+                      <li key={i} className="flex items-center gap-3 text-sm text-slate-navy">
+                        <span className="w-6 h-6 rounded-full bg-navy/5 flex items-center justify-center text-navy text-[0.65rem]">📍</span>
+                        {c}
+                      </li>
+                    ))}
                   </ul>
                 )}
                 {activeTab === 'floorplan' && (
@@ -386,13 +595,22 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
               {/* 9. Contact Form */}
               <div id="contact-form" className="bg-white border border-navy-100 rounded-2xl p-6 shadow-card">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-full overflow-hidden border border-gold/50 shadow-sm shrink-0">
-                    <img src="/images/JeetuChhaabria_half.png" alt="Jeetu" className="w-full h-full object-cover" />
+                  <div className="w-14 h-14 rounded-full overflow-hidden border border-gold/50 shadow-sm shrink-0 bg-slate-100 flex items-center justify-center text-slate-400">
+                    {property.realtor?.photograph ? (
+                      <img src={property.realtor.photograph} alt={property.realtor.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <img src="/images/JeetuChhaabria_half.png" alt="Jeetu" className="w-full h-full object-cover" />
+                    )}
                   </div>
                   <div>
-                    <p className="text-[0.65rem] uppercase tracking-widest font-bold text-slate-navy"></p>
-                    <p className="text-navy font-semibold text-sm">Jeetu Chhaabria</p>
-                    <a href="tel:+919820182285" className="text-gold text-xs font-bold hover:underline">+91 98201 82285</a>
+                    <p className="text-[0.65rem] uppercase tracking-widest font-bold text-slate-navy">Listing Agent</p>
+                    <p className="text-navy font-semibold text-sm">{property.realtor?.name || "Jeetu Chhaabria"}</p>
+                    <a href={`tel:${property.realtor?.contactNumber || "+919820182285"}`} className="text-gold text-xs font-bold hover:underline">{property.realtor?.contactNumber || "+91 98201 82285"}</a>
+                    {property.realtor?.reraNumber ? (
+                      <p className="text-[0.65rem] mt-0.5 text-slate-500 font-mono">RERA: {property.realtor.reraNumber}</p>
+                    ) : (
+                      <p className="text-[0.65rem] mt-0.5 text-slate-500 font-mono">RERA: AS1800039361</p>
+                    )}
                   </div>
                 </div>
 
@@ -415,7 +633,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
                   <button type="submit" disabled={isSubmitting} className="btn-navy w-full text-sm py-3 disabled:opacity-50">
                     {isSubmitting ? "Sending..." : "Request Details"}
                   </button>
-                  <a href={`https://wa.me/919820182285?text=${encodeURIComponent(`Hi, I'm interested in ${property.title} (${property.slug}).`)}`} target="_blank" rel="noreferrer" className="btn-outline-navy w-full text-sm py-3 block text-center mt-2 flex items-center justify-center gap-2">
+                  <a href={`https://wa.me/${(property.realtor?.contactNumber || '919820182285').replace(/\D/g,'')}?text=${encodeURIComponent(`Hi, I'm interested in ${property.title} (${property.slug}).`)}`} target="_blank" rel="noreferrer" className="btn-outline-navy w-full text-sm py-3 block text-center mt-2 flex items-center justify-center gap-2">
                     <WhatsAppIcon className="w-4 h-4 text-navy" strokeWidth="1.5" />
                     WhatsApp
                   </a>

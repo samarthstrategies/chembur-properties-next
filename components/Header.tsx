@@ -21,6 +21,18 @@ export default function Header() {
   const pathname = usePathname();
   const isHomePage = pathname === "/";
   const useLightText = scrolled || isHomePage;
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    setUserName(localStorage.getItem("public_user_name"));
+    const handleStorage = () => setUserName(localStorage.getItem("public_user_name"));
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener("userLoggedIn", handleStorage);
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener("userLoggedIn", handleStorage);
+    };
+  }, []);
 
   // Reset showHeader when route changes
   useEffect(() => {
@@ -132,6 +144,12 @@ export default function Header() {
               </Link>
             ))}
             </nav>
+
+            {userName && (
+              <span className={`font-body text-[0.85rem] font-bold mr-2 tracking-wide ${useLightText ? "text-gold" : "text-navy"}`}>
+                Welcome, {userName}
+              </span>
+            )}
 
             <a
               href="tel:+919820182285"

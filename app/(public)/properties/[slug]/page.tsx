@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function SinglePropertyPage({ params }: { params: { slug: string } }) {
   try {
     await connectDB();
-    const property = await Property.findOne({ slug: params.slug, isDraft: false }).lean();
+    const property = await Property.findOne({ slug: params.slug, isDraft: false }).populate('realtor').lean();
     
     if (!property) {
       notFound();
@@ -57,6 +57,7 @@ export default async function SinglePropertyPage({ params }: { params: { slug: s
         },
         badges: property.badges,
         propertyId: property.propertyId,
+        realtor: property.realtor,
         viewCount: property.viewCount,
         isLocked: true,
         accessPrice: property.propertyAccess?.price,

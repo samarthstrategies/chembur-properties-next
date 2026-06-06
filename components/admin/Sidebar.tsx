@@ -49,6 +49,7 @@ const NAV_GROUPS = [
       { href: '/admin/locations', icon: MapPin, label: 'Locations' },
       { href: '/admin/features', icon: Tag, label: 'Features' },
       { href: '/admin/property-types', icon: FolderOpen, label: 'Property Types' },
+      { href: '/admin/realtors', icon: Users, label: 'Realtors' },
       { href: '/admin/settings', icon: Settings, label: 'Settings' },
     ],
   },

@@ -39,12 +39,12 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h1 className="font-display text-white text-[clamp(1.8rem,3.2vw,3.2rem)] xl:text-[5rem] leading-[1.05] mb-4 animate-fade-up lg:whitespace-nowrap" style={{ animationDelay: "80ms" }}>
-                Your Chembur Property <br />
-                <span className="text-gold">Is My Responsibility.</span>
+              <h1 className="font-display text-white text-[clamp(2.2rem,4vw,4rem)] xl:text-[5.5rem] leading-[1.05] mb-2 animate-fade-up lg:whitespace-nowrap" style={{ animationDelay: "80ms" }}>
+                ChemburProperties<span className="text-gold">.com</span>
               </h1>
-              <p className="text-gold italic text-xl md:text-2xl mt-2 mb-4 animate-fade-up" style={{ animationDelay: "120ms" }}>
-                — Jeetu Chhaabria
+              <p className="text-white/80 font-light tracking-wide text-xl md:text-2xl mt-2 mb-4 animate-fade-up flex items-center gap-2" style={{ animationDelay: "120ms" }}>
+                <span className="w-8 h-[1px] bg-white/30 inline-block"></span>
+                By <strong className="text-gold font-normal">Jeetu Chhaabria</strong>
               </p>
 
               <p className="text-lg text-white/55 max-w-[500px] mt-6 mb-10 leading-[1.8] animate-fade-up" style={{ animationDelay: "160ms" }}>

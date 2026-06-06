@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import {
   ChevronDown, Plus, Trash2, Save, Send, Trophy, Gem,
-  CheckCircle2, Clock, MapPin, Loader2,
+  CheckCircle2, Clock, MapPin, Loader2, X
 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import TagInput from './TagInput';
@@ -17,7 +17,7 @@ const MAP_LIBRARIES = ['places'];
 
 const RichTextEditor = dynamic(() => import('./RichTextEditor'), { ssr: false });
 
-const RESIDENTIAL_TYPES = ['Apartment', 'Bunglow', 'Activity Teen'];
+const RESIDENTIAL_TYPES = ['Apartment', 'Bunglow'];
 const COMMERCIAL_TYPES = [
   'Office', 'Shop', 'Warehouse', 'Industrial Gala', 'Commercial Space', 'Commercial Godown',
 ];
@@ -124,6 +124,7 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [lastSaved, setLastSaved] = useState(null);
+  const [showReraPopup, setShowReraPopup] = useState(false);
 
   // Sections open state
   const [open, setOpen] = useState({
@@ -150,6 +151,10 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
   // Toggle booleans (managed locally for immediate UI feedback)
   const [isWinGold, setIsWinGold] = useState(initialData?.badges?.isWinGold || false);
   const [isPremium, setIsPremium] = useState(initialData?.badges?.isPremium || false);
+  const [isUnderconstruction, setIsUnderconstruction] = useState(initialData?.badges?.isUnderconstruction || false);
+  const [isResale, setIsResale] = useState(initialData?.badges?.isResale || false);
+  const [isPremiumUnderconstruction, setIsPremiumUnderconstruction] = useState(initialData?.badges?.isPremiumUnderconstruction || false);
+  const [isPremiumResale, setIsPremiumResale] = useState(initialData?.badges?.isPremiumResale || false);
   const [isFeatured, setIsFeatured] = useState(initialData?.isFeatured || false);
   const [isDraftToggle, setIsDraftToggle] = useState(initialData?.isDraft || false);
   const [hasPodcast, setHasPodcast] = useState(initialData?.podcast?.hasPodcast || false);
@@ -230,12 +235,36 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
   const [availablePodcasts, setAvailablePodcasts] = useState([]);
   const [newFeatureName, setNewFeatureName] = useState('');
   const [addingFeature, setAddingFeature] = useState(false);
+  const [newLocationName, setNewLocationName] = useState('');
+  const [addingLocation, setAddingLocation] = useState(false);
+
+  const [availableRealtors, setAvailableRealtors] = useState([]);
+  const [showRealtorModal, setShowRealtorModal] = useState(false);
+  const [newRealtorData, setNewRealtorData] = useState({ name: '', contactNumber: '', reraNumber: '', photograph: '' });
+  const [savingRealtor, setSavingRealtor] = useState(false);
+
+  const handleQuickAddRealtor = async () => {
+    if (!newRealtorData.name.trim()) return toast.error('Name is required');
+    setSavingRealtor(true);
+    try {
+      const res = await apiFetch('/api/admin/realtors', { method: 'POST', body: JSON.stringify(newRealtorData) });
+      const newR = res.data;
+      setAvailableRealtors(prev => [newR, ...prev]);
+      setValue('realtor', newR._id);
+      setShowRealtorModal(false);
+      setNewRealtorData({ name: '', contactNumber: '', reraNumber: '', photograph: '' });
+      toast.success('Realtor added');
+    } catch (err) { toast.error('Failed to add realtor'); }
+    finally { setSavingRealtor(false); }
+  };
 
   // RHF for simple scalar fields
   const { register, watch, setValue, getValues } = useForm({
     defaultValues: {
       title: initialData?.title || '',
-      codename: initialData?.codename || '',
+      realtor: initialData?.realtor?._id || initialData?.realtor || '',
+      reraNumber: initialData?.reraNumber || '',
+      reraPossessionDate: initialData?.reraPossessionDate || '',
       slug: initialData?.slug || '',
       excerpt: initialData?.excerpt || '',
       author: initialData?.author || 'Jeetu Chhaabria',
@@ -279,10 +308,12 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
       apiFetch('/api/admin/features').catch(() => ({ data: [] })),
       apiFetch('/api/admin/locations').catch(() => ({ data: [] })),
       apiFetch('/api/admin/podcasts?limit=50').catch(() => ({ data: { podcasts: [] } })),
-    ]).then(([f, l, p]) => {
+      apiFetch('/api/admin/realtors').catch(() => ({ data: [] })),
+    ]).then(([f, l, p, r]) => {
       setAvailableFeatures(f.data || []);
       setAvailableLocations(l.data || []);
       setAvailablePodcasts(p.data?.podcasts || []);
+      setAvailableRealtors(r.data || []);
     });
   }, []);
 
@@ -309,7 +340,9 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
 
   const assemblePayload = (asDraft) => ({
     title: getValues('title'),
-    codename: getValues('codename'),
+    realtor: getValues('realtor') || undefined,
+    reraNumber: getValues('reraNumber'),
+    reraPossessionDate: getValues('reraPossessionDate'),
     slug: getValues('slug'),
     excerpt: getValues('excerpt'),
     description,
@@ -342,6 +375,7 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
     badges: {
       isWinGold, winGoldDetails: getValues('winGoldDetails'),
       isPremium, premiumNote: getValues('premiumNote'),
+      isUnderconstruction, isResale, isPremiumUnderconstruction, isPremiumResale
     },
     podcast: {
       hasPodcast,
@@ -398,9 +432,26 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
     finally { setAddingFeature(false); }
   };
 
+  const addLocation = async () => {
+    if (!newLocationName.trim()) return;
+    setAddingLocation(true);
+    try {
+      const res = await apiFetch('/api/admin/locations', {
+        method: 'POST', body: JSON.stringify({ name: newLocationName.trim() }),
+      });
+      const newL = res.data || { name: newLocationName.trim() };
+      setAvailableLocations((prev) => [...prev, newL]);
+      setSelectedLocations((prev) => [...prev, newL.name || newL._id]);
+      setNewLocationName('');
+      toast.success('Location added');
+    } catch { toast.error('Failed to add location'); }
+    finally { setAddingLocation(false); }
+  };
+
   const youtubeId = getYouTubeId(videoUrl);
 
   return (
+    <>
     <form onSubmit={(e) => e.preventDefault()} className="space-y-4 pb-32">
       {/* Auto-save indicator */}
       {lastSaved && (
@@ -420,15 +471,25 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
       {/* ─────────────────────── SECTION A — BASIC INFO ─────────────────────── */}
       <SectionCard title="A · Basic Information" id="A" open={open.A} onToggle={toggleSection}>
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <Field label="Property Title" required>
               <Input {...register('title')} placeholder="e.g. Luxurious 3BHK in Chembur" />
             </Field>
-            <Field label="Codename (Optional)">
-              <Input {...register('codename')} placeholder="e.g. Codename VENKY" />
-            </Field>
           </div>
           <div className="grid grid-cols-2 gap-4">
+            <Field label="Assigned Realtor" hint="Who is handling this property?">
+              <div className="flex gap-2">
+                <select {...register('realtor')} className="flex-1 px-3 py-2 border rounded-lg text-sm bg-white" style={{ borderColor: '#E2E8F0', color: '#0F172A' }}>
+                  <option value="">-- Default (Jeetu Chhaabria) --</option>
+                  {availableRealtors.map((r) => (
+                    <option key={r._id} value={r._id}>{r.name} {r.contactNumber ? `(${r.contactNumber})` : ''}</option>
+                  ))}
+                </select>
+                <button type="button" onClick={() => setShowRealtorModal(true)} className="px-3 py-2 bg-slate-100 text-slate-700 rounded-lg border border-slate-200 text-sm font-semibold hover:bg-slate-200 transition-colors shrink-0">
+                  + New
+                </button>
+              </div>
+            </Field>
             <Field label="Slug (URL)" hint={`Preview: /properties/${watch('slug') || 'your-slug'}`}>
               <Input {...register('slug')} placeholder="auto-generated-slug" />
             </Field>
@@ -477,7 +538,12 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
               {STATUS_OPTIONS.map((s) => (
                 <label key={s} className="flex items-center gap-2 cursor-pointer">
                   <input type="checkbox" checked={selectedStatuses.includes(s)}
-                    onChange={() => toggleArr(selectedStatuses, setSelectedStatuses, s)} className="rounded" />
+                    onChange={() => {
+                      toggleArr(selectedStatuses, setSelectedStatuses, s);
+                      if (!selectedStatuses.includes(s) && (s === 'Residential Under Construction' || s === 'Commercial Underconstruction')) {
+                        setShowReraPopup(true);
+                      }
+                    }} className="rounded" />
                   <span className="text-sm" style={{ color: '#0F172A' }}>{s}</span>
                 </label>
               ))}
@@ -523,6 +589,22 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
               </div>
             )}
           </div>
+          {/* Under Construction */}
+          <div className="p-4 rounded-lg border-2 transition-colors" style={{ borderColor: isUnderconstruction ? '#2563EB' : '#E2E8F0' }}>
+            <Toggle checked={isUnderconstruction} onChange={setIsUnderconstruction} label="Under Construction" />
+          </div>
+          {/* Resale */}
+          <div className="p-4 rounded-lg border-2 transition-colors" style={{ borderColor: isResale ? '#059669' : '#E2E8F0' }}>
+            <Toggle checked={isResale} onChange={setIsResale} label="Resale" />
+          </div>
+          {/* Premium Underconstruction */}
+          <div className="p-4 rounded-lg border-2 transition-colors" style={{ borderColor: isPremiumUnderconstruction ? '#EA580C' : '#E2E8F0' }}>
+            <Toggle checked={isPremiumUnderconstruction} onChange={setIsPremiumUnderconstruction} label="Premium Underconstruction" />
+          </div>
+          {/* Premium Resale */}
+          <div className="p-4 rounded-lg border-2 transition-colors" style={{ borderColor: isPremiumResale ? '#DB2777' : '#E2E8F0' }}>
+            <Toggle checked={isPremiumResale} onChange={setIsPremiumResale} label="Premium Resale" />
+          </div>
         </div>
       </SectionCard>
 
@@ -546,6 +628,15 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
                 })}
               </div>
             )}
+            <div className="flex gap-2 pt-3 mt-3" style={{ borderTop: '1px solid #F1F5F9' }}>
+              <Input value={newLocationName} onChange={(e) => setNewLocationName(e.target.value)}
+                placeholder="Add new location…" onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addLocation())} />
+              <button type="button" onClick={addLocation} disabled={addingLocation}
+                className="px-4 py-2 text-sm font-semibold rounded-md whitespace-nowrap disabled:opacity-60"
+                style={{ backgroundColor: '#0F172A', color: '#fff' }}>
+                {addingLocation ? '…' : '+ Add'}
+              </button>
+            </div>
           </Field>
           <div className="pt-2" style={{ borderTop: '1px solid #F1F5F9' }}>
             <h4 className="text-sm font-semibold mb-3" style={{ color: '#0F172A' }}>Map Location</h4>
@@ -909,5 +1000,84 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
         </div>
       </div>
     </form>
+
+      {/* RERA Popup */}
+      {showReraPopup && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div className="p-5 border-b border-slate-100 flex justify-between items-center">
+              <div>
+                <h3 className="font-bold text-lg text-slate-900">RERA Details Required</h3>
+                <p className="text-sm text-slate-500 mt-1">Please provide the RERA details for this under-construction project.</p>
+              </div>
+            </div>
+            <div className="p-5 space-y-5">
+              <Field label="RERA Number">
+                <Input {...register('reraNumber')} placeholder="e.g. P51800000000" />
+              </Field>
+              <Field label="RERA Possession Date">
+                <Input type="date" {...register('reraPossessionDate')} />
+              </Field>
+              <p className="text-[11px] text-amber-700 font-medium bg-amber-50 p-3 rounded-md border border-amber-200 shadow-sm leading-relaxed">
+                <span className="font-bold">Disclaimer:</span> We do not mention full RERA no as we can loose our business directly to developers.
+              </p>
+            </div>
+            <div className="p-4 border-t border-slate-100 flex justify-end">
+              <button
+                type="button"
+                onClick={() => setShowReraPopup(false)}
+                className="px-5 py-2.5 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors shadow-sm w-full sm:w-auto"
+              >
+                Save RERA Details
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Realtor Quick Add Modal */}
+      {showRealtorModal && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm p-4">
+          <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden animate-in fade-in zoom-in duration-200">
+            <div className="p-5 border-b border-slate-100 flex justify-between items-center">
+              <div>
+                <h3 className="font-bold text-lg text-slate-900">Add New Realtor</h3>
+                <p className="text-sm text-slate-500 mt-1">Quickly add an agent without leaving this page.</p>
+              </div>
+              <button onClick={() => setShowRealtorModal(false)} className="text-slate-400 hover:text-slate-600">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <Field label="Full Name *">
+                <Input value={newRealtorData.name} onChange={e => setNewRealtorData({...newRealtorData, name: e.target.value})} placeholder="e.g. Rahul Sharma" />
+              </Field>
+              <div className="grid grid-cols-2 gap-4">
+                <Field label="Contact Number">
+                  <Input value={newRealtorData.contactNumber} onChange={e => setNewRealtorData({...newRealtorData, contactNumber: e.target.value})} placeholder="+91 98765..." />
+                </Field>
+                <Field label="RERA Number">
+                  <Input value={newRealtorData.reraNumber} onChange={e => setNewRealtorData({...newRealtorData, reraNumber: e.target.value})} placeholder="A518..." />
+                </Field>
+              </div>
+              <div>
+                <ImageUploader 
+                  folder="chemburproperties/realtors"
+                  label="Realtor Photograph"
+                  value={newRealtorData.photograph}
+                  onUpload={(url) => setNewRealtorData({...newRealtorData, photograph: url})}
+                />
+              </div>
+            </div>
+            <div className="p-4 border-t border-slate-100 flex justify-end gap-3">
+              <button type="button" onClick={() => setShowRealtorModal(false)} className="px-5 py-2 text-slate-600 text-sm font-semibold hover:bg-slate-50 border rounded-lg">Cancel</button>
+              <button type="button" onClick={handleQuickAddRealtor} disabled={savingRealtor} className="px-5 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 disabled:opacity-50">
+                {savingRealtor ? 'Saving...' : 'Save Realtor'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

@@ -25,7 +25,7 @@ const DOCS = [
   "Society Registration Certificate",
   "RERA Number (if constructed 2020 onwards)",
   "All Chain of Agreements Available",
-  "Ownership Proof",
+
 ];
 
 // ─── Shared form field components ─────────────────────────────────────────────
@@ -221,8 +221,8 @@ function ResidentialBuyFields({ register, errors, watch, setValue }: FormProps) 
         <SelectField label="Possession From" required options={POSSESSION_SALE_OPTIONS} error={errors.possession?.message} {...register("possession", { required: "This field is required" })} />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <RadioGroup label="Have Car?" options={["Yes", "No"]} watchValue={hasCar} {...register("hasCar")} />
-        <RadioGroup label="Have Pet?" options={["Yes", "No"]} watchValue={hasPet} {...register("hasPet")} />
+        <RadioGroup label="Own Car?" options={["No", "1", "2", "3+"]} watchValue={hasCar} {...register("hasCar")} />
+        <RadioGroup label="Pet Parent?" options={["Yes", "No"]} watchValue={hasPet} {...register("hasPet")} />
       </div>
     </div>
   );
@@ -315,6 +315,57 @@ function SellFields({ register, errors, watch, setValue }: FormProps) {
   );
 }
 
+function LeaseOutFields({ register, errors }: FormProps) {
+  return (
+    <div className="space-y-4">
+      <SectionHeading>Owner Details</SectionHeading>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <TextField label="Name of Flat Owner" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
+        <TextField label="Mobile Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
+      </div>
+      <TextField label="Email" type="email" placeholder="Optional" error={errors.email?.message} {...register("email", { pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter valid email" } })} />
+
+      <SectionHeading>Property Details</SectionHeading>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <TextField label="Name of Society" required error={errors.societyName?.message} {...register("societyName", { required: "This field is required" })} />
+        <TextField label="Flat Number" required error={errors.flatNumber?.message} {...register("flatNumber", { required: "This field is required" })} />
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <TextField label="Floor Number" required type="number" error={errors.floorNumber?.message} {...register("floorNumber", { required: "This field is required" })} />
+        <SelectField label="BHK" required options={BHK_OPTIONS} error={errors.bhk?.message} {...register("bhk", { required: "This field is required" })} />
+        <TextField label="Carpet Area (sqft)" required type="number" error={errors.carpetArea?.message} {...register("carpetArea", { required: "This field is required" })} />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <TextField label="Expected Monthly Compensation" required type="number" placeholder="In Rs." error={errors.quotePrice?.message} {...register("quotePrice", { required: "This field is required" })} />
+        <TextField label="Security Deposit (₹)" required type="number" placeholder="In Rs." error={errors.securityDeposit?.message} {...register("securityDeposit", { required: "This field is required" })} />
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <TextField label="Year of Construction" type="number" placeholder="e.g. 2010" {...register("yearOfConstruction")} />
+        <TextField label="Total Floors in Building" type="number" {...register("totalFloors")} />
+        <TextField label="Car Parks" type="number" {...register("carParks")} />
+        <TextField label="Flats on Floor" type="number" {...register("flatsOnFloor")} />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <TextField label="Car Park Location" placeholder="e.g. Stilt, Basement" {...register("carParkLocation")} />
+        <TextField label="Vastu Door Facing" placeholder="Direction as you exit flat" {...register("vastuDoorFacing")} />
+      </div>
+
+      <SectionHeading>Inventories & Amenities</SectionHeading>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <SelectField label="How many ACs" options={["0", "1", "2", "3", "4", "5+"]} {...register("acCount")} />
+        <SelectField label="Bed" options={["Yes", "No"]} {...register("hasBed")} />
+        <SelectField label="Curtains" options={["Yes", "No"]} {...register("hasCurtains")} />
+        <SelectField label="Electric Chimney" options={["Yes", "No"]} {...register("hasChimney")} />
+        <SelectField label="Wardrobe" options={["Yes", "No"]} {...register("hasWardrobe")} />
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <TextField label="Other details" placeholder="please specify the special inventories" {...register("otherInventories")} />
+        <TextField label="Amenities in the Society" placeholder="e.g. Gym, Pool, Club House" {...register("societyAmenities")} />
+      </div>
+    </div>
+  );
+}
+
 function ResidentialLeaseFields({ register, errors, watch, setValue }: FormProps) {
   const hasCar = watch("hasCar") || "";
   const hasPet = watch("hasPet") || "";
@@ -334,8 +385,8 @@ function ResidentialLeaseFields({ register, errors, watch, setValue }: FormProps
         <SelectField label="Possession From" required options={POSSESSION_LEASE_OPTIONS} error={errors.possession?.message} {...register("possession", { required: "This field is required" })} />
       </div>
       <div className="grid grid-cols-2 gap-4">
-        <RadioGroup label="Have Car?" options={["Yes", "No"]} watchValue={hasCar} {...register("hasCar")} />
-        <RadioGroup label="Have Pet?" options={["Yes", "No"]} watchValue={hasPet} {...register("hasPet")} />
+        <RadioGroup label="Own Car?" options={["No", "1", "2", "3+"]} watchValue={hasCar} {...register("hasCar")} />
+        <RadioGroup label="Pet Parent?" options={["Yes", "No"]} watchValue={hasPet} {...register("hasPet")} />
       </div>
     </div>
   );
@@ -365,7 +416,7 @@ export default function LeadCapturePopup() {
   const [isOpen, setIsOpen] = useState(false);
   const [visible, setVisible] = useState(false);
   const [showFloatingBtn, setShowFloatingBtn] = useState(false);
-  const [mainTab, setMainTab] = useState<"buy" | "sell" | "lease">("buy");
+  const [mainTab, setMainTab] = useState<"buy" | "sell" | "lease" | "lease_out">("buy");
   const [buySubTab, setBuySubTab] = useState<"residential" | "commercial">("residential");
   const [leaseSubTab, setLeaseSubTab] = useState<"residential" | "commercial">("residential");
   const [submitted, setSubmitted] = useState(false);
@@ -405,7 +456,7 @@ export default function LeadCapturePopup() {
   }, []);
 
   // ── Tab change handlers (reset form on switch) ──
-  const handleMainTabChange = (tab: "buy" | "sell" | "lease") => {
+  const handleMainTabChange = (tab: "buy" | "sell" | "lease" | "lease_out") => {
     setMainTab(tab);
     reset();
   };
@@ -424,6 +475,7 @@ export default function LeadCapturePopup() {
   const getSource = () => {
     if (mainTab === "buy") return buySubTab === "residential" ? "popup_residential_buy" : "popup_commercial_buy";
     if (mainTab === "sell") return "popup_sell";
+    if (mainTab === "lease_out") return "popup_lease_out";
     return leaseSubTab === "residential" ? "popup_residential_lease" : "popup_commercial_lease";
   };
 
@@ -636,7 +688,7 @@ export default function LeadCapturePopup() {
               ) : (
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                   {/* Main Tabs */}
-                  <div className="flex gap-6 border-b mb-5" style={{ borderColor: "#E1E7F3" }}>
+                  <div className="flex gap-4 sm:gap-6 border-b mb-5 overflow-x-auto whitespace-nowrap" style={{ borderColor: "#E1E7F3", paddingBottom: "2px" }}>
                     <button type="button" style={tabStyle(mainTab === "buy")} onClick={() => handleMainTabChange("buy")}>
                       🏠 Buy
                     </button>
@@ -645,6 +697,9 @@ export default function LeadCapturePopup() {
                     </button>
                     <button type="button" style={tabStyle(mainTab === "lease")} onClick={() => handleMainTabChange("lease")}>
                       🔑 Lease
+                    </button>
+                    <button type="button" style={tabStyle(mainTab === "lease_out")} onClick={() => handleMainTabChange("lease_out")}>
+                      🏢 Lessor
                     </button>
                   </div>
 
@@ -676,6 +731,7 @@ export default function LeadCapturePopup() {
                   {mainTab === "buy" && buySubTab === "residential" && <ResidentialBuyFields {...formProps} />}
                   {mainTab === "buy" && buySubTab === "commercial" && <CommercialBuyFields {...formProps} />}
                   {mainTab === "sell" && <SellFields {...formProps} />}
+                  {mainTab === "lease_out" && <LeaseOutFields {...formProps} />}
                   {mainTab === "lease" && leaseSubTab === "residential" && <ResidentialLeaseFields {...formProps} />}
                   {mainTab === "lease" && leaseSubTab === "commercial" && <CommercialLeaseFields {...formProps} />}
 

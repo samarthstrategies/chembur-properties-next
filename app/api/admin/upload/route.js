@@ -24,6 +24,7 @@ export async function POST(request) {
       "chemburproperties/featured",
       "chemburproperties/floorplans",
       "chemburproperties/podcasts",
+      "chemburproperties/realtors",
     ];
 
     if (!validFolders.includes(folder)) {
