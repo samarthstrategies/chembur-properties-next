@@ -9,23 +9,22 @@ import toast from "react-hot-toast";
 const GOLD = "#D4A017";
 const NAVY = "#0B1B3D";
 
-const BHK_OPTIONS = ["1 BHK", "2 BHK", "3 BHK", "3.5 BHK", "4 BHK", "4.5 BHK"];
+const BHK_OPTIONS = ["1 BHK", "2 BHK", "3 BHK", "4 BHK", "5 BHK", "5+ BHK"];
 const BUDGET_SALE_OPTIONS = ["Under 50L", "50L–1Cr", "1Cr–1.5Cr", "1.5Cr–2Cr", "2Cr–3Cr", "3Cr–5Cr", "5Cr+"];
-const BUDGET_LEASE_OPTIONS = ["Under 20k", "20k–30k", "30k–50k", "50k–75k", "75k–1L", "1L+"];
+const BUDGET_LEASE_OPTIONS = ["20k–30k", "30k–50k", "50k–75k", "75k–1L", "1L+"];
 const OFFICE_SIZE_OPTIONS = ["Under 500 sqft", "500–1000 sqft", "1000–2000 sqft", "2000+ sqft"];
 const FAMILY_SIZE_OPTIONS = ["1–2", "3–4", "5–6", "7+"];
 const POSSESSION_SALE_OPTIONS = ["Immediate", "3 months", "6 months", "1 year", "1+ year"];
 const POSSESSION_LEASE_OPTIONS = ["Immediate", "1 month", "3 months", "6 months"];
 
 const DOCS = [
+  "All Chain of Agreements Available",
   "Occupation Certificate",
   "Building/Flat Assessment Tax Demand Bill",
   "Approved Development Plan (with rubber stamp of Bldg Dept)",
   "Society Maintenance Bill (Latest)",
   "Society Registration Certificate",
   "RERA Number (if constructed 2020 onwards)",
-  "All Chain of Agreements Available",
-
 ];
 
 // ─── Shared form field components ─────────────────────────────────────────────
@@ -270,13 +269,13 @@ function SellFields({ register, errors, watch, setValue }: FormProps) {
         <TextField label="Carpet Area (sqft)" required type="number" error={errors.carpetArea?.message} {...register("carpetArea", { required: "This field is required" })} />
         <TextField label="Quote Price (₹)" required type="number" placeholder="In Rs." error={errors.quotePrice?.message} {...register("quotePrice", { required: "This field is required" })} />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <TextField label="Year of Construction" type="number" placeholder="e.g. 2010" {...register("yearOfConstruction")} />
         <TextField label="Total Floors in Building" type="number" {...register("totalFloors")} />
-        <TextField label="Car Parks" type="number" {...register("carParks")} />
-        <TextField label="Flats on Floor" type="number" {...register("flatsOnFloor")} />
+        <TextField label="Flats on per Floor" type="number" {...register("flatsOnFloor")} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <TextField label="Car Parks" type="number" {...register("carParks")} />
         <TextField label="Car Park Location" placeholder="e.g. Stilt, Basement" {...register("carParkLocation")} />
         <TextField label="Vastu Door Facing" placeholder="Direction as you exit flat" {...register("vastuDoorFacing")} />
       </div>
@@ -339,13 +338,13 @@ function LeaseOutFields({ register, errors }: FormProps) {
         <TextField label="Expected Monthly Compensation" required type="number" placeholder="In Rs." error={errors.quotePrice?.message} {...register("quotePrice", { required: "This field is required" })} />
         <TextField label="Security Deposit (₹)" required type="number" placeholder="In Rs." error={errors.securityDeposit?.message} {...register("securityDeposit", { required: "This field is required" })} />
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <TextField label="Year of Construction" type="number" placeholder="e.g. 2010" {...register("yearOfConstruction")} />
         <TextField label="Total Floors in Building" type="number" {...register("totalFloors")} />
-        <TextField label="Car Parks" type="number" {...register("carParks")} />
-        <TextField label="Flats on Floor" type="number" {...register("flatsOnFloor")} />
+        <TextField label="Flats on per Floor" type="number" {...register("flatsOnFloor")} />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <TextField label="Car Parks" type="number" {...register("carParks")} />
         <TextField label="Car Park Location" placeholder="e.g. Stilt, Basement" {...register("carParkLocation")} />
         <TextField label="Vastu Door Facing" placeholder="Direction as you exit flat" {...register("vastuDoorFacing")} />
       </div>
@@ -372,7 +371,7 @@ function ResidentialLeaseFields({ register, errors, watch, setValue }: FormProps
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <TextField label="Full Name" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
+        <TextField label="Licensee Full Name" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
         <TextField label="Mobile Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
       </div>
       <TextField label="Work Profile" placeholder="e.g. IT Professional, Business Owner" {...register("workProfile")} />
@@ -396,7 +395,7 @@ function CommercialLeaseFields({ register, errors }: FormProps) {
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <TextField label="Full Name" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
+        <TextField label="Licensee Full Name" required error={errors.name?.message} {...register("name", { required: "Name is required", minLength: { value: 2, message: "Min 2 characters" } })} />
         <TextField label="Mobile Number" required type="tel" error={errors.phone?.message} {...register("phone", { required: "Phone is required", pattern: { value: /^[6-9]\d{9}$/, message: "Enter valid 10 digit number" } })} />
       </div>
       <TextField label="Company Name" required error={errors.companyName?.message} {...register("companyName", { required: "This field is required" })} />
@@ -664,7 +663,7 @@ export default function LeadCapturePopup() {
                   chemburproperties.com
                 </p>
                 <h2 className="font-display text-2xl mb-1" style={{ color: NAVY }}>
-                  How Can We Help You?
+                  Tell Us What You're Looking For
                 </h2>
                 <p className="text-sm" style={{ color: "#64748B" }}>
                   Fill in your details and Jeetu Chhaabria will contact you.
@@ -699,7 +698,7 @@ export default function LeadCapturePopup() {
                       🔑 Lease
                     </button>
                     <button type="button" style={tabStyle(mainTab === "lease_out")} onClick={() => handleMainTabChange("lease_out")}>
-                      🏢 Lessor
+                      🏢 Post Your Property
                     </button>
                   </div>
 
@@ -717,13 +716,16 @@ export default function LeadCapturePopup() {
 
                   {/* Sub Tabs for Lease */}
                   {mainTab === "lease" && (
-                    <div className="flex gap-2 mb-5">
-                      <button type="button" style={subTabStyle(leaseSubTab === "residential")} onClick={() => handleLeaseSubTabChange("residential")}>
-                        Residential
-                      </button>
-                      <button type="button" style={subTabStyle(leaseSubTab === "commercial")} onClick={() => handleLeaseSubTabChange("commercial")}>
-                        Commercial
-                      </button>
+                    <div className="mb-5">
+                      <p className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: NAVY }}>Hi Jeetu, I want Property on Leave and License</p>
+                      <div className="flex gap-2">
+                        <button type="button" style={subTabStyle(leaseSubTab === "residential")} onClick={() => handleLeaseSubTabChange("residential")}>
+                          Residential
+                        </button>
+                        <button type="button" style={subTabStyle(leaseSubTab === "commercial")} onClick={() => handleLeaseSubTabChange("commercial")}>
+                          Commercial
+                        </button>
+                      </div>
                     </div>
                   )}
 

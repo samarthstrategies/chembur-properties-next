@@ -25,11 +25,11 @@ const PropertySchema = new mongoose.Schema(
     location: [String],
     mapEmbedUrl: String,
     pricing: {
-      salePrice: Number,
+      salePrice: String,
       oldPrice: Number,
       pricePrefix: String,
       pricePostfix: String,
-      licenceFee: Number,
+      licenceFee: String,
       securityDeposit: String,
     },
     specs: {
@@ -39,7 +39,7 @@ const PropertySchema = new mongoose.Schema(
       lotSizePostfix: String,
       bedrooms: Number,
       bathrooms: Number,
-      parking: Number,
+      parking: String,
       yearBuilt: Number,
       totalFloors: Number,
     },

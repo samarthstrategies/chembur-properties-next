@@ -240,7 +240,7 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
 
   const [availableRealtors, setAvailableRealtors] = useState([]);
   const [showRealtorModal, setShowRealtorModal] = useState(false);
-  const [newRealtorData, setNewRealtorData] = useState({ name: '', contactNumber: '', reraNumber: '', photograph: '' });
+  const [newRealtorData, setNewRealtorData] = useState({ name: '', companyName: '', contactNumber: '', reraNumber: '', photograph: '' });
   const [savingRealtor, setSavingRealtor] = useState(false);
 
   const handleQuickAddRealtor = async () => {
@@ -252,7 +252,7 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
       setAvailableRealtors(prev => [newR, ...prev]);
       setValue('realtor', newR._id);
       setShowRealtorModal(false);
-      setNewRealtorData({ name: '', contactNumber: '', reraNumber: '', photograph: '' });
+      setNewRealtorData({ name: '', companyName: '', contactNumber: '', reraNumber: '', photograph: '' });
       toast.success('Realtor added');
     } catch (err) { toast.error('Failed to add realtor'); }
     finally { setSavingRealtor(false); }
@@ -354,8 +354,8 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
     location: selectedLocations,
     mapEmbedUrl,
     pricing: {
-      salePrice: +getValues('salePrice') || undefined,
-      licenceFee: +getValues('licenceFee') || undefined,
+      salePrice: getValues('salePrice') || undefined,
+      licenceFee: getValues('licenceFee') || undefined,
       securityDeposit: getValues('securityDeposit'),
     },
     specs: {
@@ -363,7 +363,7 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
       areaPostfix: getValues('areaPostfix'),
       bedrooms: +getValues('bedrooms') || undefined,
       bathrooms: +getValues('bathrooms') || undefined,
-      parking: +getValues('parking') || undefined,
+      parking: getValues('parking') || undefined,
       yearBuilt: +getValues('yearBuilt') || undefined,
       totalFloors: +getValues('totalFloors') || undefined,
     },
@@ -715,13 +715,13 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
       <SectionCard title="E · Pricing" id="E" open={open.E} onToggle={toggleSection}>
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4">
-            <Field label="Sale / Rent Price (₹)">
-              <Input type="number" {...register('salePrice')} placeholder="e.g. 3750000" />
+            <Field label="Sale / Rent Price">
+              <Input type="text" {...register('salePrice')} placeholder="e.g. 3.75 Cr or 3750000" />
             </Field>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Field label="Licence Fee (₹)">
-              <Input type="number" {...register('licenceFee')} placeholder="e.g. 50000" />
+            <Field label="Licence Fee">
+              <Input type="text" {...register('licenceFee')} placeholder="e.g. 50k or 50000" />
             </Field>
             <Field label="Security Deposit">
               <Input {...register('securityDeposit')} placeholder="e.g. 3 Months Rent" />
@@ -751,7 +751,7 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
           </div>
           <div className="grid grid-cols-3 gap-4">
             <Field label="Parking Spaces">
-              <Input type="number" {...register('parking')} />
+              <Input type="text" {...register('parking')} placeholder="e.g. 2 Covered, 1 Open" />
             </Field>
             <Field label="Year Built">
               <Input type="number" {...register('yearBuilt')} placeholder="e.g. 2024" />
@@ -933,21 +933,8 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
         </div>
       </SectionCard>
 
-      {/* ─────────────────────── SECTION L — PROPERTY ACCESS ─────────────────────── */}
-      <SectionCard title="L · Property Detail Access" id="L" open={open.L} onToggle={toggleSection}>
-        <div className="space-y-4">
-          <Toggle checked={isLocked} onChange={setIsLocked} label="Lock Full Property Details?"
-            sublabel="User must pay to view full description, connectivity & floor details" />
-          {isLocked && (
-            <Field label="Unlock Price (₹)" hint="User pays this amount to unlock full property details">
-              <Input type="number" {...register('accessPrice')} placeholder="e.g. 99" />
-            </Field>
-          )}
-        </div>
-      </SectionCard>
-
-      {/* ─────────────────────── SECTION M — SEO & TAGS ─────────────────────── */}
-      <SectionCard title="M · SEO & Tags" id="M" open={open.M} onToggle={toggleSection}>
+      {/* ─────────────────────── SECTION L — SEO & TAGS ─────────────────────── */}
+      <SectionCard title="L · SEO & Tags" id="L" open={open.L} onToggle={toggleSection}>
         <div className="space-y-4">
           <Field label="Tags">
             <TagInput value={tags} onChange={setTags}
@@ -1051,6 +1038,9 @@ export default function PropertyForm({ mode = 'add', initialData = null }) {
             <div className="p-5 space-y-4">
               <Field label="Full Name *">
                 <Input value={newRealtorData.name} onChange={e => setNewRealtorData({...newRealtorData, name: e.target.value})} placeholder="e.g. Rahul Sharma" />
+              </Field>
+              <Field label="Company Name">
+                <Input value={newRealtorData.companyName} onChange={e => setNewRealtorData({...newRealtorData, companyName: e.target.value})} placeholder="e.g. Roopam Estate" />
               </Field>
               <div className="grid grid-cols-2 gap-4">
                 <Field label="Contact Number">

@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const RealtorSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
+    companyName: { type: String },
     contactNumber: { type: String },
     photograph: { type: String },
     reraNumber: { type: String },

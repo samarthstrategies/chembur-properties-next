@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import PropertyDetailClient from './PropertyDetailClient';
 import { connectDB } from '@/lib/mongodb';
 import Property from '@/models/Property';
+import Podcast from '@/models/Podcast';
+import Realtor from '@/models/Realtor';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   try {
@@ -11,8 +13,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     if (!property) return { title: 'Property Not Found - Chembur Properties' };
     
     return {
-      title: `${property.title} | Chembur Properties`,
-      description: property.description?.substring(0, 160) || `View details for ${property.title}.`,
+      title: property.metaTitle || `${property.title} | Chembur Properties`,
+      description: property.metaDescription || property.description?.substring(0, 160) || `View details for ${property.title}.`,
     };
   } catch (e) {
     return { title: 'Property Details - Chembur Properties' };
@@ -22,7 +24,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function SinglePropertyPage({ params }: { params: { slug: string } }) {
   try {
     await connectDB();
-    const property = await Property.findOne({ slug: params.slug, isDraft: false }).populate('realtor').lean();
+    // Prevent Webpack from tree-shaking the imported models
+    const _p = Podcast; 
+    const _r = Realtor;
+    
+    const property = await Property.findOne({ slug: params.slug, isDraft: false })
+      .populate('realtor')
+      .populate('podcast.podcastId')
+      .lean();
     
     if (!property) {
       notFound();
@@ -62,6 +71,7 @@ export default async function SinglePropertyPage({ params }: { params: { slug: s
         isLocked: true,
         accessPrice: property.propertyAccess?.price,
         accessType: property.propertyAccess?.accessType,
+        podcast: property.podcast,
       };
     }
 

@@ -72,7 +72,7 @@ function LoginForm() {
               <Building2 className="w-7 h-7" style={{ color: '#D4A017' }} />
             </div>
             <h1 className="font-bold text-xl" style={{ color: '#0F172A' }}>
-              ChemburProperties.com
+              Chemburproperties.com
             </h1>
             <p className="text-sm mt-1" style={{ color: '#64748B' }}>
               Admin Panel — Sign in to continue

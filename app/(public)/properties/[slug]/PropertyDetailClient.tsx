@@ -21,6 +21,12 @@ type LeadData = z.infer<typeof leadSchema>;
 
 const ENABLE_OTP = false;
 
+const getYoutubeId = (url: string) => {
+  if (!url) return null;
+  const match = url.match(/(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/\s]{11})/);
+  return match ? match[1] : null;
+};
+
 export default function PropertyDetailClient({ property, relatedProperties }: { property: any, relatedProperties: any[] }) {
   const [activeTab, setActiveTab] = useState("overview");
 
@@ -28,15 +34,26 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
   const [otpStep, setOtpStep] = useState<"phone" | "otp">("phone");
   const [otpForm, setOtpForm] = useState({ name: "", phone: "", otp: "" });
   const [otpLoading, setOtpLoading] = useState(false);
+  const [isPodcastUnlocked, setIsPodcastUnlocked] = useState(false);
 
   useEffect(() => {
     if (ENABLE_OTP) {
       const verified = localStorage.getItem("public_user_verified");
+      const name = localStorage.getItem("public_user_name");
+      const phone = localStorage.getItem("public_user_phone");
+      
       if (verified !== "true") {
         setIsVerified(false);
+      } else if (name && phone && property?._id) {
+        // Trigger silent lead capture
+        fetch("/api/otp/silent-lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, phone, propertyId: property._id }),
+        }).catch(err => console.error("Failed to capture silent lead", err));
       }
     }
-  }, []);
+  }, [property?._id]);
 
   const handleSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,7 +66,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
       const res = await fetch("/api/otp/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: otpForm.name, phone: otpForm.phone }),
+        body: JSON.stringify({ name: otpForm.name, phone: otpForm.phone, propertyId: property?._id }),
       });
       const data = await res.json();
       if (data.success) {
@@ -73,11 +90,11 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
       const res = await fetch("/api/otp/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(otpForm),
+        body: JSON.stringify({ phone: otpForm.phone, otp: otpForm.otp, name: otpForm.name, propertyId: property?._id }),
       });
       const data = await res.json();
       if (data.success) {
-        toast.success("Verified successfully!");
+        toast.success(data.message);
         localStorage.setItem("public_user_verified", "true");
         localStorage.setItem("public_user_name", otpForm.name);
         localStorage.setItem("public_user_phone", otpForm.phone);
@@ -121,9 +138,19 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
   const isLease = property.propertyStatus?.some((s: string) => ['Lease', 'For Rent', 'For Lease', 'Shop on Rent'].includes(s));
   const transaction = isLease ? "lease" : "buy";
-  const priceVal = transaction === 'buy' ? property.pricing?.salePrice : property.pricing?.rentPrice;
-  const fallbackPrice = property.pricing?.expectedPrice || 0;
-  const formattedPrice = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(priceVal || fallbackPrice);
+  const priceVal = transaction === 'buy' ? property.pricing?.salePrice : (property.pricing?.licenceFee || property.pricing?.rentPrice);
+  
+  const formatPriceRobust = (val: any) => {
+    if (!val) return "Price on Request";
+    const str = String(val).trim();
+    if (/^[\d,.]+$/.test(str)) {
+      const num = Number(str.replace(/,/g, ''));
+      if (!isNaN(num)) return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
+    }
+    return str.includes('₹') ? str : `₹ ${str}`;
+  };
+
+  const formattedPrice = formatPriceRobust(priceVal || property.pricing?.expectedPrice);
 
   const images = property.media?.galleryImages || [];
   if (property.media?.featuredImage && !images.includes(property.media.featuredImage)) {
@@ -308,7 +335,7 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
               {property.pricing?.licenceFee && (
                 <div>
                   <p className="text-xs text-slate-navy uppercase tracking-widest font-bold mb-1">Licence Fee</p>
-                  <h2 className="font-display text-navy text-3xl">₹{property.pricing.licenceFee.toLocaleString('en-IN')} /mo</h2>
+                  <h2 className="font-display text-navy text-3xl">{formatPriceRobust(property.pricing.licenceFee)} /mo</h2>
                 </div>
               )}
 
@@ -555,14 +582,36 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
             {/* Removed separate Video section since it's now in the collage */}
 
             {/* 7. Podcast Gate */}
-            {property.podcastId && (
-              <div className="bg-navy-gradient rounded-2xl p-10 text-center relative overflow-hidden shadow-card text-white">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl" />
-                <h3 className="font-display text-2xl mb-2 relative z-10">Exclusive Investor Podcast</h3>
-                <p className="text-white/70 text-sm mb-6 max-w-md mx-auto relative z-10">Listen to our deep-dive analysis on the ROI and future appreciation potential of {property.title}.</p>
-                <Link href={`/podcasts/${property.podcastId}`} className="btn-gold relative z-10 shadow-lg inline-flex items-center gap-2">
-                  🔒 Unlock Podcast
-                </Link>
+            {property.podcast?.podcastId && (
+              <div className="rounded-2xl overflow-hidden shadow-card relative border border-navy-100">
+                {!isPodcastUnlocked ? (
+                  <div className="bg-navy-gradient p-10 text-center relative text-white">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-gold/10 rounded-full blur-3xl" />
+                    <h3 className="font-display text-2xl mb-2 relative z-10">Exclusive Investor Podcast</h3>
+                    <p className="text-white/70 text-sm mb-6 max-w-md mx-auto relative z-10">Listen to our deep-dive analysis on the ROI and future appreciation potential of {property.title}.</p>
+                    <button 
+                      onClick={() => setIsPodcastUnlocked(true)}
+                      className="btn-gold relative z-10 shadow-lg inline-flex items-center gap-2 cursor-pointer"
+                    >
+                      🔓 Unlock Podcast
+                    </button>
+                  </div>
+                ) : (
+                  <div>
+                    {property.podcast.podcastId.videoUrl ? (
+                      <iframe 
+                        width="100%" 
+                        height="400" 
+                        src={`https://www.youtube.com/embed/${getYoutubeId(property.podcast.podcastId.videoUrl) || ''}?autoplay=1`} 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowFullScreen
+                      ></iframe>
+                    ) : (
+                      <div className="p-10 text-center bg-slate-50 text-slate-navy">Video not available</div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
 
@@ -594,24 +643,38 @@ export default function PropertyDetailClient({ property, relatedProperties }: { 
 
               {/* 9. Contact Form */}
               <div id="contact-form" className="bg-white border border-navy-100 rounded-2xl p-6 shadow-card">
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-full overflow-hidden border border-gold/50 shadow-sm shrink-0 bg-slate-100 flex items-center justify-center text-slate-400">
-                    {property.realtor?.photograph ? (
-                      <img src={property.realtor.photograph} alt={property.realtor.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <img src="/images/JeetuChhaabria_half.png" alt="Jeetu" className="w-full h-full object-cover" />
-                    )}
+                <div className="flex items-center justify-between gap-2 mb-6">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-full overflow-hidden border border-gold/50 shadow-sm shrink-0 bg-slate-100 flex items-center justify-center text-slate-400">
+                      {property.realtor?.photograph ? (
+                        <img src={property.realtor.photograph} alt={property.realtor.name} className="w-full h-full object-cover" />
+                      ) : (
+                        <img src="/images/JeetuChhaabria_half.png" alt="Jeetu" className="w-full h-full object-cover" />
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-[0.65rem] uppercase tracking-widest font-bold text-slate-navy">Listing Agent</p>
+                      <p className="text-navy font-semibold text-sm leading-tight">{property.realtor?.name || "Jeetu Chhaabria"}</p>
+                      {property.realtor?.reraNumber ? (
+                        <p className="text-[0.65rem] mt-0.5 text-slate-500 font-mono">RERA: {property.realtor.reraNumber}</p>
+                      ) : (
+                        <p className="text-[0.65rem] mt-0.5 text-slate-500 font-mono">RERA: AS1800039361</p>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-[0.65rem] uppercase tracking-widest font-bold text-slate-navy">Listing Agent</p>
-                    <p className="text-navy font-semibold text-sm">{property.realtor?.name || "Jeetu Chhaabria"}</p>
-                    <a href={`tel:${property.realtor?.contactNumber || "+919820182285"}`} className="text-gold text-xs font-bold hover:underline">{property.realtor?.contactNumber || "+91 98201 82285"}</a>
-                    {property.realtor?.reraNumber ? (
-                      <p className="text-[0.65rem] mt-0.5 text-slate-500 font-mono">RERA: {property.realtor.reraNumber}</p>
-                    ) : (
-                      <p className="text-[0.65rem] mt-0.5 text-slate-500 font-mono">RERA: AS1800039361</p>
-                    )}
-                  </div>
+                  
+                  <a 
+                    href={`tel:${property.realtor?.contactNumber || "+919820182285"}`}
+                    className="flex items-center gap-2 px-4 py-2 bg-navy text-gold rounded-full hover:bg-slate-800 hover:-translate-y-0.5 transition-all shadow-sm group shrink-0"
+                    title="Call Agent"
+                  >
+                    <div className="bg-gold/10 p-1.5 rounded-full group-hover:bg-gold/20 transition-colors">
+                      <svg className="w-3.5 h-3.5 text-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </div>
+                    <span className="text-xs font-bold tracking-widest uppercase">Call</span>
+                  </a>
                 </div>
 
                 <div className="h-px w-full bg-navy-100 mb-6" />

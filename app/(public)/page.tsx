@@ -40,7 +40,7 @@ export default function HomePage() {
               </div>
 
               <h1 className="font-display text-white text-[clamp(2.2rem,4vw,4rem)] xl:text-[5.5rem] leading-[1.05] mb-2 animate-fade-up lg:whitespace-nowrap" style={{ animationDelay: "80ms" }}>
-                ChemburProperties<span className="text-gold">.com</span>
+                Chemburproperties<span className="text-gold">.com</span>
               </h1>
               <p className="text-white/80 font-light tracking-wide text-xl md:text-2xl mt-2 mb-4 animate-fade-up flex items-center gap-2" style={{ animationDelay: "120ms" }}>
                 <span className="w-8 h-[1px] bg-white/30 inline-block"></span>

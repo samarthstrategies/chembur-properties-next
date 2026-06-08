@@ -15,7 +15,7 @@ export default function RealtorsPage() {
   // Form State
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [formData, setFormData] = useState({ name: '', contactNumber: '', reraNumber: '', photograph: '' });
+  const [formData, setFormData] = useState({ name: '', companyName: '', contactNumber: '', reraNumber: '', photograph: '' });
   const [deleteModal, setDeleteModal] = useState({ open: false, id: null, name: '' });
 
   useEffect(() => {
@@ -34,13 +34,13 @@ export default function RealtorsPage() {
   };
 
   const openAddForm = () => {
-    setFormData({ name: '', contactNumber: '', reraNumber: '', photograph: '' });
+    setFormData({ name: '', companyName: '', contactNumber: '', reraNumber: '', photograph: '' });
     setEditId(null);
     setIsFormOpen(true);
   };
 
   const openEditForm = (item) => {
-    setFormData({ name: item.name || '', contactNumber: item.contactNumber || '', reraNumber: item.reraNumber || '', photograph: item.photograph || '' });
+    setFormData({ name: item.name || '', companyName: item.companyName || '', contactNumber: item.contactNumber || '', reraNumber: item.reraNumber || '', photograph: item.photograph || '' });
     setEditId(item._id);
     setIsFormOpen(true);
   };
@@ -109,6 +109,10 @@ export default function RealtorsPage() {
                 <input value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-slate-500" placeholder="e.g. Rahul Sharma" />
               </div>
               <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Company Name</label>
+                <input value={formData.companyName} onChange={(e) => setFormData({...formData, companyName: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-slate-500" placeholder="e.g. Roopam Estate" />
+              </div>
+              <div>
                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">Contact Number</label>
                 <input value={formData.contactNumber} onChange={(e) => setFormData({...formData, contactNumber: e.target.value})} className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:border-slate-500" placeholder="e.g. +91 9876543210" />
               </div>
@@ -157,6 +161,7 @@ export default function RealtorsPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-bold text-slate-900 truncate">{item.name}</h4>
+                  {item.companyName && <p className="text-xs text-slate-500 mt-0.5">{item.companyName}</p>}
                   <div className="flex items-center gap-4 mt-1 text-xs text-slate-500">
                     {item.contactNumber && <span className="flex items-center gap-1"><Phone className="w-3 h-3" /> {item.contactNumber}</span>}
                     {item.reraNumber && <span className="flex items-center gap-1 font-mono text-[10px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-600 border border-slate-200">RERA: {item.reraNumber}</span>}
