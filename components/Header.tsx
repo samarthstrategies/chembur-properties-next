@@ -20,7 +20,7 @@ export default function Header() {
   const [showHeader, setShowHeader] = useState(true);
   const pathname = usePathname();
   const isHomePage = pathname === "/";
-  const useLightText = scrolled || isHomePage;
+  const useLightText = true; // All public pages have a dark hero section
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {

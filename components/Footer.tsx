@@ -136,9 +136,22 @@ export default function Footer() {
               </span>
             ))}
           </div>
-          <p className="text-[0.72rem] text-white/25">
-            © 2026 Roopam Estate Agency. All Rights Reserved.
-          </p>
+          <div className="flex flex-col sm:items-end gap-1 mt-2 sm:mt-0">
+            <p className="text-[0.72rem] text-white/25">
+              © {new Date().getFullYear()} Roopam Estate Agency. All Rights Reserved.
+            </p>
+            <p className="text-[0.68rem] text-white/40">
+              Designed & Developed by{" "}
+              <a 
+                href="https://samarthstrategies.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-[#D4A017] font-semibold tracking-wide hover:text-white transition-colors"
+              >
+                Samarth Strategies
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     </footer>

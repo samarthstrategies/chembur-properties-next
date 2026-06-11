@@ -1,8 +1,18 @@
 import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import { generateToken, setAuthCookie } from "@/lib/auth";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request) {
   try {
+    // Prevent brute force attacks (max 10 attempts per minute)
+    if (!rateLimit(request, 10, 60000)) {
+      return NextResponse.json(
+        { success: false, message: "Too many login attempts. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const { email, password } = await request.json();
 
     if (!email || !password) {

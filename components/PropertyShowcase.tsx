@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
 type Transaction = "buy" | "lease";
@@ -95,6 +96,32 @@ function ListingColumn({
   const [subCat, setSubCat] = useState<SubCategory>("projects");
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Scroll logic
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkScroll = () => {
+    if (scrollContainerRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth);
+    }
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
+    return () => window.removeEventListener("resize", checkScroll);
+  }, [listings]);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = direction === "left" ? -320 : 320;
+      scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: "smooth" });
+    }
+  };
 
   const handleTransactionChange = (t: Transaction) => {
     setTransaction(t);
@@ -206,7 +233,6 @@ function ListingColumn({
         )}
       </div>
 
-      {/* Horizontally Scrollable Cards */}
       {loading ? (
         <div className="flex gap-4 overflow-x-auto pb-4 -mx-1 px-1 scrollbar-hide">
           {[1, 2, 3].map((i) => (
@@ -214,10 +240,40 @@ function ListingColumn({
           ))}
         </div>
       ) : listings.length > 0 ? (
-        <div className="flex gap-4 overflow-x-auto pb-4 -mx-1 px-1 scrollbar-hide">
-          {listings.map((listing) => (
-            <ShowcaseCard key={listing.id} listing={listing} />
-          ))}
+        <div className="relative group">
+          {/* Left Arrow */}
+          <div className={`absolute -left-4 top-1/2 -translate-y-1/2 z-10 transition-opacity duration-300 ${canScrollLeft ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <button
+              onClick={() => scroll("left")}
+              className="bg-white/90 hover:bg-white text-navy p-2 md:p-3 rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.2)] border border-navy/10 transition-all duration-200 hover:scale-110"
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
+            </button>
+          </div>
+
+          <div 
+            ref={scrollContainerRef}
+            onScroll={checkScroll}
+            className="flex gap-4 overflow-x-auto pb-4 -mx-1 px-1 scrollbar-hide snap-x snap-mandatory scroll-smooth"
+          >
+            {listings.map((listing) => (
+              <div key={listing.id} className="snap-start">
+                <ShowcaseCard listing={listing} />
+              </div>
+            ))}
+          </div>
+
+          {/* Right Arrow */}
+          <div className={`absolute -right-4 top-1/2 -translate-y-1/2 z-10 transition-opacity duration-300 ${canScrollRight ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+            <button
+              onClick={() => scroll("right")}
+              className="bg-white/90 hover:bg-white text-navy p-2 md:p-3 rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.2)] border border-navy/10 transition-all duration-200 hover:scale-110"
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+            </button>
+          </div>
         </div>
       ) : (
         <div className="flex items-center justify-center h-[220px] bg-white/5 rounded-2xl border-2 border-dashed border-white/10">

@@ -1,7 +1,16 @@
 import { NextResponse } from "next/server";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request) {
   try {
+    // Basic rate limit: 5 OTP requests per minute per IP
+    if (!rateLimit(request, 5, 60000)) {
+      return NextResponse.json(
+        { success: false, message: "Too many requests. Please try again later." },
+        { status: 429 }
+      );
+    }
+
     const { name, phone, propertyId } = await request.json();
 
     if (!name || !phone) {

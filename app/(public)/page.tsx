@@ -8,6 +8,7 @@ import AnimatedHomeText from "@/components/AnimatedHomeText";
 import PropertyShowcase from "@/components/PropertyShowcase";
 import DynamicPropertySection from "@/components/DynamicPropertySection";
 import HomeSearchBar from "@/components/HomeSearchBar";
+import SocietySecurityForm from "@/components/SocietySecurityForm";
 
 export default function HomePage() {
   return (
@@ -188,6 +189,55 @@ export default function HomePage() {
       </section>
 
 
+
+      {/* ── SOCIETY SECURITY SERVICES ── */}
+      <section className="bg-[#0B1B3D] py-16">
+        <div className="max-w-7xl mx-auto px-6 md:px-8">
+          <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-20">
+            
+            {/* Left Column */}
+            <div className="w-full md:w-1/2">
+              <ScrollReveal>
+                <p className="text-gold font-bold tracking-widest text-[0.65rem] uppercase mb-4">Society Security Services</p>
+                <h2 className="font-display text-white text-[2rem] md:text-[2.5rem] lg:text-[3rem] leading-[1.1] mb-5">
+                  Need Security For Your Society?
+                </h2>
+                <p className="text-slate-300 text-base md:text-lg mb-8 leading-relaxed max-w-lg font-light">
+                  Professional and verified security staff for Chembur housing societies. Quick deployment. Trusted service.
+                </p>
+
+                <div className="space-y-4 mb-8">
+                  {[
+                    "Trained & Verified Guards",
+                    "24/7 Round the Clock Coverage",
+                    "Chembur Based Staff",
+                    "Quick Deployment"
+                  ].map((bullet, idx) => (
+                    <div key={idx} className="flex items-center gap-3">
+                      <div className="w-5 h-5 bg-gold/20 rounded-full flex items-center justify-center flex-shrink-0">
+                        <span className="text-[10px]">✅</span>
+                      </div>
+                      <span className="text-white/90 font-medium">{bullet}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <p className="text-gold text-sm font-semibold tracking-wide border-l-2 border-gold pl-3">
+                  Trusted by Chembur societies
+                </p>
+              </ScrollReveal>
+            </div>
+
+            {/* Right Column */}
+            <div className="w-full md:w-1/2 flex justify-center md:justify-end">
+              <ScrollReveal delay={150} className="w-full max-w-md">
+                <SocietySecurityForm />
+              </ScrollReveal>
+            </div>
+
+          </div>
+        </div>
+      </section>
 
       {/* ── TESTIMONIALS ── */}
       <section className="bg-navy py-20 md:py-24">

@@ -14,6 +14,8 @@ import {
   Settings,
   LogOut,
   ChevronRight,
+  Podcast,
+  ShieldCheck,
 } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -39,8 +41,8 @@ const NAV_GROUPS = [
   {
     label: 'CRM',
     items: [
-      { href: '/admin/leads', icon: Users, label: 'Leads' },
-      { href: '/admin/video-unlocks', icon: Unlock, label: 'Video Unlocks' },
+      { href: '/admin/leads', icon: Users, label: 'Property Leads' },
+      { href: '/admin/security-leads', icon: ShieldCheck, label: 'Security Leads' },
     ],
   },
   {
@@ -51,6 +53,12 @@ const NAV_GROUPS = [
       { href: '/admin/property-types', icon: FolderOpen, label: 'Property Types' },
       { href: '/admin/realtors', icon: Users, label: 'Realtors' },
       { href: '/admin/settings', icon: Settings, label: 'Settings' },
+    ],
+  },
+  {
+    label: 'YELLOW PAGES',
+    items: [
+      { href: '/admin/yellow-pages', icon: Users, label: 'Interior Designers' },
     ],
   },
 ];
